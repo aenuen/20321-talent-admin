@@ -1,21 +1,23 @@
-import Dispatch from '@/libs/axios/dispatch'
+import request from '@/libs/utils/axios/request'
 
-export const userDispatch = new Dispatch({
-  login: ['/user/login', 'post'], // 登录
-  info: ['/user/info', 'get'], // 用户信息
-  detail: ['/user/detail', 'get'], // 用户资料
-  list: ['/user/list', 'get'], // 列表
-  avatarList: ['/user/avatarList', 'get'], // 头像列表
-  avatarHistory: ['/user/avatarHistory', 'get'], // 历史上传
-  create: ['/user/create', 'post'], // 新建用户
-  update: ['/user/update', 'post'], // 编辑用户
-  isUse: ['/user/isUse', 'post'], // 启用&&禁用用户
-  isAdmin: ['/user/isAdmin', 'post'], // 是&&否后台用户
-  base: ['/user/base', 'post'], // 修改基本信息
-  avatar: ['/user/avatar', 'post'], // 更换头像
-  avatarUpload: ['/user/avatarUpload', 'post'], // 上传头像
-  avatarDelete: ['/user/avatarDelete', 'post'], // 删除头像
-  email: ['/user/email', 'post'], // 修改电子邮件
-  mobile: ['/user/mobile', 'post'], // 修改手机号码
-  password: ['/user/password', 'post'] // 修改手机号码
-})
+export const userApi = {
+  // get
+  info: () => request({ url: '/user/info', method: 'get' }), // 用户信息
+  detail: params => request({ url: '/user/detail', method: 'get', params }), // 详情
+  list: params => request({ url: '/user/list', method: 'get', params }), // 列表
+  avatarList: params => request({ url: '/user/avatarList', method: 'get', params }), // 头像列表
+  avatarHistory: params => request({ url: '/user/avatarHistory', method: 'get', params }), // 头像历史记录
+  // post
+  login: data => request({ url: '/user/login', method: 'post', data }), // 登录
+  logout: () => request({ url: '/user/logout', method: 'post' }), // 登出
+  base: data => request({ url: '/user/base', method: 'post', data }), // 基本资料
+  email: data => request({ url: '/user/email', method: 'post', data }), // 修改电子邮件
+  mobile: data => request({ url: '/user/mobile', method: 'post', data }), // 修改手机号码
+  password: data => request({ url: '/user/password', method: 'post', data }), // 修改密码
+  create: data => request({ url: '/user/create', method: 'post', data }), // 创建
+  isUse: data => request({ url: '/user/isUse', method: 'post', data }), // 启用&&禁用用户
+  isAdmin: data => request({ url: '/user/isAdmin', method: 'post', data }), // 是&&否后台用户
+  avatar: data => request({ url: '/user/avatar', method: 'post', data }), // 更换头像
+  avatarUpload: data => request({ url: '/user/avatarUpload', method: 'post', data }), // 上传头像
+  avatarDelete: data => request({ url: '/user/avatarDelete', method: 'post', data }), // 删除头像
+}

@@ -1,4 +1,4 @@
-import { userDispatch } from '@/api/user'
+import { userApi } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/libs/utils/token'
 import router, { resetRouter } from '@/router/constant'
 
@@ -48,8 +48,9 @@ const actions = {
   login({ commit }, userInfo) { // 用户登录
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      userDispatch.use('login', {
-        username: username.trim(), password: password
+      userApi.login({
+        username: username.trim(),
+        password: password
       }).then(({ code, data }) => {
         if (code === 200) {
           commit('SET_TOKEN', data.token)
@@ -65,7 +66,7 @@ const actions = {
   },
   getInfo({ commit, state }) { // 获取用户信息
     return new Promise((resolve, reject) => {
-      userDispatch.use('info', state.token).then(({ code, data }) => {
+      userApi.info(state.token).then(({ code, data }) => {
         if (code === 200) {
           data || reject('验证失败，请重新登录。')
           const { roles, id, petName, realName, email, mobile, avatar, introduction } = data
