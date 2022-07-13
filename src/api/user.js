@@ -1,4 +1,4 @@
-import request from '@/libs/utils/axios/request'
+import request from '@/libs/axios/request'
 
 export const userApi = {
   // get
@@ -19,5 +19,5 @@ export const userApi = {
   isAdmin: data => request({ url: '/user/isAdmin', method: 'post', data }), // 是&&否后台用户
   avatar: data => request({ url: '/user/avatar', method: 'post', data }), // 更换头像
   avatarUpload: data => request({ url: '/user/avatarUpload', method: 'post', data }), // 上传头像
-  avatarDelete: data => request({ url: '/user/avatarDelete', method: 'post', data }), // 删除头像
+  avatarDelete: data => request({ url: '/user/avatarDelete', method: 'post', data }) // 删除头像
 }

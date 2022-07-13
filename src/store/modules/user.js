@@ -51,10 +51,13 @@ const actions = {
       userApi.login({
         username: username.trim(),
         password: password
-      }).then(({ code, data }) => {
+      }).then(({
+        code,
+        data: { token }
+      }) => {
         if (code === 200) {
-          commit('SET_TOKEN', data.token)
-          setToken(data.token)
+          commit('SET_TOKEN', token)
+          setToken(token)
           resolve()
         } else {
           reject('登录失败')

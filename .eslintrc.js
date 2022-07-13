@@ -20,12 +20,21 @@ module.exports = {
         'allowFirstLine': false
       }
     }],
+    "vue/html-self-closing": ["error", {
+      "html": {
+        "void": "never",
+        "normal": "any",
+        "component": "any"
+      },
+      "svg": "always",
+      "math": "always"
+    }],
     'vue/singleline-html-element-content-newline': 'off',
     'vue/multiline-html-element-content-newline': 'off',
     'vue/name-property-casing': ['error', 'PascalCase'],
     'vue/no-v-html': 'off',
     'accessor-pairs': 2,
-    'arrow-spacing': [2, {
+    'arrow-spacing': [2, { // 箭头空格（前:true、后:true）
       'before': true,
       'after': true
     }],
@@ -33,11 +42,9 @@ module.exports = {
     'brace-style': [2, '1tbs', {
       'allowSingleLine': true
     }],
-    'camelcase': [0, {
-      'properties': 'always'
-    }],
+    'camelcase': [0, { 'properties': 'always' }],
     'comma-dangle': [2, 'never'],
-    'comma-spacing': [2, {
+    'comma-spacing': [2, { // 逗号空格（前：false,后:true）
       'before': false,
       'after': true
     }],

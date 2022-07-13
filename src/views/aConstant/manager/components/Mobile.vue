@@ -3,18 +3,41 @@
     <el-form ref="postForm" :model="postForm" :rules="rulesForm">
       <el-row>
         <el-col>
-          <el-form-item :label="`我的${fields.mobile}`" :label-width="labelWidth">{{ `：${mobile}` }}</el-form-item>
+          <el-form-item
+            :label="`我的${fields.mobile}`"
+            :label-width="labelWidth"
+          >
+            {{ `：${mobile}` }}
+          </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col>
-          <el-form-item prop="newMobile" :label="`新的${fields.mobile}`" :label-width="labelWidth">
-            <el-input v-model.trim="postForm.newMobile" :placeholder="`请输入新的${fields.mobile}`" maxlength="11" style="width:300px" clearable @keyup.enter.native="submitAction" />
+          <el-form-item
+            prop="newMobile"
+            :label="`新的${fields.mobile}`"
+            :label-width="labelWidth"
+          >
+            <el-input
+              v-model.trim="postForm.newMobile"
+              :placeholder="`请输入新的${fields.mobile}`"
+              maxlength="11"
+              style="width: 300px"
+              clearable
+              @keyup.enter.native="submitAction"
+            />
           </el-form-item>
         </el-col>
       </el-row>
       <el-form-item :label-width="labelWidth">
-        <el-button type="primary" :loading="submitLoading" :disabled="submitLoading" @click="submitAction">编辑基本资料</el-button>
+        <el-button
+          type="primary"
+          :loading="submitLoading"
+          :disabled="submitLoading"
+          @click="submitAction"
+        >
+          编辑基本资料
+        </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -25,7 +48,7 @@ import { fields } from '../modules/fields'
 import { MobileRule as rulesForm } from '../modules/rules'
 import DetailMixin from '@/components/Mixins/DetailMixin'
 import { mapGetters } from 'vuex'
-import { userDispatch } from '@/api/user'
+import { userApi } from '@/api/user'
 export default {
   name: 'Mobile',
   mixins: [DetailMixin],
@@ -49,19 +72,25 @@ export default {
               this.submitLoadingClose()
             } else {
               this.postForm.id = this.aid
-              userDispatch.use('mobile', this.postForm).then(({ code, msg }) => {
-                if (code === 200) {
-                  this.$message.success(msg)
+              userApi
+                .mobile(this.postForm)
+                .then(({ code, msg }) => {
+                  if (code === 200) {
+                    this.$message.success(msg)
+                    this.submitLoadingClose()
+                    this.$store.commit(
+                      'user/SET_MOBILE',
+                      this.postForm.newMobile
+                    )
+                    this.$refs.postForm.resetFields()
+                  } else {
+                    this.$message.error(msg)
+                    this.submitLoadingClose()
+                  }
+                })
+                .catch(() => {
                   this.submitLoadingClose()
-                  this.$store.commit('user/SET_MOBILE', this.postForm.newMobile)
-                  this.$refs.postForm.resetFields()
-                } else {
-                  this.$message.error(msg)
-                  this.submitLoadingClose()
-                }
-              }).catch(() => {
-                this.submitLoadingClose()
-              })
+                })
             }
           } else {
             this.validateErrHandle(fields)
@@ -73,5 +102,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
