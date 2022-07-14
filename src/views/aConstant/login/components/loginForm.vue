@@ -122,15 +122,10 @@ export default {
             username: CryptoJsEncode(this.loginForm.username),
             password: CryptoJsEncode(this.loginForm.password)
           }
-          this.$store
-            .dispatch('user/login', newLoginForm)
-            .then(() => {
-              this.$emit('loginSubmit')
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
+          this.$store.dispatch('user/login', newLoginForm).then(() => {
+            this.$emit('loginSubmit')
+            this.loading = false
+          })
         } else {
           return false
         }

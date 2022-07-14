@@ -170,6 +170,7 @@ import {
   DetailPasswordRule as rulesPassword
 } from '../modules/rules'
 import { CryptoJsEncode } from '@/libs/cryptojs'
+import { createDefaultData } from '../modules/default'
 import { userApi } from '@/api/user'
 
 export default {
@@ -193,6 +194,9 @@ export default {
     submitText() {
       return this.isEdit ? '编辑用户' : '创建用户'
     }
+  },
+  created() {
+    this.postForm = { ...this.postForm, ...createDefaultData }
   },
   mounted() {
     const id = this.$route.params.id
@@ -232,39 +236,29 @@ export default {
             let data
             if (this.postForm.password) {
               const password = CryptoJsEncode(this.postForm.password)
-              const passwordJson = { password }
-              data = { ...this.postForm, ...passwordJson }
+              const pJson = { password }
+              data = { ...this.postForm, ...pJson }
             } else {
               data = this.postForm
             }
             if (this.isEdit) {
-              userApi
-                .update(data)
-                .then(({ code, msg }) => {
-                  if (code === 200) {
-                    this.commentHandle(msg)
-                    this.backClose()
-                  } else {
-                    this.submitLoading = false
-                  }
-                })
-                .catch(() => {
-                  this.submitLoading = false
-                })
+              userApi.update(data).then(({ code, msg }) => {
+                if (code === 200) {
+                  this.commentHandle(msg)
+                  this.backClose()
+                } else {
+                  this.submitLoadingClose()
+                }
+              })
             } else {
-              userApi
-                .create(data)
-                .then(({ code, msg }) => {
-                  if (code === 200) {
-                    this.commentHandle(msg)
-                    this.routerClose('/manager/list')
-                  } else {
-                    this.submitLoading = false
-                  }
-                })
-                .catch(() => {
+              userApi.create(data).then(({ code, msg }) => {
+                if (code === 200) {
+                  this.commentHandle(msg)
+                  this.routerClose('/manager/list')
+                } else {
                   this.submitLoading = false
-                })
+                }
+              })
             }
           } else {
             this.validateErrHandle(fields)
