@@ -1,10 +1,11 @@
 import request from '@/libs/axios/request'
+import qs from 'qs'
 
 export const userApi = {
   // get
   info: () => request({ url: '/user/info', method: 'get' }), // 用户信息
-  detail: params => request({ url: '/user/detail', method: 'get', params }), // 详情
-  list: params => request({ url: '/user/list', method: 'get', params }), // 列表
+  detail: params => request({ url: '/user/detail?' + qs.stringify(params), method: 'get' }), // 详情
+  list: params => request({ url: '/user/list?' + qs.stringify(params), method: 'get' }), // 列表
   avatarList: params => request({ url: '/user/avatarList', method: 'get', params }), // 头像列表
   avatarHistory: params => request({ url: '/user/avatarHistory', method: 'get', params }), // 头像历史记录
   // post

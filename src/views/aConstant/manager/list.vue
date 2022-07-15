@@ -1,35 +1,11 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-select
-        v-model="queryList.isUse"
-        class="filter-ele"
-        :placeholder="fields.isUse"
-        clearable
-        @clear="handleFilter"
-        @change="handleFilter"
-      >
-        <el-option
-          v-for="(item, key) in isUseAry"
-          :key="key"
-          :value="item.value"
-          :label="item.label"
-        />
+      <el-select v-model="queryList.isUse" class="filter-ele" :placeholder="fields.isUse" clearable @clear="handleFilter" @change="handleFilter">
+        <el-option v-for="(item, key) in defineIsUseAry" :key="key" :value="String(item.value)" :label="item.label" />
       </el-select>
-      <el-select
-        v-model="queryList.isAdmin"
-        class="filter-ele"
-        :placeholder="fields.isAdmin"
-        clearable
-        @clear="handleFilter"
-        @change="handleFilter"
-      >
-        <el-option
-          v-for="(item, key) in booleanAry"
-          :key="key"
-          :value="item.value"
-          :label="item.label"
-        />
+      <el-select v-model="queryList.isAdmin" class="filter-ele" :placeholder="fields.isAdmin" clearable @clear="handleFilter" @change="handleFilter">
+        <el-option v-for="(item, key) in defineBooleanAry" :key="key" :value="String(item.value)" :label="item.label" />
       </el-select>
       <el-input
         v-model="queryList.username"
@@ -76,20 +52,8 @@
         @clear="handleFilter"
         @select="handleFilter"
       />
-      <el-select
-        v-model="queryList.roles"
-        :placeholder="fields.roles"
-        class="filter-ele"
-        clearable
-        @clear="handleFilter"
-        @change="handleFilter"
-      >
-        <el-option
-          v-for="(item, index) in rolesAry"
-          :key="index"
-          :value="item['value']"
-          :label="item['label']"
-        />
+      <el-select v-model="queryList.roles" :placeholder="fields.roles" class="filter-ele" clearable @clear="handleFilter" @change="handleFilter">
+        <el-option v-for="(item, index) in rolesAry" :key="index" :value="item['value']" :label="item['label']" />
       </el-select>
       <el-date-picker
         v-model="queryList.created"
@@ -103,31 +67,13 @@
         :picker-options="pickerOptions"
         @change="handleFilter"
       />
-      <el-button
-        type="primary"
-        class="filter-btn el-icon-search"
-        @click="handleFilter"
-      >
-        搜索
-      </el-button>
-      <el-button
-        type="primary"
-        class="filter-btn el-icon-plus"
-        @click="routerGo('create')"
-      >
-        创建
-      </el-button>
+      <el-button type="primary" class="filter-btn el-icon-search" @click="handleFilter"> 搜索 </el-button>
+      <el-button type="primary" class="filter-btn el-icon-plus" @click="routerGo('create')"> 创建 </el-button>
       <el-dropdown class="avatar-container hover-effect" trigger="click">
-        <el-button type="primary" class="filter-btn el-icon-document">
-          导出
-        </el-button>
+        <el-button type="primary" class="filter-btn el-icon-document"> 导出 </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="exportData('xlsx')">
-            导出EXCEL
-          </el-dropdown-item>
-          <el-dropdown-item @click.native="exportData('csv')">
-            导出CSV
-          </el-dropdown-item>
+          <el-dropdown-item @click.native="exportData('xlsx')"> 导出EXCEL </el-dropdown-item>
+          <el-dropdown-item @click.native="exportData('csv')"> 导出CSV </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -157,13 +103,12 @@
 <script>
 import { fields } from './modules/fields'
 import { rolesAry, rolesObject, rolesParse } from './modules/roles'
-import { isUseAry, booleanAry, pmKeyword } from 'plugins-methods'
 import ListMixin from '@/components/Mixins/ListMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
 import ListTable from './components/ListTable'
 import Export from './mixins/Export'
 import Pagination from '@/components/Pagination'
-import { daterange as daterangeShortcuts } from '@/libs/utils/pickerOptions/shortcus'
+import { shortcutScope, defineIsUseAry, defineBooleanAry, keyLight } from 'methods-often/import'
 import { userApi } from '@/api/user'
 
 export default {
@@ -175,12 +120,12 @@ export default {
       fields,
       rolesAry,
       rolesObject,
-      isUseAry,
-      booleanAry,
+      defineIsUseAry,
+      defineBooleanAry,
       tableIsAdmin: [],
       tableIsUse: [],
       pickerOptions: {
-        shortcuts: daterangeShortcuts()
+        shortcuts: shortcutScope()
       }
     }
   },
@@ -200,38 +145,14 @@ export default {
           this.tableData.forEach((item) => {
             this.tableIsUse[item.id] = +item.isUse === 1
             this.tableIsAdmin[item.id] = +item.isAdmin === 1
-            item.usernameKeyword = pmKeyword.keywordHeightLight(
-              this.queryList,
-              'username',
-              item.username
-            )
-            item.petNameKeyword = pmKeyword.keywordHeightLight(
-              this.queryList,
-              'petName',
-              item.petName
-            )
-            item.realNameKeyword = pmKeyword.keywordHeightLight(
-              this.queryList,
-              'realName',
-              item.realName
-            )
-            item.emailKeyword = pmKeyword.keywordHeightLight(
-              this.queryList,
-              'email',
-              item.email
-            )
-            item.mobileKeyword = pmKeyword.keywordHeightLight(
-              this.queryList,
-              'mobile',
-              item.mobile
-            )
+            item.usernameKeyword = keyLight(this.queryList, 'username', item.username)
+            item.petNameKeyword = keyLight(this.queryList, 'petName', item.petName)
+            item.realNameKeyword = keyLight(this.queryList, 'realName', item.realName)
+            item.emailKeyword = keyLight(this.queryList, 'email', item.email)
+            item.mobileKeyword = keyLight(this.queryList, 'mobile', item.mobile)
             const object = { roles: rolesObject[this.queryList.roles] || '' }
             const roles = rolesParse(item.roles)
-            item.rolesKeyword = pmKeyword.keywordHeightLight(
-              object,
-              'roles',
-              roles
-            )
+            item.rolesKeyword = keyLight(object, 'roles', roles)
           })
         }
       })

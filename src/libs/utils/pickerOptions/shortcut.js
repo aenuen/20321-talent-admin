@@ -49,7 +49,7 @@ export const date = () => {
  * @description 范围日期快捷选项
  * @return {[{onClick(*): void, text: string}, {onClick(*): void, text: string}, {onClick(*): void, text: string}]}
  */
-export const daterange = () => {
+export const shortcut = () => {
   return [
     {
       text: '最近一周',
