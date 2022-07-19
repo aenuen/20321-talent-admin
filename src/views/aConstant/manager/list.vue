@@ -7,51 +7,11 @@
       <el-select v-model="queryList.isAdmin" class="filter-ele" :placeholder="fields.isAdmin" clearable @clear="handleFilter" @change="handleFilter">
         <el-option v-for="(item, key) in defineBooleanAry" :key="key" :value="String(item.value)" :label="item.label" />
       </el-select>
-      <el-input
-        v-model="queryList.username"
-        :placeholder="fields.username"
-        class="filter-ele"
-        clearable
-        @keyup.enter.native="handleFilter"
-        @clear="handleFilter"
-        @select="handleFilter"
-      />
-      <el-input
-        v-model="queryList.petName"
-        :placeholder="fields.petName"
-        class="filter-ele"
-        clearable
-        @keyup.enter.native="handleFilter"
-        @clear="handleFilter"
-        @select="handleFilter"
-      />
-      <el-input
-        v-model="queryList.realName"
-        :placeholder="fields.realName"
-        class="filter-ele"
-        clearable
-        @keyup.enter.native="handleFilter"
-        @clear="handleFilter"
-        @select="handleFilter"
-      />
-      <el-input
-        v-model="queryList.email"
-        :placeholder="fields.email"
-        class="filter-ele"
-        clearable
-        @keyup.enter.native="handleFilter"
-        @clear="handleFilter"
-        @select="handleFilter"
-      />
-      <el-input
-        v-model="queryList.mobile"
-        :placeholder="fields.mobile"
-        class="filter-ele"
-        clearable
-        @keyup.enter.native="handleFilter"
-        @clear="handleFilter"
-        @select="handleFilter"
-      />
+      <el-input v-model="queryList.username" :placeholder="fields.username" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @select="handleFilter" />
+      <el-input v-model="queryList.petName" :placeholder="fields.petName" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @select="handleFilter" />
+      <el-input v-model="queryList.realName" :placeholder="fields.realName" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @select="handleFilter" />
+      <el-input v-model="queryList.email" :placeholder="fields.email" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @select="handleFilter" />
+      <el-input v-model="queryList.mobile" :placeholder="fields.mobile" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @select="handleFilter" />
       <el-select v-model="queryList.roles" :placeholder="fields.roles" class="filter-ele" clearable @clear="handleFilter" @change="handleFilter">
         <el-option v-for="(item, index) in rolesAry" :key="index" :value="item['value']" :label="item['label']" />
       </el-select>
@@ -89,13 +49,7 @@
       @onIsAdminChange="onIsAdminChange"
     />
     <div style="text-align: center">
-      <Pagination
-        :hidden="tableDataLength <= 0"
-        :total="tableDataLength"
-        :page.sync="queryList.page"
-        :limit.sync="queryList.pageSize"
-        @pagination="refresh"
-      />
+      <Pagination :hidden="tableDataLength <= 0" :total="tableDataLength" :page.sync="queryList.page" :limit.sync="queryList.pageSize" @pagination="refresh" />
     </div>
   </div>
 </template>
@@ -103,13 +57,13 @@
 <script>
 import { fields } from './modules/fields'
 import { rolesAry, rolesObject, rolesParse } from './modules/roles'
+import { shortcutScope, defineIsUseAry, defineBooleanAry, keyLight } from 'methods-often/import'
+import { userApi } from '@/api/user'
 import ListMixin from '@/components/Mixins/ListMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
 import ListTable from './components/ListTable'
 import Export from './mixins/Export'
 import Pagination from '@/components/Pagination'
-import { shortcutScope, defineIsUseAry, defineBooleanAry, keyLight } from 'methods-often/import'
-import { userApi } from '@/api/user'
 
 export default {
   name: 'ManagerList',

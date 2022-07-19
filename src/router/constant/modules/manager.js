@@ -23,7 +23,7 @@ const managerRouter = {
       }
     },
     {
-      path: 'edit/:id', name: 'managerEdit', component: () => import('@/views/aConstant/manager/update'),
+      path: 'update/:id', name: 'managerUpdate', component: () => import('@/views/aConstant/manager/update'),
       meta: {
         title: '用户编辑',
         roles: ['admin'],

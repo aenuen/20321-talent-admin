@@ -1,36 +1,9 @@
-<!--suppress HtmlDeprecatedAttribute -->
 <template>
-  <el-table
-    :key="1"
-    :loading="tableLoading"
-    :data="tableData"
-    border
-    fit
-    highlight-current-row
-    style="width: 100%"
-    :default-sort="tableSort"
-    @sort-change="onSortChange"
-  >
-    <el-table-column
-      :label="fields.id"
-      prop="id"
-      align="center"
-      width="80"
-      sortable="custom"
-    />
-    <el-table-column
-      :label="fields.work"
-      align="center"
-      width="100"
-      fixed="left"
-    >
+  <el-table :key="1" :loading="tableLoading" :data="tableData" border fit highlight-current-row style="width: 100%" :default-sort="tableSort" @sort-change="onSortChange">
+    <el-table-column :label="fields.id" prop="id" align="center" width="80" sortable="custom" />
+    <el-table-column :label="fields.work" align="center" width="100" fixed="left">
       <template slot-scope="{ row: { id } }">
-        <el-button
-          type="primary"
-          icon="el-icon-edit"
-          size="mini"
-          @click="$router.push({ path: `edit/${id}` })"
-        />
+        <el-button type="primary" icon="el-icon-edit" size="mini" @click="$router.push({ path: `update/${id}` })" />
       </template>
     </el-table-column>
     <el-table-column :label="fields.username" prop="username" align="center">
@@ -66,34 +39,22 @@
     <el-table-column :label="fields.avatar" align="center">
       <template slot-scope="{ row: { avatar } }">
         <el-avatar :size="30" :src="avatar" @error="true">
-          <img src="noneImage" alt="">
+          <img src="noneImage" alt />
         </el-avatar>
       </template>
     </el-table-column>
     <el-table-column :label="fields.isAdmin" align="center">
       <template slot-scope="{ row: { id } }">
-        <el-switch
-          v-model="tableIsAdmin[id]"
-          active-color="#13ce66"
-          inactive-color="#ff4949"
-          @change="onIsAdminChange($event, id)"
-        />
+        <el-switch v-model="tableIsAdmin[id]" active-color="#13ce66" inactive-color="#ff4949" @change="onIsAdminChange($event, id)" />
       </template>
     </el-table-column>
     <el-table-column :label="fields.isUse" align="center">
       <template slot-scope="{ row: { id } }">
-        <el-switch
-          v-model="tableIsUse[id]"
-          active-color="#13ce66"
-          inactive-color="#ff4949"
-          @change="onIsUseChange($event, id)"
-        />
+        <el-switch v-model="tableIsUse[id]" active-color="#13ce66" inactive-color="#ff4949" @change="onIsUseChange($event, id)" />
       </template>
     </el-table-column>
     <el-table-column :label="fields.created" align="center">
-      <template slot-scope="{ row: { created } }">{{
-        created | filterDateHI
-      }}</template>
+      <template slot-scope="{ row: { created } }">{{ created | filterDateHI }}</template>
     </el-table-column>
   </el-table>
 </template>

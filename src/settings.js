@@ -6,5 +6,6 @@ module.exports = {
   fixedHeader: false, // 是否启用 fixedHeader
   sidebarLogo: false, // 是否使用 sidebarLog
   errorLog: 'development', // 使用errorLog的模式(可使用数组,如:['development','production'])
-  cryptoJsSecretKey: 'SecretKey' // CryptoJs加密Key
+  cryptoJsSecretKey: 'SecretKey', // CryptoJs加密Key
+  isDevMode: process.env.NODE_ENV === 'development'
 }

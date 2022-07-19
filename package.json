@@ -79,7 +79,7 @@
     "last 2 versions"
   ],
   "bugs": {
-    "url": "https://github.com/aenuen/lawyer-admin/issues"
+    "url": "https://github.com/aenuen/20321-talent-admin/issues"
   },
   "engines": {
     "node": ">=8.9",
@@ -103,6 +103,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aenuen/laywer-admin.git"
+    "url": "git+https://github.com/aenuen/20321-talent-admin.git"
   }
 }

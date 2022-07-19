@@ -20,15 +20,8 @@ module.exports = {
         'allowFirstLine': false
       }
     }],
-    "vue/html-self-closing": ["error", {
-      "html": {
-        "void": "never",
-        "normal": "any",
-        "component": "any"
-      },
-      "svg": "always",
-      "math": "always"
-    }],
+    'prettier/prettier': 0, // 以prettier规则优先
+    'vue/html-self-closing': 0,
     'vue/singleline-html-element-content-newline': 'off',
     'vue/multiline-html-element-content-newline': 'off',
     'vue/name-property-casing': ['error', 'PascalCase'],
