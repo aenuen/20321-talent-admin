@@ -1,9 +1,10 @@
 <template>
   <el-table :key="1" :loading="tableLoading" :data="tableData" border fit highlight-current-row style="width: 100%" :default-sort="tableSort" @sort-change="onSortChange">
     <el-table-column :label="fields.id" prop="id" align="center" width="80" sortable="custom" />
-    <el-table-column :label="fields.work" align="center" width="100" fixed="left">
+    <el-table-column :label="fields.work" align="center" width="120" fixed="left">
       <template slot-scope="{ row: { id } }">
         <el-button type="primary" icon="el-icon-edit" size="mini" @click="$router.push({ path: `update/${id}` })" />
+        <el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemoveUser(id)" />
       </template>
     </el-table-column>
     <el-table-column :label="fields.username" prop="username" align="center">
@@ -90,6 +91,9 @@ export default {
     },
     onIsAdminChange(event, id) {
       this.$emit('onIsAdminChange', event, id)
+    },
+    onRemoveUser(id) {
+      this.$emit('onRemoveUser', id)
     }
   }
 }

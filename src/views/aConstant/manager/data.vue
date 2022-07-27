@@ -1,17 +1,16 @@
-<!--suppress JSUnresolvedVariable -->
 <template>
   <div class="app-container">
     <div>
       <el-row :gutter="20">
         <el-col :span="6">
           <div class="user-data">
-            <el-card style="margin-bottom:20px;">
+            <el-card style="margin-bottom: 20px">
               <div slot="header" class="clearfix">
                 <span>个人资料</span>
               </div>
               <div class="box-center">
                 <el-avatar :size="100" :src="avatar" @error="true">
-                  <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" alt>
+                  <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" alt />
                 </el-avatar>
               </div>
               <div class="user-info">
@@ -22,7 +21,7 @@
           </div>
         </el-col>
         <el-col :span="18">
-          <el-card style="margin-bottom:20px;">
+          <el-card style="margin-bottom: 20px">
             <div slot="header" class="clearfix">
               <span>编辑资料</span>
             </div>

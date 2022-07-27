@@ -47,6 +47,7 @@
       @onSortChange="onSortChange"
       @onIsUseChange="onIsUseChange"
       @onIsAdminChange="onIsAdminChange"
+      @onRemoveUser="onRemoveUser"
     />
     <div style="text-align: center">
       <Pagination :hidden="tableDataLength <= 0" :total="tableDataLength" :page.sync="queryList.page" :limit.sync="queryList.pageSize" @pagination="refresh" />
@@ -108,6 +109,16 @@ export default {
             const roles = rolesParse(item.roles)
             item.rolesKeyword = keyLight(object, 'roles', roles)
           })
+        }
+      })
+    },
+    onRemoveUser(id) {
+      userApi.remove({ id }).then(({ code, msg }) => {
+        if (code === 200) {
+          this.$message.success(msg)
+          this.refreshStrong()
+        } else {
+          this.$message.error(msg)
         }
       })
     },

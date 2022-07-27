@@ -3,60 +3,27 @@
     <el-form ref="postForm" :model="postForm" :rules="rulesForm">
       <el-row>
         <el-col>
-          <el-form-item
-            prop="petName"
-            :label="fields.petName"
-            :label-width="labelWidth"
-          >
-            <el-input
-              v-model.trim="postForm.petName"
-              :placeholder="fields.petName"
-              maxlength="30"
-            />
+          <el-form-item prop="petName" :label="fields.petName" :label-width="labelWidth">
+            <el-input v-model.trim="postForm.petName" :placeholder="fields.petName" maxlength="30" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col>
-          <el-form-item
-            prop="realName"
-            :label="fields.realName"
-            :label-width="labelWidth"
-          >
-            <el-input
-              v-model.trim="postForm.realName"
-              :placeholder="fields.realName"
-              maxlength="10"
-            />
+          <el-form-item prop="realName" :label="fields.realName" :label-width="labelWidth">
+            <el-input v-model.trim="postForm.realName" :placeholder="fields.realName" maxlength="10" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col>
-          <el-form-item
-            prop="introduction"
-            :label="fields.introduction"
-            :label-width="labelWidth"
-          >
-            <el-input
-              v-model.trim="postForm.introduction"
-              type="textarea"
-              :rows="4"
-              resize="none"
-              :placeholder="fields.introduction"
-              maxlength="140"
-            />
+          <el-form-item prop="introduction" :label="fields.introduction" :label-width="labelWidth">
+            <el-input v-model.trim="postForm.introduction" type="textarea" :rows="4" resize="none" :placeholder="fields.introduction" maxlength="140" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-form-item :label-width="labelWidth">
-        <el-button
-          :loading="submitLoading"
-          type="primary"
-          @click="submitAction"
-        >
-          编辑基本资料
-        </el-button>
+        <el-button :loading="submitLoading" type="primary" @click="submitAction"> 编辑基本资料 </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -116,5 +83,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped></style>

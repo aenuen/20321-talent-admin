@@ -2,41 +2,16 @@
   <div class="app-container">
     <el-form ref="postForm" :model="postForm" :rules="rulesForm">
       <el-form-item :label-width="labelWidth">
-        <el-button
-          :type="cutterControl ? 'primary' : 'default'"
-          class="el-icon-upload"
-          @click="cutterToggle"
-        >
-          上传头像
-        </el-button>
-        <el-button
-          :type="historyControl ? 'primary' : 'default'"
-          class="el-icon-camera"
-          @click="historyToggle"
-        >
-          历史上传
-        </el-button>
+        <el-button :type="cutterControl ? 'primary' : 'default'" class="el-icon-upload" @click="cutterToggle"> 上传头像 </el-button>
+        <el-button :type="historyControl ? 'primary' : 'default'" class="el-icon-camera" @click="historyToggle"> 历史上传 </el-button>
       </el-form-item>
       <el-row>
         <el-col>
-          <el-form-item
-            prop="avatar"
-            :label="`系统${fields.avatar}`"
-            :label-width="labelWidth"
-          >
+          <el-form-item prop="avatar" :label="`系统${fields.avatar}`" :label-width="labelWidth">
             <div class="avatar_wrap">
               <el-radio-group v-model="postForm.avatar" size="small">
-                <el-radio
-                  v-for="(avatar, index) in avatarList"
-                  :key="index"
-                  :label="avatar"
-                >
-                  <el-avatar
-                    shape="circle"
-                    fit="cover"
-                    :src="avatar"
-                    :size="80"
-                  />
+                <el-radio v-for="(avatar, index) in avatarList" :key="index" :label="avatar">
+                  <el-avatar shape="circle" fit="cover" :src="avatar" :size="80" />
                 </el-radio>
               </el-radio-group>
             </div>
@@ -44,35 +19,14 @@
         </el-col>
       </el-row>
       <el-form-item :label-width="labelWidth">
-        <el-button
-          :loading="submitLoading"
-          :disabled="submitLoading"
-          type="primary"
-          @click="submitAction"
-        >
-          使用选中的系统头像
-        </el-button>
+        <el-button :loading="submitLoading" :disabled="submitLoading" type="primary" @click="submitAction"> 使用选中的系统头像 </el-button>
       </el-form-item>
     </el-form>
-    <el-dialog
-      v-if="cutterControl"
-      title="上传头像"
-      width="815px"
-      :visible.sync="cutterControl"
-    >
+    <el-dialog v-if="cutterControl" title="上传头像" width="815px" :visible.sync="cutterControl">
       <ImgCutter @onCutSuccess="onCutSuccess" />
     </el-dialog>
-    <el-dialog
-      v-if="historyControl"
-      title="历史上传"
-      width="815px"
-      :visible.sync="historyControl"
-    >
-      <AvatarHistory
-        :list="historyList"
-        @onUseAvatar="onUseAvatar"
-        @onDelAvatar="onDelAvatar"
-      />
+    <el-dialog v-if="historyControl" title="历史上传" width="815px" :visible.sync="historyControl">
+      <AvatarHistory :list="historyList" @onUseAvatar="onUseAvatar" @onDelAvatar="onDelAvatar" />
     </el-dialog>
   </div>
 </template>
@@ -132,21 +86,19 @@ export default {
       }
     },
     history() {
-      userApi
-        .avatarHistory({
-          id: this.aid
-        })
-        .then(({ code, data }) => {
-          if (code === 200) {
-            this.historyList = data
-            this.historyLoad = true
-          }
-        })
+      userApi.avatarHistory({ id: this.aid }).then(({ code, data }) => {
+        if (code === 200) {
+          this.historyList = data
+          this.historyLoad = true
+        }
+      })
     },
     getAvatarList() {
-      userApi.avatarList('avatarList').then(({ code, data }) => {
+      userApi.avatarList().then(({ code, data }) => {
         if (code === 200) {
-          this.avatarList = data
+          const { list, path } = data
+          console.log(path)
+          this.avatarList = list
         }
       })
     },
