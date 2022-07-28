@@ -3,41 +3,20 @@
     <el-form ref="postForm" :model="postForm" :rules="rulesForm">
       <el-row>
         <el-col>
-          <el-form-item
-            :label="`我的${fields.mobile}`"
-            :label-width="labelWidth"
-          >
+          <el-form-item :label="`我的${fields.mobile}`" :label-width="labelWidth">
             {{ `：${mobile}` }}
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col>
-          <el-form-item
-            prop="newMobile"
-            :label="`新的${fields.mobile}`"
-            :label-width="labelWidth"
-          >
-            <el-input
-              v-model.trim="postForm.newMobile"
-              :placeholder="`请输入新的${fields.mobile}`"
-              maxlength="11"
-              style="width: 300px"
-              clearable
-              @keyup.enter.native="submitAction"
-            />
+          <el-form-item prop="newMobile" :label="`新的${fields.mobile}`" :label-width="labelWidth">
+            <el-input v-model.trim="postForm.newMobile" :placeholder="`请输入新的${fields.mobile}`" maxlength="11" style="width: 300px" clearable @keyup.enter.native="submitAction" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-form-item :label-width="labelWidth">
-        <el-button
-          type="primary"
-          :loading="submitLoading"
-          :disabled="submitLoading"
-          @click="submitAction"
-        >
-          编辑基本资料
-        </el-button>
+        <el-button type="primary" :loading="submitLoading" :disabled="submitLoading" @click="submitAction"> 修改手机号码 </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -78,10 +57,7 @@ export default {
                   if (code === 200) {
                     this.$message.success(msg)
                     this.submitLoadingClose()
-                    this.$store.commit(
-                      'user/SET_MOBILE',
-                      this.postForm.newMobile
-                    )
+                    this.$store.commit('user/SET_MOBILE', this.postForm.newMobile)
                     this.$refs.postForm.resetFields()
                   } else {
                     this.$message.error(msg)

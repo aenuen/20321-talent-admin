@@ -6,12 +6,11 @@ export const userApi = {
   info: () => request({ url: '/user/info', method: 'get' }), // 用户信息
   detail: params => request({ url: '/user/detail?' + qs.stringify(params), method: 'get' }), // 详情
   list: params => request({ url: '/user/list?' + qs.stringify(params), method: 'get' }), // 列表
-  avatarList: params => request({ url: '/user/avatarList', method: 'get', params }), // 头像列表
-  avatarHistory: params => request({ url: '/user/avatarHistory', method: 'get', params }), // 头像历史记录
+  avatarList: params => request({ url: '/user/avatarList?' + qs.stringify(params), method: 'get' }), // 头像列表
   // post
   login: data => request({ url: '/user/login', method: 'post', data }), // 登录
   logout: () => request({ url: '/user/logout', method: 'post' }), // 登出
-  base: data => request({ url: '/user/base', method: 'post', data }), // 基本资料
+  baseData: data => request({ url: '/user/baseData', method: 'post', data }), // 基本资料
   email: data => request({ url: '/user/email', method: 'post', data }), // 修改电子邮件
   mobile: data => request({ url: '/user/mobile', method: 'post', data }), // 修改手机号码
   password: data => request({ url: '/user/password', method: 'post', data }), // 修改密码

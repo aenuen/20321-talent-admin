@@ -23,7 +23,7 @@
         </el-col>
       </el-row>
       <el-form-item :label-width="labelWidth">
-        <el-button :loading="submitLoading" type="primary" @click="submitAction"> 编辑基本资料 </el-button>
+        <el-button :loading="submitLoading" type="primary" @click="submitAction"> 修改基本资料 </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -64,7 +64,7 @@ export default {
         this.$refs.postForm.validate((valid, fields) => {
           if (valid) {
             userApi
-              .base(this.postForm)
+              .baseData(this.postForm)
               .then((res) => {
                 const { msg } = res
                 this.$message.success(msg)

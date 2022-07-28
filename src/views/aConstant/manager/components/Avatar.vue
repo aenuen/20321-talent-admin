@@ -3,17 +3,16 @@
     <el-form ref="postForm" :model="postForm" :rules="rulesForm">
       <el-form-item :label-width="labelWidth">
         <el-button :type="cutterControl ? 'primary' : 'default'" class="el-icon-upload" @click="cutterToggle"> 上传头像 </el-button>
-        <el-button :type="historyControl ? 'primary' : 'default'" class="el-icon-camera" @click="historyToggle"> 历史上传 </el-button>
       </el-form-item>
       <el-row>
         <el-col>
           <el-form-item prop="avatar" :label="`系统${fields.avatar}`" :label-width="labelWidth">
             <div class="avatar_wrap">
-              <el-radio-group v-model="postForm.avatar" size="small">
-                <el-radio v-for="(avatar, index) in avatarList" :key="index" :label="avatar">
+              <div v-for="(avatar, index) in avatarList" :key="index" class="avatar-item">
+                <div class="avatar-main">
                   <el-avatar shape="circle" fit="cover" :src="avatar" :size="80" />
-                </el-radio>
-              </el-radio-group>
+                </div>
+              </div>
             </div>
           </el-form-item>
         </el-col>
@@ -25,9 +24,6 @@
     <el-dialog v-if="cutterControl" title="上传头像" width="815px" :visible.sync="cutterControl">
       <ImgCutter @onCutSuccess="onCutSuccess" />
     </el-dialog>
-    <el-dialog v-if="historyControl" title="历史上传" width="815px" :visible.sync="historyControl">
-      <AvatarHistory :list="historyList" @onUseAvatar="onUseAvatar" @onDelAvatar="onDelAvatar" />
-    </el-dialog>
   </div>
 </template>
 
@@ -35,21 +31,17 @@
 import { fields } from '../modules/fields'
 import DetailMixin from '@/components/Mixins/DetailMixin'
 import ImgCutter from '@/components/imgCutter'
-import AvatarHistory from './AvatarHistory'
 import { mapGetters } from 'vuex'
 import { userApi } from '@/api/user'
 export default {
   name: 'PersonalAvatar',
-  components: { ImgCutter, AvatarHistory },
+  components: { ImgCutter },
   mixins: [DetailMixin],
   data() {
     return {
       fields,
       avatarList: [],
-      cutterControl: false,
-      historyList: [],
-      historyLoad: false,
-      historyControl: false
+      cutterControl: false
     }
   },
   computed: {
@@ -59,57 +51,37 @@ export default {
     this.getAvatarList()
   },
   methods: {
+    // 剪切框打开关闭切换
     cutterToggle() {
       this.cutterControl = !this.cutterControl
     },
+    // 剪切成功
     onCutSuccess(res) {
-      userApi
-        .avatarUpload({
-          id: this.aid,
-          avatar: res.dataURL
-        })
-        .then(({ code, data, msg }) => {
-          if (code === 200) {
-            this.historyList.push(data)
-            this.$store.commit('user/SET_AVATAR', data.avatar)
-            this.$message.success(msg)
-          } else {
-            this.$message.error(msg)
-          }
-        })
+      userApi.avatarUpload({ id: this.aid, avatar: res.dataURL }).then(({ code, data, msg }) => {
+        if (code === 200) {
+          this.historyList.push(data)
+          this.$store.commit('user/SET_AVATAR', data)
+          this.$message.success(msg)
+        } else {
+          this.$message.error(msg)
+        }
+      })
       this.cutterToggle()
     },
-    historyToggle() {
-      this.historyControl = !this.historyControl
-      if (this.historyControl && this.historyLoad === false) {
-        this.history()
-      }
-    },
-    history() {
-      userApi.avatarHistory({ id: this.aid }).then(({ code, data }) => {
-        if (code === 200) {
-          this.historyList = data
-          this.historyLoad = true
-        }
-      })
-    },
+    // 获取头像列表
     getAvatarList() {
-      userApi.avatarList().then(({ code, data }) => {
+      userApi.avatarList({ id: this.aid }).then(({ code, data }) => {
         if (code === 200) {
-          const { list, path } = data
-          console.log(path)
-          this.avatarList = list
+          this.avatarList = data
         }
       })
     },
+    // 使用头像
     onUseAvatar(avatar) {
       this.postForm.avatar = avatar
-      this.historyControl = false
       this.submitAction()
     },
-    onDelAvatar() {
-      this.history()
-    },
+    // 提交
     submitAction() {
       if (!this.submitLoading) {
         this.submitLoading = true
@@ -146,6 +118,23 @@ export default {
 <style lang="scss" scoped>
 .avatar_wrap {
   width: 100%;
-  overflow: auto;
+  overflow: hidden;
+  .avatar-item {
+    float: left;
+    .avatar-main {
+      width: 100px;
+      height: 140px;
+      cursor: pointer;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      padding: 9px 9px 49px 9px;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      &:hover {
+        padding: 9px 9px 49px 9px;
+        border: 1px solid #ccc;
+      }
+    }
+  }
 }
 </style>

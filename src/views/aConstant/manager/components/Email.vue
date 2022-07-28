@@ -1,48 +1,22 @@
 <template>
   <div class="app-container">
-    <el-form
-      ref="postForm"
-      :model="postForm"
-      :rules="rulesForm"
-      style="margin: 30px 50px"
-    >
+    <el-form ref="postForm" :model="postForm" :rules="rulesForm" style="margin: 30px 50px">
       <el-row>
         <el-col>
-          <el-form-item
-            :label="`我的${fields.email}`"
-            :label-width="labelWidth"
-          >
+          <el-form-item :label="`我的${fields.email}`" :label-width="labelWidth">
             {{ `：${email}` }}
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col>
-          <el-form-item
-            prop="newEmail"
-            :label="`新的${fields.email}`"
-            :label-width="labelWidth"
-          >
-            <el-input
-              v-model.trim="postForm.newEmail"
-              :placeholder="`请输入新的${fields.email}`"
-              maxlength="30"
-              style="width: 300px"
-              clearable
-              @keyup.enter.native="submitAction"
-            />
+          <el-form-item prop="newEmail" :label="`新的${fields.email}`" :label-width="labelWidth">
+            <el-input v-model.trim="postForm.newEmail" :placeholder="`请输入新的${fields.email}`" maxlength="30" style="width: 300px" clearable @keyup.enter.native="submitAction" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-form-item :label-width="labelWidth">
-        <el-button
-          v-loading="submitLoading"
-          type="primary"
-          :disabled="submitLoading"
-          @click="submitAction"
-        >
-          修改电子邮箱
-        </el-button>
+        <el-button v-loading="submitLoading" type="primary" :disabled="submitLoading" @click="submitAction"> 修改电子邮箱 </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -103,5 +77,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped></style>
