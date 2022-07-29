@@ -100,7 +100,8 @@ export default {
     }
   },
   created() {
-    if (isDevMode) {
+    const setDefault = false
+    if (isDevMode && setDefault) {
       this.postForm = { ...this.postForm, ...createDefaultData }
     }
   },

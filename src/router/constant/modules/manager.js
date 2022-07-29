@@ -5,28 +5,28 @@ const managerRouter = {
   meta: {
     title: '用户管理',
     icon: 'peoples',
-    roles: ['admin']
+    roles: ['manager']
   },
   children: [
     {
       path: 'list', name: 'managerList', component: () => import('@/views/aConstant/manager/list'),
       meta: {
         title: '用户列表',
-        roles: ['admin']
+        roles: ['manager']
       }
     },
     {
       path: 'create', name: 'managerCreate', component: () => import('@/views/aConstant/manager/create'),
       meta: {
         title: '新建用户',
-        roles: ['admin']
+        roles: ['manager']
       }
     },
     {
       path: 'update/:id', name: 'managerUpdate', component: () => import('@/views/aConstant/manager/update'),
       meta: {
         title: '用户编辑',
-        roles: ['admin'],
+        roles: ['manager'],
         activeMenu: '/manager/list'
       },
       hidden: true

@@ -6,20 +6,30 @@
       </el-form-item>
       <el-row>
         <el-col>
-          <el-form-item prop="avatar" :label="`系统${fields.avatar}`" :label-width="labelWidth">
+          <el-form-item prop="avatar" :label="`我的${fields.avatar}`" :label-width="labelWidth">
             <div class="avatar_wrap">
-              <div v-for="(avatar, index) in avatarList" :key="index" class="avatar-item">
-                <div class="avatar-main">
-                  <el-avatar shape="circle" fit="cover" :src="avatar" :size="80" />
+              <div v-for="(item, index) in avatarList" :key="index" class="avatar-item">
+                <div class="avatar-main" :class="{ current: avatar === item }">
+                  <el-avatar class="avatar-show" shape="circle" fit="cover" :src="item" :size="80" />
+                  <div class="avatar-work">
+                    <div class="avatar-half" />
+                    <div class="avatar-live">
+                      <div class="avatar-mode">
+                        <el-button v-if="item.indexOf('constant') > -1 && item !== avatar" type="default" size="mini" icon="el-icon-check" @click="useTheAvatar(item)" />
+                        <el-button-group v-if="item.indexOf('upload') > -1 && item !== avatar">
+                          <el-button size="mini" icon="el-icon-check" @click="useTheAvatar(item)" />
+                          <el-button type="default" size="mini" icon="el-icon-delete" @click="removeAvatar(item)" />
+                        </el-button-group>
+                        <el-button v-if="item === avatar" type="default" size="mini">使用中…</el-button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-form-item :label-width="labelWidth">
-        <el-button :loading="submitLoading" :disabled="submitLoading" type="primary" @click="submitAction"> 使用选中的系统头像 </el-button>
-      </el-form-item>
     </el-form>
     <el-dialog v-if="cutterControl" title="上传头像" width="815px" :visible.sync="cutterControl">
       <ImgCutter @onCutSuccess="onCutSuccess" />
@@ -32,6 +42,7 @@ import { fields } from '../modules/fields'
 import DetailMixin from '@/components/Mixins/DetailMixin'
 import ImgCutter from '@/components/imgCutter'
 import { mapGetters } from 'vuex'
+import { aoDeleteValue } from 'methods-often/import'
 import { userApi } from '@/api/user'
 export default {
   name: 'PersonalAvatar',
@@ -59,7 +70,6 @@ export default {
     onCutSuccess(res) {
       userApi.avatarUpload({ id: this.aid, avatar: res.dataURL }).then(({ code, data, msg }) => {
         if (code === 200) {
-          this.historyList.push(data)
           this.$store.commit('user/SET_AVATAR', data)
           this.$message.success(msg)
         } else {
@@ -77,63 +87,100 @@ export default {
       })
     },
     // 使用头像
-    onUseAvatar(avatar) {
-      this.postForm.avatar = avatar
-      this.submitAction()
+    useTheAvatar(avatar) {
+      userApi.avatarUse({ id: this.aid, avatar }).then(({ msg, code }) => {
+        if (code === 200) {
+          this.$store.commit('user/SET_AVATAR', avatar)
+          this.$message.success(msg)
+        } else {
+          this.$message.error(msg)
+        }
+      })
     },
-    // 提交
-    submitAction() {
-      if (!this.submitLoading) {
-        this.submitLoading = true
-        this.$refs.postForm.validate((valid, fields) => {
-          if (valid) {
-            if (!this.postForm.avatar) {
-              this.$message.error('请选择一个头像')
-              this.submitLoading = false
-            } else if (this.postForm.avatar === this.avatar) {
-              this.$message.error('已经在使用此头像了，无须更换')
-              this.submitLoading = false
+    // 删除头像
+    removeAvatar(avatar) {
+      this.$confirm('删除后将无法恢复，确定继续删除吗？', '温馨提示', {
+        type: 'warning'
+      })
+        .then(() => {
+          userApi.avatarRemove({ id: this.aid, avatar }).then(({ msg, code }) => {
+            if (code === 200) {
+              const newAry = aoDeleteValue(this.avatarList, avatar)
+              this.avatarList = [...newAry]
+              this.$message.success(msg)
             } else {
-              this.postForm.id = this.aid
-              userApi.avatar(this.postForm).then(({ code, msg }) => {
-                if (code === 200) {
-                  this.$message.success(msg)
-                  this.$store.commit('user/SET_AVATAR', this.postForm.avatar)
-                } else {
-                  this.$message.error(msg)
-                }
-                this.submitLoading = false
-              })
+              this.$message.error(msg)
             }
-          } else {
-            this.validateErrHandle(fields)
-          }
+          })
         })
-      }
+        .catch(() => {
+          this.$message.info('取消删除')
+        })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.btn {
+  border: 1px solid #eee;
+  height: 20px;
+}
 .avatar_wrap {
   width: 100%;
   overflow: hidden;
   .avatar-item {
     float: left;
-    .avatar-main {
-      width: 100px;
-      height: 140px;
-      cursor: pointer;
-      margin-right: 10px;
-      margin-bottom: 10px;
-      padding: 9px 9px 49px 9px;
-      border: 1px solid #eee;
-      border-radius: 5px;
-      &:hover {
-        padding: 9px 9px 49px 9px;
-        border: 1px solid #ccc;
+    position: relative;
+    &:hover {
+      .avatar-work {
+        display: block;
       }
+    }
+    .avatar-work {
+      display: none;
+      position: absolute;
+      z-index: 1;
+      width: 120px;
+      height: 120px;
+      left: 0;
+      top: 0;
+      .avatar-half {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 2;
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 50%;
+      }
+      .avatar-live {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 3;
+        .avatar-mode {
+          display: flex;
+          width: 100%;
+          height: 100%;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+    .avatar-main {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 20px;
+      margin-right: 10px;
+      border: 1px solid #eee;
+      background-color: #eee;
+      border-radius: 50%;
+      padding: 20px;
     }
   }
 }

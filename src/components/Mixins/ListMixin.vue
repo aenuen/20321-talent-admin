@@ -28,7 +28,7 @@ export default {
     this.parseQuery()
   },
   methods: {
-    parseQuery: function() {
+    parseQuery() {
       const query = Object.assign({}, this.$route.query)
       const sort = query && query.sort ? query.sort : this.defaultTableSort
       const pageSet = {
@@ -42,8 +42,7 @@ export default {
     setData() {
       return {}
     },
-    startAction() {
-    },
+    startAction() {},
     handleFilter() {
       this.queryList.page = 1
       this.refresh()
@@ -73,11 +72,15 @@ export default {
       if (this.multipleSelection === []) {
         this.$message.info('请选择需要批量删除的内容')
       } else {
-        this.$confirm('删除后将无法恢复，确定继续批量删除吗？').then(() => {
-          this.startBatchDelete()
-        }).catch(() => {
-          this.$message.info('取消批量删除')
+        this.$confirm('删除后将无法恢复，确定继续批量删除吗？', '温馨提示', {
+          type: 'warning'
         })
+          .then(() => {
+            this.startBatchDelete()
+          })
+          .catch(() => {
+            this.$message.info('取消批量删除')
+          })
       }
     },
     startBatchDelete() {}

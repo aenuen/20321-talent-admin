@@ -3,7 +3,8 @@
  * @type {{}}
  */
 export const rolesAry = [
-  { value: 'admin', label: '管理员' },
+  { value: 'admin', label: '超级管理员' },
+  { value: 'manager', label: '管理员' },
   { value: 'editor', label: '编辑人员' },
   { value: 'lawyer', label: '律师' },
   { value: 'user', label: '普通用户' }
