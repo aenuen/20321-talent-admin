@@ -2,12 +2,15 @@
   <div>
     <img-cutter
       ref="imgCutterModal"
-      label="剪切本地图片"
+      label="选择图片"
       file-type="jpeg"
-      :cross-origin="true"
+      watermark-text="图片剪切"
+      watermark-text-font="12px Sans-serif"
+      watermark-text-color="#00ff00"
       cross-origin-header="*"
       rate=""
       tool-bgc="none"
+      :cross-origin="true"
       :is-modal="false"
       :show-choose-btn="true"
       :lock-scroll="true"
@@ -19,9 +22,6 @@
       :move-able="true"
       :img-move="true"
       :original-graph="false"
-      watermark-text="图片剪切"
-      watermark-text-font="12px Sans-serif"
-      watermark-text-color="#00ff00"
       :watermark-text-x="0.95"
       :watermark-text-y="0.95"
       :small-to-upload="true"
@@ -49,10 +49,11 @@ export default {
 </script>
 
 <style lang="scss">
-.dialogMain{
+.dialogMain {
   .copyright {
-    a {display: none}
+    a {
+      display: none;
+    }
   }
 }
-
 </style>

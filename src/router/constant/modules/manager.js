@@ -1,5 +1,5 @@
 import Layout from '@/components/Layout'
-// 简况
+
 const managerRouter = {
   path: '/manager', name: 'manager', component: Layout, redirect: '/manager/list',
   meta: {
