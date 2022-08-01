@@ -1,7 +1,10 @@
 <script>
+import AloneMixin from './AloneMixin'
+import BatchMixin from './BatchMixin'
 import { validateErrMsg } from 'methods-often/import'
 
 export default {
+  mixins: [AloneMixin, BatchMixin],
   data() {
     return {
       postForm: {},
@@ -31,7 +34,7 @@ export default {
     validateErrHandle(fields) {
       const msg = validateErrMsg(fields)
       this.$message.error(msg)
-      this.submitLoading = false
+      this.submitLoadingClose()
     }
   }
 }

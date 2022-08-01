@@ -1,13 +1,11 @@
 <template>
-  <div>create</div>
+  <Detail></Detail>
 </template>
 
 <script>
+import Detail from './components/detail'
 export default {
-  components: {},
-  data() {
-    return {}
-  }
+  components: { Detail }
 }
 </script>
 

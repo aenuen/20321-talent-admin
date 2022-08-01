@@ -60,7 +60,7 @@ export default {
   methods: {
     submitAction() {
       if (!this.submitLoading) {
-        this.submitLoading = true
+        this.submitLoadingOpen()
         this.$refs.postForm.validate((valid, fields) => {
           if (valid) {
             userApi

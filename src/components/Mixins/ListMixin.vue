@@ -1,5 +1,8 @@
 <script>
+import AloneMixin from './AloneMixin'
+import BatchMixin from './BatchMixin'
 export default {
+  mixins: [AloneMixin, BatchMixin],
   data() {
     return {
       queryList: {},
@@ -8,9 +11,7 @@ export default {
       tableSort: {},
       defaultTableSort: '+id',
       tableEnable: [],
-      tableLoading: true,
-      multipleSelection: [],
-      batchUpdateControl: false
+      tableLoading: true
     }
   },
   mounted() {
@@ -57,33 +58,7 @@ export default {
     onSortChange({ prop, order }) {
       this.queryList.sort = (order === 'descending' ? `-` : `+`) + `${prop}`
       this.handleFilter()
-    },
-    selectionChange(val) {
-      this.multipleSelection = val
-    },
-    batchUpdate() {
-      if (this.multipleSelection === []) {
-        this.$message.info('请选择需要批量编辑的内容')
-      } else {
-        this.batchUpdateControl = true
-      }
-    },
-    batchDelete() {
-      if (this.multipleSelection === []) {
-        this.$message.info('请选择需要批量删除的内容')
-      } else {
-        this.$confirm('删除后将无法恢复，确定继续批量删除吗？', '温馨提示', {
-          type: 'warning'
-        })
-          .then(() => {
-            this.startBatchDelete()
-          })
-          .catch(() => {
-            this.$message.info('取消批量删除')
-          })
-      }
-    },
-    startBatchDelete() {}
+    }
   }
 }
 </script>

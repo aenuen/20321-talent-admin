@@ -36,6 +36,8 @@
           <el-dropdown-item @click.native="exportData('csv')"> 导出CSV </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+      <el-button type="primary" class="filter-btn el-icon-printer" @click="printTable('userListTable', '用户列表')"> 打印 </el-button>
+      <el-button type="primary" class="filter-btn el-icon-delete" @click="batchRemoveConfirm"> 批量删除 </el-button>
     </div>
     <ListTable
       id="userListTable"
@@ -48,6 +50,7 @@
       @onIsUseChange="onIsUseChange"
       @onIsAdminChange="onIsAdminChange"
       @onRemoveUser="onRemoveUser"
+      @selectionChange="selectionChange"
     />
     <div style="text-align: center">
       <Pagination :hidden="tableDataLength <= 0" :total="tableDataLength" :page.sync="queryList.page" :limit.sync="queryList.pageSize" @pagination="refresh" />
@@ -64,6 +67,7 @@ import ListMixin from '@/components/Mixins/ListMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
 import ListTable from './components/ListTable'
 import Export from './mixins/Export'
+import { printTable } from '@/libs/print'
 import Pagination from '@/components/Pagination'
 
 export default {
@@ -77,6 +81,7 @@ export default {
       rolesObject,
       defineIsUseAry,
       defineBooleanAry,
+      printTable,
       tableIsAdmin: [],
       tableIsUse: [],
       pickerOptions: {
@@ -113,9 +118,14 @@ export default {
       })
     },
     onRemoveUser(id) {
-      userApi.remove({ id }).then(({ code, msg }) => {
+      this.removeId = id
+      this.aloneRemoveConfirm()
+    },
+    aloneRemove() {
+      userApi.remove({ id: this.removeId }).then(({ code, msg }) => {
         if (code === 200) {
           this.$message.success(msg)
+          this.removeId = 0
           this.refreshStrong()
         } else {
           this.$message.error(msg)
@@ -147,5 +157,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped></style>

@@ -56,7 +56,7 @@ export default {
   methods: {
     submitPassword() {
       if (!this.submitLoading) {
-        this.submitLoading = true
+        this.submitLoadingOpen()
         this.$refs.postForm.validate((valid, fields) => {
           if (valid) {
             if (this.postForm.passwordOld === this.postForm.passwordNew) {

@@ -1,5 +1,17 @@
 <template>
-  <el-table :key="1" :loading="tableLoading" :data="tableData" border fit highlight-current-row style="width: 100%" :default-sort="tableSort" @sort-change="onSortChange">
+  <el-table
+    :key="1"
+    :loading="tableLoading"
+    :data="tableData"
+    border
+    fit
+    highlight-current-row
+    style="width: 100%"
+    :default-sort="tableSort"
+    @sort-change="onSortChange"
+    @selection-change="onSelectionChange"
+  >
+    <el-table-column type="selection" width="50" align="center" />
     <el-table-column :label="fields.id" prop="id" align="center" width="80" sortable="custom" />
     <el-table-column :label="fields.work" align="center" width="120" fixed="left">
       <template slot-scope="{ row: { id } }">
@@ -94,9 +106,10 @@ export default {
     },
     onRemoveUser(id) {
       this.$emit('onRemoveUser', id)
+    },
+    onSelectionChange(val) {
+      this.$emit('selectionChange', val)
     }
   }
 }
 </script>
-
-<style lang="scss" scoped></style>
