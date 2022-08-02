@@ -37,7 +37,7 @@
         </el-dropdown-menu>
       </el-dropdown>
       <el-button type="primary" class="filter-btn el-icon-printer" @click="printTable('userListTable', '用户列表')"> 打印 </el-button>
-      <el-button type="primary" class="filter-btn el-icon-delete" @click="batchRemoveConfirm"> 批量删除 </el-button>
+      <el-button type="primary" class="filter-btn el-icon-delete" style="width: auto" @click="batchRemoveConfirm"> 批量删除 </el-button>
     </div>
     <ListTable
       id="userListTable"
@@ -126,6 +126,17 @@ export default {
         if (code === 200) {
           this.$message.success(msg)
           this.removeId = 0
+          this.refreshStrong()
+        } else {
+          this.$message.error(msg)
+        }
+      })
+    },
+    batchRemove() {
+      userApi.batchRemove({ ids: this.multipleSelection }).then(({ msg, code }) => {
+        if (code === 200) {
+          this.$message.success(msg)
+          this.multipleSelection = []
           this.refreshStrong()
         } else {
           this.$message.error(msg)
