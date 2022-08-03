@@ -38,6 +38,7 @@
       </el-dropdown>
       <el-button type="primary" class="filter-btn el-icon-printer" @click="printTable('userListTable', '用户列表')"> 打印 </el-button>
       <el-button type="primary" class="filter-btn el-icon-delete" style="width: auto" @click="batchRemoveConfirm"> 批量删除 </el-button>
+      <el-button type="primary" class="filter-btn el-icon-edit" style="width: auto" @click="batchUpdate"> 批量编辑 </el-button>
     </div>
     <ListTable
       id="userListTable"
@@ -55,6 +56,7 @@
     <div style="text-align: center">
       <Pagination :hidden="tableDataLength <= 0" :total="tableDataLength" :page.sync="queryList.page" :limit.sync="queryList.pageSize" @pagination="refresh" />
     </div>
+    <Dialog :control="batchUpdateShow" title="批量编辑" @controlChange="batchUpdateControl"> 1 </Dialog>
   </div>
 </template>
 
@@ -66,18 +68,18 @@ import { userApi } from '@/api/user'
 import ListMixin from '@/components/Mixins/ListMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
 import ListTable from './components/ListTable'
+import Dialog from '@/components/Dialog'
 import Export from './mixins/Export'
 import { printTable } from '@/libs/print'
 import Pagination from '@/components/Pagination'
 
 export default {
   name: 'ManagerList',
-  components: { ListTable, Pagination },
+  components: { Dialog, ListTable, Pagination },
   mixins: [ListMixin, MethodsMixin, Export],
   data() {
     return {
       fields,
-      rolesAry,
       rolesObject,
       defineIsUseAry,
       defineBooleanAry,
@@ -87,6 +89,17 @@ export default {
       pickerOptions: {
         shortcuts: shortcutScope()
       }
+    }
+  },
+  computed: {
+    rolesAry() {
+      const newAry = []
+      for (let index = 0; index < rolesAry.length; index++) {
+        if (index !== 0 && index !== 1) {
+          newAry.push(rolesAry[index])
+        }
+      }
+      return newAry
     }
   },
   methods: {

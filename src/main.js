@@ -11,6 +11,8 @@ import './libs/svgIcon' // 图标
 import './each' // token判断
 import './libs/utils/errorLog'
 import * as filters from './libs/filter'
+import splitPane from 'vue-splitpane'
+Vue.component('split-pane', splitPane)
 
 // 打包时注入mock数据
 // if (process.env.NODE_ENV === 'production') {

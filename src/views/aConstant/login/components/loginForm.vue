@@ -1,14 +1,7 @@
 <!--suppress JSUnresolvedFunction, CssUnknownProperty -->
 <template>
   <div>
-    <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
-      class="login-form"
-      autocomplete="off"
-      label-position="left"
-    >
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="off" label-position="left">
       <div class="title-container">
         <h3 class="title">管理员登录</h3>
       </div>
@@ -16,23 +9,9 @@
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="用户名"
-          name="username"
-          type="text"
-          tabindex="1"
-          autocomplete="off"
-          @keyup.enter.native="login"
-        />
+        <el-input ref="username" v-model="loginForm.username" placeholder="用户名" name="username" type="text" tabindex="1" autocomplete="off" @keyup.enter.native="login" />
       </el-form-item>
-      <el-tooltip
-        v-model="capsTooltip"
-        content="您输入的是大写"
-        placement="right"
-        manual
-      >
+      <el-tooltip v-model="capsTooltip" content="您输入的是大写" placement="right" manual>
         <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -51,20 +30,11 @@
             @keyup.enter.native="login"
           />
           <span class="show-pwd" @click="showPwd">
-            <svg-icon
-              :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
-            />
+            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
       </el-tooltip>
-      <el-button
-        :loading="loading"
-        type="primary"
-        style="width: 100%; margin-bottom: 30px"
-        @click.native.prevent="login"
-      >
-        登录
-      </el-button>
+      <el-button :loading="loading" type="primary" style="width: 100%; margin-bottom: 30px" @click.native.prevent="login"> 登录 </el-button>
     </el-form>
   </div>
 </template>
@@ -84,8 +54,7 @@ export default {
         username: [{ validator: pmValidate.validateUsername }],
         password: [
           {
-            validator: (rule, value, callback) =>
-              pmValidate.validateRequire(rule, value, callback, '密码', 6, 20)
+            validator: (rule, value, callback) => pmValidate.validateRequire(rule, value, callback, '密码', 6, 20)
           }
         ]
       },
@@ -122,10 +91,15 @@ export default {
             username: CryptoJsEncode(this.loginForm.username),
             password: CryptoJsEncode(this.loginForm.password)
           }
-          this.$store.dispatch('user/login', newLoginForm).then(() => {
-            this.$emit('loginSubmit')
-            this.loading = false
-          })
+          this.$store
+            .dispatch('user/login', newLoginForm)
+            .then(() => {
+              this.$emit('loginSubmit')
+              this.loading = false
+            })
+            .catch(() => {
+              this.loading = false
+            })
         } else {
           return false
         }

@@ -67,15 +67,22 @@
 </template>
 
 <script>
-import DetailMixin from '@/components/Mixins/DetailMixin'
-import MethodsMixin from '@/components/Mixins/MethodsMixin'
+// api
+import { userApi } from '@/api/user'
+// data
 import { fields } from '../modules/fields'
 import { rolesAry } from '../modules/roles'
 import { DetailRule as rulesForm, DetailPasswordRule as rulesPassword } from '../modules/rules'
-import { CryptoJsEncode } from '@/libs/cryptojs'
 import { createDefaultData } from '../modules/default'
+// function
+import { CryptoJsEncode } from '@/libs/cryptojs'
+// mixin
+import DetailMixin from '@/components/Mixins/DetailMixin'
+import MethodsMixin from '@/components/Mixins/MethodsMixin'
+// plugins
+import { mapGetters } from 'vuex'
+// settings
 import { isDevMode } from '@/settings'
-import { userApi } from '@/api/user'
 
 export default {
   name: 'PersonalDetail',
@@ -86,7 +93,6 @@ export default {
   data() {
     return {
       fields,
-      rolesAry,
       rulesForm,
       rulesPassword,
       postForm: {
@@ -95,6 +101,25 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['roles']),
+    rolesAry() {
+      console.log(this.roles)
+      const newAry = []
+      for (let index = 0; index < rolesAry.length; index++) {
+        let condition
+        if (this.roles.includes('admin')) {
+          condition = index !== 0
+        } else if (this.roles.includes('manager')) {
+          condition = index !== 0 && index !== 1
+        } else {
+          return []
+        }
+        if (condition) {
+          newAry.push(rolesAry[index])
+        }
+      }
+      return newAry
+    },
     submitText() {
       return this.isEdit ? '编辑用户' : '创建用户'
     }
@@ -116,6 +141,7 @@ export default {
     }
   },
   methods: {
+    // 获取数据
     getData() {
       userApi
         .detail({ id: this.updateId })
