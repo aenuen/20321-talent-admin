@@ -8,6 +8,7 @@
     "serve": "vue-cli-service serve",
     "pro": "vue-cli-service build",
     "build": "vue-cli-service build",
+    "new": "plop",
     "lint": "eslint --ext .js,.vue src",
     "rm:dist": "rimraf dist",
     "rm:node": "rimraf node_modules"
@@ -23,7 +24,7 @@
     "fuse.js": "6.5.3",
     "js-cookie": "3.0.1",
     "jszip": "3.7.1",
-    "methods-often": "1.1.31",
+    "methods-often": "1.1.38",
     "normalize.css": "8.0.1",
     "nprogress": "0.2.0",
     "path-to-regexp": "6.2.0",

@@ -12,5 +12,6 @@ export const fields = {
   roles: '角色',
   introduction: '个性签名',
   isAdmin: '后台用户',
-  created: '创建日期'
+  created: '创建日期',
+  createDate: '创建日期'
 }

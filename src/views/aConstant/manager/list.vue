@@ -16,7 +16,7 @@
         <el-option v-for="(item, index) in rolesAry" :key="index" :value="item['value']" :label="item['label']" />
       </el-select>
       <el-date-picker
-        v-model="queryList.created"
+        v-model="queryList.createDate"
         type="daterange"
         class="filter-ele"
         style="width: 370px"

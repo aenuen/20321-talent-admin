@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { pmFormat } from 'plugins-methods'
+import { formatExternal } from 'methods-often/import'
 
 export default {
   name: 'ComponentsSvgIcon',
@@ -15,7 +15,7 @@ export default {
   },
   computed: {
     isExternal() {
-      return pmFormat.formatExternal(this.iconClass)
+      return formatExternal(this.iconClass)
     },
     iconName() {
       return `#icon-${this.iconClass}`
@@ -48,7 +48,7 @@ export default {
 
 .svg-external-icon {
   background-color: currentColor;
-  mask-size: cover!important;
+  mask-size: cover !important;
   display: inline-block;
 }
 </style>

@@ -67,7 +67,7 @@
       </template>
     </el-table-column>
     <el-table-column :label="fields.created" align="center">
-      <template slot-scope="{ row: { created } }">{{ created | filterDateHI }}</template>
+      <template slot-scope="{ row: { created } }">{{ created | Y_M_D_H_I_Filter }}</template>
     </el-table-column>
   </el-table>
 </template>
@@ -75,11 +75,11 @@
 <script>
 import { fields } from '../modules/fields'
 import noneImage from '@/assets/image/noneImage.png'
-import { filterDateHI } from 'plugins-methods'
+import { Y_M_D_H_I_Filter } from '@/libs/filter'
 export default {
   name: 'ListTable',
   filters: {
-    filterDateHI
+    Y_M_D_H_I_Filter
   },
   props: {
     tableLoading: Boolean,

@@ -1,14 +1,13 @@
 <template>
-  <div>update</div>
+  <Detail></Detail>
 </template>
 
 <script>
+import Detail from './components/Detail'
 export default {
-  components: {},
+  components: { Detail },
   data() {
     return {}
   }
 }
 </script>
-
-<style></style>

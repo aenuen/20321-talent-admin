@@ -3,44 +3,22 @@
   <div v-if="!item.hidden">
     <template v-if="judge(item)">
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
-        <el-menu-item
-          :index="resolvePath(onlyOneChild.path)"
-          :class="{ 'submenu-title-noDropdown': !isNest }"
-        >
-          <item
-            :icon="onlyOneChild.meta.icon || (item.meta && item.meta.icon)"
-            :title="onlyOneChild.meta.title"
-          />
+        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{ 'submenu-title-noDropdown': !isNest }">
+          <item :icon="onlyOneChild.meta.icon || (item.meta && item.meta.icon)" :title="onlyOneChild.meta.title" />
         </el-menu-item>
       </app-link>
     </template>
-    <el-submenu
-      v-else
-      ref="subMenu"
-      :index="resolvePath(item.path)"
-      popper-append-to-body
-    >
+    <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
       <template slot="title">
-        <item
-          v-if="item.meta"
-          :icon="item.meta && item.meta.icon"
-          :title="item.meta.title"
-        />
+        <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
       </template>
-      <sidebar-item
-        v-for="child in item.children"
-        :key="child.path"
-        :is-nest="true"
-        :item="child"
-        :base-path="resolvePath(child.path)"
-        class="nest-menu"
-      />
+      <sidebar-item v-for="child in item.children" :key="child.path" :is-nest="true" :item="child" :base-path="resolvePath(child.path)" class="nest-menu" />
     </el-submenu>
   </div>
 </template>
 
 <script>
-import { pmFormat } from 'plugins-methods'
+import { formatExternal } from 'methods-often/import'
 import path from 'path'
 import Item from './Item'
 import AppLink from './Link'
@@ -51,18 +29,9 @@ export default {
   components: { Item, AppLink },
   mixins: [fixIOSBug],
   props: {
-    item: {
-      type: Object,
-      required: true
-    },
-    isNest: {
-      type: Boolean,
-      default: false
-    },
-    basePath: {
-      type: String,
-      default: ''
-    }
+    item: { type: Object, required: true },
+    isNest: { type: Boolean, default: false },
+    basePath: { type: String, default: '' }
   },
   data() {
     this.onlyOneChild = null
@@ -70,11 +39,7 @@ export default {
   },
   methods: {
     judge(item) {
-      return (
-        this.hasOneShowingChild(item.children, item) &&
-        (!this.onlyOneChild.children || this.onlyOneChild.noShowingChildren) &&
-        !item.alwaysShow
-      )
+      return this.hasOneShowingChild(item.children, item) && (!this.onlyOneChild.children || this.onlyOneChild.noShowingChildren) && !item.alwaysShow
     },
     hasOneShowingChild(children = [], parent) {
       const showingChildren = children.filter((item) => {
@@ -93,8 +58,8 @@ export default {
       return false
     },
     resolvePath(routePath) {
-      if (pmFormat.formatExternal(routePath)) return routePath
-      if (pmFormat.formatExternal(this.basePath)) return this.basePath
+      if (formatExternal(routePath)) return routePath
+      if (formatExternal(this.basePath)) return this.basePath
       return path.resolve(this.basePath, routePath)
     }
   }

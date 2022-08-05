@@ -6,7 +6,7 @@
         :multiple="true"
         :file-list="fileList"
         :show-file-list="true"
-        accept="application/vnd.ms-excel"
+        :accept="fileAccept"
         :on-remove="handleRemove"
         :on-success="handleSuccess"
         :before-upload="beforeUpload"
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { defineAcceptAry } from 'methods-often/import'
 export default {
   name: 'EditorSlideUpload',
   props: {
@@ -32,7 +33,8 @@ export default {
     return {
       dialogVisible: false,
       listObj: {},
-      fileList: []
+      fileList: [],
+      fileAccept: defineAcceptAry.image
     }
   },
   methods: {
@@ -42,7 +44,7 @@ export default {
     handleSubmit() {
       const arr = Object.keys(this.listObj).map((v) => this.listObj[v])
       if (!this.checkAllSuccess()) {
-        this.$message('Please wait for all images to be uploaded successfully. If there is a network problem, please refresh the page and upload again!')
+        this.$message('请等待所有图片上传成功。如果有网络问题，请刷新页面后重新上传!')
         return
       }
       this.$emit('successCBK', arr)

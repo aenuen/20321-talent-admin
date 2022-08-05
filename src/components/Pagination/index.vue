@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'hidden':hidden}" class="pagination-container">
+  <div :class="{ hidden: hidden }" class="pagination-container">
     <el-pagination
       :background="background"
       :current-page.sync="currentPage"
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { scrollTo } from 'plugins-methods'
+import { scrollTo } from 'methods-often/scroll/scrollTo'
 
 export default {
   name: 'ComponentsPagination',
