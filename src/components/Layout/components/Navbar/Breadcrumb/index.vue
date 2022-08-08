@@ -2,8 +2,8 @@
 <template>
   <el-breadcrumb class="app-breadcrumb" separator="/">
     <transition-group name="breadcrumb">
-      <el-breadcrumb-item v-for="(item,step) in levelList" :key="item.path">
-        <span v-if="item.redirect==='noRedirect'||step===levelList.length-1" class="no-redirect">{{ item.meta.title }}</span>
+      <el-breadcrumb-item v-for="(item, step) in levelList" :key="item.path">
+        <span v-if="item.redirect === 'noRedirect' || step === levelList.length - 1" class="no-redirect">{{ item.meta.title }}</span>
         <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a>
       </el-breadcrumb-item>
     </transition-group>
@@ -32,15 +32,17 @@ export default {
   },
   methods: {
     getBreadcrumb() {
-      let matched = this.$route.matched.filter(item => item.meta && item.meta.title)
+      let matched = this.$route.matched.filter((item) => item.meta && item.meta.title)
       const first = matched[0]
-      if (!this.isDashboard(first)) { // 不是首页则前面加入首页
+      if (!this.isDashboard(first)) {
+        // 不是首页则前面加入首页
         const meta = { title: this.homeCnText }
         matched = [{ path: '/', meta }].concat(matched)
       }
-      this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
+      this.levelList = matched.filter((item) => item.meta && item.meta.title && item.meta.breadcrumb !== false)
     },
-    isDashboard(route) { // 是否首页
+    isDashboard(route) {
+      // 是否首页
       const name = route && route.name
       if (!name) return false
       return name.trim().toLocaleLowerCase() === this.homeEnText.toLocaleLowerCase()
