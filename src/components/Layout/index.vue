@@ -3,9 +3,9 @@
     <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
     <sidebar id="sidebar" class="sidebar-container" />
     <div :class="{ hasTagsView: needTagsView }" class="main-container">
-      <div id="header" :class="{ 'fixed-header': fixedHeader }">
+      <div :class="{ 'fixed-header': fixedHeader }">
         <navbar />
-        <tags-view v-if="needTagsView" />
+        <tags-view v-if="needTagsView" id="tagsView" />
       </div>
       <app-main />
       <right-panel v-if="showSettings">
@@ -19,7 +19,8 @@
 import RightPanel from '@/components/RightPanel'
 import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
-// import { guide } from './utils/guide'
+import { guide } from './utils/guide'
+import Cookies from 'js-cookie'
 import { mapState } from 'vuex'
 
 export default {
@@ -51,8 +52,12 @@ export default {
     }
   },
   mounted() {
-    // this.$driver.defineSteps(guide)
-    // this.$driver.start()
+    const isDriverShowed = Cookies.get('isDriverShowed')
+    if (!isDriverShowed) {
+      this.$driver.defineSteps(guide)
+      this.$driver.start()
+      Cookies.set('isDriverShowed', true)
+    }
   },
   methods: {
     handleClickOutside() {
