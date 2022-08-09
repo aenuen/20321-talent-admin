@@ -13,5 +13,7 @@ export const fields = {
   introduction: '个性签名',
   isAdmin: '后台用户',
   created: '创建日期',
-  createDate: '创建日期'
+  createDate: '创建日期',
+  aheadDate: '开始日期',
+  afterDate: '结束日期'
 }

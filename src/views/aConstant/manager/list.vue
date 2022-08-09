@@ -15,18 +15,8 @@
       <el-select v-model="queryList.roles" :placeholder="fields.roles" class="filter-ele" clearable @clear="handleFilter" @change="handleFilter">
         <el-option v-for="(item, index) in rolesAry" :key="index" :value="item['value']" :label="item['label']" />
       </el-select>
-      <el-date-picker
-        v-model="queryList.createDate"
-        type="daterange"
-        class="filter-ele"
-        style="width: 370px"
-        value-format="yyyy-MM-dd"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        :picker-options="pickerOptions"
-        @change="handleFilter"
-      />
+      <el-date-picker v-model="queryList.aheadDate" :placeholder="fields.aheadDate" class="filter-ele" value-format="yyyy-MM-dd" type="date" @change="handleFilter" />
+      <el-date-picker v-model="queryList.afterDate" :placeholder="fields.afterDate" class="filter-ele" value-format="yyyy-MM-dd" type="date" @change="handleFilter" />
       <el-button type="primary" class="filter-btn el-icon-search" @click="handleFilter"> 搜索 </el-button>
       <el-button type="primary" class="filter-btn el-icon-plus" @click="routerGo('create')"> 创建 </el-button>
       <el-dropdown class="avatar-container hover-effect" trigger="click">

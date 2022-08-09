@@ -10,27 +10,6 @@
         @clear="handleFilter"
         @select="handleFilter"
       />
-      <el-date-picker
-        v-model="queryList.createDate"
-        type="daterange"
-        class="filter-ele"
-        style="width: 370px"
-        value-format="yyyy-MM-dd"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        :picker-options="pickerOptions"
-        @change="handleFilter"
-      />
-      <el-button type="primary" class="filter-btn el-icon-search" @click="handleFilter"> 搜索 </el-button>
-      <el-button type="primary" class="filter-btn el-icon-plus" @click="routerGo('create')"> 创建 </el-button>
-      <el-dropdown class="avatar-container hover-effect" trigger="click">
-        <el-button type="primary" class="filter-btn el-icon-document"> 导出 </el-button>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="exportData('xlsx')"> 导出EXCEL </el-dropdown-item>
-          <el-dropdown-item @click.native="exportData('csv')"> 导出CSV </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
     </div>
   </div>
 </template>
@@ -50,7 +29,6 @@ import { autoQuery } from 'methods-often/import'
 // settings
 export default {
   name: 'SalaryStat',
-  components: {},
   mixins: [ListMixin, MethodsMixin],
   data() {
     return {
