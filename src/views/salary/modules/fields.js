@@ -18,8 +18,11 @@ export const fields = {
   unUnemployment: '失业保险',
   unInjury: '工伤保险',
   unMedicalCare: '医疗保险',
+  unAccumulationFund: '公积金',
   unBirth: '生育保险',
   subtotal: '小计',
+  assessment: '考核',
+  subsidy: '补贴',
   aheadYearMonth: '开始年月',
   afterYearMonth: '结束年月'
 }

@@ -15,9 +15,9 @@ export default {
     }
   },
   created() {
-    const editId = +this.$route.params.id
-    if (this.isEdit && editId > 0) {
-      this.updateId = editId
+    const updateId = +this.$route.params.id
+    if (this.isEdit && updateId > 0) {
+      this.updateId = updateId
       this.getDetail()
     }
     this.startHandle()

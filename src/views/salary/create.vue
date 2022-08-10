@@ -1,9 +1,10 @@
 <template>
-  <div></div>
+  <Detail />
 </template>
 <script>
 // api
 // components
+import Detail from './components/detail'
 // data
 // filter
 // function
@@ -11,7 +12,8 @@
 // plugins
 // settings
 export default {
-  components: {},
+  name: 'SalaryDetail',
+  components: { Detail },
   data() {
     return {}
   }
