@@ -38,9 +38,9 @@ const salaryRouter = {
       }
     },
     {
-      path: 'stat', name: 'salaryStat', component: () => import('@/views/salary/stat'),
+      path: 'details', name: 'salaryDetails', component: () => import('@/views/salary/details'),
       meta: {
-        title: '员工统计',
+        title: '医社保明细',
         roles: ['admin']
       }
     }

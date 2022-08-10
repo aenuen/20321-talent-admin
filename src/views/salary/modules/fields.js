@@ -1,3 +1,25 @@
 export const fields = {
-  name: '姓名'
+  index: '序号',
+  yearMonth: '年月',
+  name: '姓名',
+  company: '公司',
+  department: '部门',
+  team: '项目组',
+  basePay: '基本工资',
+  meritPay: '绩效工资',
+  personal: '个人',
+  unit: '单位',
+  myPension: '养老保险',
+  myUnemployment: '失业保险',
+  myMedicalCare: '医疗保险',
+  myAccumulationFund: '公积金',
+  myIncomeTax: '所得税',
+  unPension: '养老保险',
+  unUnemployment: '失业保险',
+  unInjury: '工伤保险',
+  unMedicalCare: '医疗保险',
+  unBirth: '生育保险',
+  subtotal: '小计',
+  aheadYearMonth: '开始年月',
+  afterYearMonth: '结束年月'
 }
