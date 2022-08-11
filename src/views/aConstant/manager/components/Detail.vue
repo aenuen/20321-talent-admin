@@ -11,7 +11,7 @@
       <el-row>
         <el-col>
           <el-form-item prop="password" :label="fields.password" :label-width="labelWidth">
-            <el-input v-model="postForm.password" :placeholder="isEdit ? `${fields.password}，不填写则不修改密码` : fields.password" clearable show-password style="width: 500px" />
+            <el-input v-model="postForm.password" :placeholder="isUpdate ? `${fields.password}，不填写则不修改密码` : fields.password" clearable show-password style="width: 500px" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -60,7 +60,7 @@
         </el-col>
       </el-row>
       <el-form-item :label-width="labelWidth">
-        <el-button type="primary" :loading="submitLoading" :disabled="submitLoading" @click="submitAction">{{ submitText }}</el-button>
+        <el-button type="primary" :loading="submitLoading" :disabled="submitLoading" @click="submitFrom">{{ submitText }}</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -88,7 +88,7 @@ export default {
   name: 'PersonalDetail',
   mixins: [DetailMixin, MethodsMixin],
   props: {
-    isEdit: Boolean
+    isUpdate: Boolean
   },
   data() {
     return {
@@ -103,7 +103,6 @@ export default {
   computed: {
     ...mapGetters(['roles']),
     rolesAry() {
-      console.log(this.roles)
       const newAry = []
       for (let index = 0; index < rolesAry.length; index++) {
         let condition
@@ -131,9 +130,9 @@ export default {
     }
   },
   mounted() {
-    const id = this.$route.params.id
-    if (id) {
-      this.updateId = id
+    const updateId = +this.$route.params.id
+    if (updateId) {
+      this.updateId = updateId
       this.rulesForm.password = this.rulesPassword.updatePassword
       this.getData()
     } else {
@@ -163,7 +162,7 @@ export default {
       this.submitLoadingClose()
       this.$refs.postForm.resetFields()
     },
-    submitAction() {
+    submitFrom() {
       if (!this.submitLoading) {
         this.submitLoadingOpen()
         this.$refs.postForm.validate((valid, fields) => {
@@ -176,7 +175,7 @@ export default {
             } else {
               data = this.postForm
             }
-            if (this.isEdit) {
+            if (this.isUpdate) {
               userApi
                 .update(data)
                 .then(({ code, msg }) => {

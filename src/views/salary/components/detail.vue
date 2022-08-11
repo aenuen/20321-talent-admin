@@ -32,7 +32,7 @@
           <!-- 姓名 -->
           <el-col :span="8">
             <el-form-item prop="name" :label="fields.name" :label-width="labelWidth">
-              <el-input v-model="postForm.name" :placeholder="fields.name" clearable />
+              <el-input v-model="postForm.name" :placeholder="fields.name" maxlength="4" clearable />
             </el-form-item>
           </el-col>
           <!-- 养老保险个人 -->
@@ -131,7 +131,7 @@
         <el-row>
           <el-col>
             <el-form-item :label-width="labelWidth">
-              <el-button v-loading="submitLoading" type="primary" :disabled="submitLoading">
+              <el-button v-loading="submitLoading" type="primary" :disabled="submitLoading" @click="submitFrom">
                 {{ submitText }}
               </el-button>
             </el-form-item>
@@ -154,6 +154,7 @@ import { detailRulesForm } from '../modules/rules'
 import DetailMixin from '@/components/Mixins/DetailMixin'
 // plugins
 import { autoQuery } from 'methods-often/import'
+import { salaryApi } from '../../../api/salary'
 // settings
 export default {
   components: {},
@@ -191,6 +192,48 @@ export default {
     startHandle() {
       if (this.monthId > 0 && this.isUpdate === false) {
         console.log('🚀 ~ file: detail.vue ~ line 191 ~ startHandle ~ monthId', 'monthId')
+      }
+    },
+    submitFrom() {
+      if (!this.submitLoading) {
+        this.submitLoadingOpen()
+        this.$refs.postForm.validate((valid, fields) => {
+          if (valid) {
+            if (this.isUpdate) {
+              salaryApi
+                .update(this.postForm)
+                .then(({ code, msg }) => {
+                  if (code === 200) {
+                    this.commentHandle(msg)
+                    this.backClose()
+                  } else {
+                    this.$message.error(msg)
+                    this.submitLoadingClose()
+                  }
+                })
+                .catch(() => {
+                  this.submitLoadingClose()
+                })
+            } else {
+              salaryApi
+                .create(this.postForm)
+                .then(({ code, msg }) => {
+                  if (code === 200) {
+                    this.commentHandle(msg)
+                    this.routerClose('/salary/list')
+                  } else {
+                    this.$message.error(msg)
+                    this.submitLoadingClose()
+                  }
+                })
+                .catch(() => {
+                  this.submitLoadingClose()
+                })
+            }
+          } else {
+            this.validateErrHandle(fields)
+          }
+        })
       }
     }
   }

@@ -10,7 +10,7 @@ import pageTitle from '@/libs/utils/pageTitle'
 
 NProgress.configure({ showSpinner: false }) // 隐藏右侧旋转的小圆环
 const whiteList = ['/login', '/auth-redirect'] // 设置白名单
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   NProgress.start()
   document.title = pageTitle(to.meta.title) // 设置title
   const hasToken = getToken() // 从cookie中去拿token

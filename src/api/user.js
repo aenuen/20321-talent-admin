@@ -10,6 +10,7 @@ export const userApi = {
   avatarList: params => request({ url: '/user/avatarList?' + qs.stringify(params), method: 'get' }), // 头像列表
   // post
   login: data => request({ url: '/user/login', method: 'post', data }), // 登录
+  resetToken: () => request({ url: '/user/resetToken', method: 'post' }), // 重置token
   logout: () => request({ url: '/user/logout', method: 'post' }), // 登出
   baseData: data => request({ url: '/user/baseData', method: 'post', data }), // 基本资料
   email: data => request({ url: '/user/email', method: 'post', data }), // 修改电子邮件

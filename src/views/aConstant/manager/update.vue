@@ -1,5 +1,5 @@
 <template>
-  <detail is-edit />
+  <detail is-update />
 </template>
 
 <script>
@@ -11,5 +11,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
