@@ -15,6 +15,9 @@
 import PanelGroup from './components/PanelGroup'
 import BoxCard from './components/BoxCard'
 import Step from './components/WorkStep'
+import { guide } from './utils/guide'
+import Cookies from 'js-cookie'
+import { userApi } from '@/api/user'
 
 export default {
   name: 'ViewsHomeIndex',
@@ -22,6 +25,25 @@ export default {
     PanelGroup,
     BoxCard,
     Step
+  },
+  mounted() {
+    const isDriverShowed = Cookies.get('isDriverPassed')
+    if (!isDriverShowed) {
+      userApi.isFirst().then(({ code, data }) => {
+        if (code === 200) {
+          if (+data === 1) {
+            this.showDriver()
+          }
+        }
+      })
+    }
+  },
+  methods: {
+    showDriver() {
+      this.$driver.defineSteps(guide)
+      this.$driver.start()
+      Cookies.set('isDriverPassed', true)
+    }
   }
 }
 </script>

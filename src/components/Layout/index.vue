@@ -19,8 +19,6 @@
 import RightPanel from '@/components/RightPanel'
 import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
-import { guide } from './utils/guide'
-import Cookies from 'js-cookie'
 import { mapState } from 'vuex'
 
 export default {
@@ -49,14 +47,6 @@ export default {
         withoutAnimation: this.sidebar.withoutAnimation,
         mobile: this.device === 'mobile'
       }
-    }
-  },
-  mounted() {
-    const isDriverShowed = Cookies.get('isDriverShowed')
-    if (!isDriverShowed) {
-      this.$driver.defineSteps(guide)
-      this.$driver.start()
-      Cookies.set('isDriverShowed', true)
     }
   },
   methods: {

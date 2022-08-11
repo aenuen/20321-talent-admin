@@ -4,6 +4,7 @@ import qs from 'qs'
 export const userApi = {
   // get
   info: () => request({ url: '/user/info', method: 'get' }), // 用户信息
+  isFirst: () => request({ url: '/user/isFirst', method: 'get' }), // 用户是否第一次
   detail: params => request({ url: '/user/detail?' + qs.stringify(params), method: 'get' }), // 详情
   list: params => request({ url: '/user/list?' + qs.stringify(params), method: 'get' }), // 列表
   avatarList: params => request({ url: '/user/avatarList?' + qs.stringify(params), method: 'get' }), // 头像列表
