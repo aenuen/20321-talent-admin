@@ -62,9 +62,17 @@
 </template>
 
 <script>
+// api
+// components
+// data
 import { fields } from '../modules/fields'
 import noneImage from '@/assets/image/noneImage.png'
+// filter
 import { Y_M_D_H_I_Filter } from '@/libs/filter'
+// function
+// mixin
+// plugins
+// settings
 export default {
   name: 'ListTable',
   filters: {

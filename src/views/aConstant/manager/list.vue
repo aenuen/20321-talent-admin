@@ -22,8 +22,8 @@
       <el-dropdown class="avatar-container hover-effect" trigger="click">
         <el-button type="primary" class="filter-btn el-icon-document"> 导出 </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="exportData('xlsx')"> 导出EXCEL </el-dropdown-item>
-          <el-dropdown-item @click.native="exportData('csv')"> 导出CSV </el-dropdown-item>
+          <el-dropdown-item @click.native="exportData(tableData, eHeader, eFields, '用户')"> 导出EXCEL </el-dropdown-item>
+          <el-dropdown-item @click.native="exportData(tableData, eHeader, eFields, '用户', 'csv')"> 导出CSV </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-button type="primary" class="filter-btn el-icon-printer" @click="printTable('userListTable', '用户列表')"> 打印 </el-button>
@@ -41,22 +41,31 @@
 </template>
 
 <script>
+// api
+import { userApi } from '@/api/user'
+// components
+import Dialog from '@/components/Dialog'
+import ListTable from './components/ListTable'
+import Pagination from '@/components/Pagination'
+// data
 import { fields } from './modules/fields'
 import { rolesAry, rolesObject, rolesParse } from './modules/roles'
-import { shortcutScope, defineIsUseAry, defineBooleanAry, keyLight } from 'methods-often/import'
-import { userApi } from '@/api/user'
+import { eHeader, eFields } from './modules/eList'
+// filter
+// function
+// mixin
 import ListMixin from '@/components/Mixins/ListMixin'
-import MethodsMixin from '@/components/Mixins/MethodsMixin'
-import ListTable from './components/ListTable'
-import Dialog from '@/components/Dialog'
-import Export from './mixins/Export'
+import AloneMixin from '@/components/Mixins/AloneMixin'
+import BatchMixin from '@/components/Mixins/BatchMixin'
+// plugins
+import { shortcutScope, defineIsUseAry, defineBooleanAry, keyLight } from 'methods-often/import'
 import { printTable } from '@/libs/print'
-import Pagination from '@/components/Pagination'
-
+import { exportData } from '@/libs/export'
+// settings
 export default {
   name: 'ManagerList',
   components: { Dialog, ListTable, Pagination },
-  mixins: [ListMixin, MethodsMixin, Export],
+  mixins: [ListMixin, AloneMixin, BatchMixin],
   data() {
     return {
       fields,
@@ -64,6 +73,9 @@ export default {
       defineIsUseAry,
       defineBooleanAry,
       printTable,
+      exportData,
+      eHeader: eHeader(),
+      eFields,
       tableIsAdmin: [],
       tableIsUse: [],
       pickerOptions: {

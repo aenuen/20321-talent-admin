@@ -40,15 +40,22 @@
 </template>
 
 <script>
-import { rolesParse } from './modules/roles'
-import ListMixin from '@/components/Mixins/ListMixin'
+// api
+// components
 import Password from './components/Password'
 import BaseData from './components/BaseData'
 import Avatar from './components/Avatar'
 import Email from './components/Email'
 import Mobile from './components/Mobile'
+// data
+import { rolesParse } from './modules/roles'
+// filter
+// function
+// mixin
+import ListMixin from '@/components/Mixins/ListMixin'
+// plugins
 import { mapGetters } from 'vuex'
-
+// settings
 export default {
   name: 'ViewsPersonalIndex',
   components: { Password, BaseData, Avatar, Email, Mobile },

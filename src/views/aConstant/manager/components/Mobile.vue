@@ -23,11 +23,19 @@
 </template>
 
 <script>
+// api
+import { userApi } from '@/api/user'
+// components
+// data
 import { fields } from '../modules/fields'
 import { MobileRule as rulesForm } from '../modules/rules'
+// filter
+// function
+// mixin
 import DetailMixin from '@/components/Mixins/DetailMixin'
+// plugins
 import { mapGetters } from 'vuex'
-import { userApi } from '@/api/user'
+// settings
 export default {
   name: 'Mobile',
   mixins: [DetailMixin],

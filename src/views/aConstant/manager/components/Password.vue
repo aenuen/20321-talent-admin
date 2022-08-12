@@ -30,12 +30,20 @@
 </template>
 
 <script>
+// api
+import { userApi } from '@/api/user'
+// components
+// data
 import { fields } from '../modules/fields'
 import { PasswordRule as rulesForm } from '../modules/rules'
+// filter
+// function
+// mixin
 import DetailMixin from '@/components/Mixins/DetailMixin'
-import { CryptoJsEncode } from '@/libs/cryptojs'
+// plugins
 import { mapGetters } from 'vuex'
-import { userApi } from '@/api/user'
+import { CryptoJsEncode } from '@/libs/cryptojs'
+// settings
 export default {
   name: 'PersonalPassword',
   mixins: [DetailMixin],

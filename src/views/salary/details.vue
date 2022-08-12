@@ -40,7 +40,7 @@ import { fields } from './modules/fields'
 import { eHeader, eFields } from './modules/eList'
 // filter
 // function
-import { subtotal } from './utils/stat_subtotal'
+import { subtotal } from './utils/details'
 // mixin
 import ListMixin from '@/components/Mixins/ListMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
