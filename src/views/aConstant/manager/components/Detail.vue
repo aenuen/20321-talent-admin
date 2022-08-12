@@ -120,7 +120,7 @@ export default {
       return newAry
     },
     submitText() {
-      return this.isEdit ? '编辑用户' : '创建用户'
+      return this.isUpdate ? '编辑用户' : '创建用户'
     }
   },
   created() {
@@ -157,7 +157,7 @@ export default {
         })
     },
     // 创建、更新的统一处理
-    commentHandle(msg) {
+    submitHandle(msg) {
       this.$message.success(msg)
       this.submitLoadingClose()
       this.$refs.postForm.resetFields()
@@ -180,7 +180,7 @@ export default {
                 .update(data)
                 .then(({ code, msg }) => {
                   if (code === 200) {
-                    this.commentHandle(msg)
+                    this.submitHandle(msg)
                     this.backClose()
                   } else {
                     this.submitLoadingClose()
@@ -194,7 +194,7 @@ export default {
                 .create(data)
                 .then(({ code, msg }) => {
                   if (code === 200) {
-                    this.commentHandle(msg)
+                    this.submitHandle(msg)
                     this.routerClose('/manager/list')
                   } else {
                     this.submitLoading = false

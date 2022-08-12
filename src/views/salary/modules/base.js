@@ -1,15 +1,3 @@
-// 公司
-export const companyAry = [
-  { key: 1, value: '尚德' },
-  { key: 2, value: '露申' },
-  { key: 3, value: '兴晨' },
-  { key: 4, value: '律所' },
-  { key: 5, value: '鑫焱' },
-  { key: 6, value: '逸嘉' },
-  { key: 7, value: '居乐' },
-  { key: 8, value: '康鑫诚' },
-  { key: 9, value: '陆鲁' }
-]
 // 公积金
 export const accumulationFundAry = [
   { value: '0' },

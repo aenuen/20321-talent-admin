@@ -38,12 +38,21 @@
 </template>
 
 <script>
+// api
+import { userApi } from '@/api/user'
+// components
+// data
 import { fields } from '../modules/fields'
+// filter
+// function
+// mixin
 import DetailMixin from '@/components/Mixins/DetailMixin'
-import ImgCutter from '@/components/imgCutter'
+// plugins
 import { mapGetters } from 'vuex'
 import { aoDeleteValue } from 'methods-often/import'
-import { userApi } from '@/api/user'
+import ImgCutter from '@/components/imgCutter'
+// settings
+
 export default {
   name: 'PersonalAvatar',
   components: { ImgCutter },

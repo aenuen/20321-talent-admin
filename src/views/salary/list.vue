@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">1</div>
+    <div class="filter-container"></div>
   </div>
 </template>
 <script>

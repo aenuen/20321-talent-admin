@@ -1,8 +1,5 @@
 <script>
-import AloneMixin from './AloneMixin'
-import BatchMixin from './BatchMixin'
 export default {
-  mixins: [AloneMixin, BatchMixin],
   data() {
     return {
       queryList: {},

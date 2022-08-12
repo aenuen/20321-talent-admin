@@ -77,9 +77,12 @@ export default {
     getAllName() {
       salaryApi.name().then(({ code, data }) => {
         if (code === 200) {
-          const { nameAry, companyAry } = data
-          this.nameAry = [...nameAry]
-          this.companyAry = [...companyAry]
+          this.nameAry = [...data.nameAry]
+        }
+      })
+      salaryApi.company().then(({ code, data }) => {
+        if (code === 200) {
+          this.companyAry = [...data.companyAry]
         }
       })
     },

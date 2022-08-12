@@ -1,16 +1,5 @@
 <template>
-  <el-table
-    :key="1"
-    :loading="tableLoading"
-    :data="tableData"
-    border
-    fit
-    highlight-current-row
-    style="width: 100%"
-    :default-sort="tableSort"
-    @sort-change="onSortChange"
-    @selection-change="onSelectionChange"
-  >
+  <el-table :key="1" :loading="tableLoading" :data="tableData" border fit highlight-current-row style="width: 100%" :default-sort="tableSort" @sort-change="onSortChange" @selection-change="onSelectionChange">
     <el-table-column type="selection" width="50" align="center" />
     <el-table-column :label="fields.id" prop="id" align="center" width="80" sortable="custom" />
     <el-table-column :label="fields.work" align="center" width="120" fixed="left">
@@ -58,12 +47,12 @@
     </el-table-column>
     <el-table-column :label="fields.isAdmin" align="center">
       <template slot-scope="{ row: { id } }">
-        <el-switch v-model="tableIsAdmin[id]" active-color="#13ce66" inactive-color="#ff4949" @change="onIsAdminChange($event, id)" />
+        <el-switch v-model="isAdmin[id]" active-color="#13ce66" inactive-color="#ff4949" @change="onIsAdminChange($event, id)" />
       </template>
     </el-table-column>
     <el-table-column :label="fields.isUse" align="center">
       <template slot-scope="{ row: { id } }">
-        <el-switch v-model="tableIsUse[id]" active-color="#13ce66" inactive-color="#ff4949" @change="onIsUseChange($event, id)" />
+        <el-switch v-model="isUse[id]" active-color="#13ce66" inactive-color="#ff4949" @change="onIsUseChange($event, id)" />
       </template>
     </el-table-column>
     <el-table-column :label="fields.created" align="center">
@@ -85,8 +74,8 @@ export default {
     tableLoading: Boolean,
     tableSort: { type: Object, default: () => {} },
     tableData: { type: Array, default: () => [] },
-    tableIsAdmin: { type: Array, default: () => [] },
-    tableIsUse: { type: Array, default: () => [] }
+    isAdmin: { type: Array, default: () => [] },
+    isUse: { type: Array, default: () => [] }
   },
   data() {
     return {

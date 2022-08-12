@@ -4,7 +4,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/libs/utils/token'
-import { apiBaseUrl, successCode } from './settings'
+import { apiBaseUrl, successCode, tokenCode } from './settings'
 
 const service = axios.create({ // 创建一个axios实例
   baseURL: apiBaseUrl,
@@ -45,7 +45,7 @@ service.interceptors.response.use(response => {
 }, error => { // 状态非200才会到这里来
   const { code, msg } = error.response.data
   Message({ message: msg || '', type: 'error', duration: 5 * 1000 })
-  if (code === -2) {
+  if (code === tokenCode) {
     setTimeout(() => { location.reload() }, 1000)
   }
   return Promise.reject(error)

@@ -30,19 +30,9 @@
       <el-button type="primary" class="filter-btn el-icon-delete" style="width: auto" @click="batchRemoveConfirm"> 批量删除 </el-button>
       <el-button type="primary" class="filter-btn el-icon-edit" style="width: auto" @click="batchUpdate"> 批量编辑 </el-button>
     </div>
-    <ListTable
-      id="userListTable"
-      :table-data="tableData"
-      :table-loading="tableLoading"
-      :table-sort="tableSort"
-      :table-is-use="tableIsUse"
-      :table-is-admin="tableIsAdmin"
-      @onSortChange="onSortChange"
-      @onIsUseChange="onIsUseChange"
-      @onIsAdminChange="onIsAdminChange"
-      @onRemoveUser="onRemoveUser"
-      @selectionChange="selectionChange"
-    />
+    <div id="userListTable">
+      <ListTable :table-data="tableData" :table-loading="tableLoading" :table-sort="tableSort" :is-use="tableIsUse" :is-admin="tableIsAdmin" @selectionChange="selectionChange" @onSortChange="onSortChange" @onIsUseChange="onIsUseChange" @onIsAdminChange="onIsAdminChange" @onRemoveUser="onRemoveUser" />
+    </div>
     <div style="text-align: center">
       <Pagination :hidden="tableDataLength <= 0" :total="tableDataLength" :page.sync="queryList.page" :limit.sync="queryList.pageSize" @pagination="refresh" />
     </div>

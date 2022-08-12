@@ -146,19 +146,20 @@
 // components
 // data
 import { fields } from '../modules/fields'
-import { companyAry, accumulationFundAry, defaultPostForm } from '../modules/base'
+import { accumulationFundAry, defaultPostForm } from '../modules/base'
 import { detailRulesForm } from '../modules/rules'
 // filter
 // function
 // mixin
 import DetailMixin from '@/components/Mixins/DetailMixin'
+import MethodsMixin from '@/components/Mixins/MethodsMixin'
 // plugins
 import { autoQuery } from 'methods-often/import'
 import { salaryApi } from '../../../api/salary'
 // settings
 export default {
   components: {},
-  mixins: [DetailMixin],
+  mixins: [DetailMixin, MethodsMixin],
   props: {
     isUpdate: { type: Boolean, default: () => false },
     monthId: { type: Number, default: 0 }
@@ -166,7 +167,7 @@ export default {
   data() {
     return {
       fields,
-      companyAry,
+      companyAry: [],
       accumulationFundAry,
       defaultPostForm,
       autoQuery,
@@ -194,6 +195,12 @@ export default {
         console.log('🚀 ~ file: detail.vue ~ line 191 ~ startHandle ~ monthId', 'monthId')
       }
     },
+    // 创建、更新的统一处理
+    submitHandle(msg) {
+      this.$message.success(msg)
+      this.submitLoadingClose()
+      this.$refs.postForm.resetFields()
+    },
     submitFrom() {
       if (!this.submitLoading) {
         this.submitLoadingOpen()
@@ -204,7 +211,7 @@ export default {
                 .update(this.postForm)
                 .then(({ code, msg }) => {
                   if (code === 200) {
-                    this.commentHandle(msg)
+                    this.submitHandle(msg)
                     this.backClose()
                   } else {
                     this.$message.error(msg)
@@ -219,7 +226,7 @@ export default {
                 .create(this.postForm)
                 .then(({ code, msg }) => {
                   if (code === 200) {
-                    this.commentHandle(msg)
+                    this.submitHandle(msg)
                     this.routerClose('/salary/list')
                   } else {
                     this.$message.error(msg)
