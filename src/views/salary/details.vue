@@ -71,18 +71,14 @@ export default {
     }
   },
   mounted() {
-    this.getAllName()
+    this.getUsed()
   },
   methods: {
-    getAllName() {
-      salaryApi.name().then(({ code, data }) => {
+    getUsed() {
+      salaryApi.used({ name: 1, company: 1 }).then(({ code, data }) => {
         if (code === 200) {
-          this.nameAry = [...data.nameAry]
-        }
-      })
-      salaryApi.company().then(({ code, data }) => {
-        if (code === 200) {
-          this.companyAry = [...data.companyAry]
+          this.nameAry = [...data.name]
+          this.companyAry = [...data.company]
         }
       })
     },
