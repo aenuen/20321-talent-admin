@@ -1,18 +1,108 @@
 <template>
   <div class="app-container">
-    <div style="width: 100%; margin: auto">
+    <div style="width: 1000px; margin: auto">
       <el-form ref="postForm" :model="postForm" :rules="rulesForm">
         <el-row>
-          <el-col :span="8">
-            <!-- 公司 -->
+          <!-- 公司 -->
+          <el-col :span="6">
             <el-form-item prop="company" :label="fields.company" :label-width="labelWidth">
-              <el-select v-model="postForm.company" filterable class="filter-ele" :placeholder="fields.company" clearable style="width: 100%">
-                <el-option v-for="item in companyAry" :key="item.value" :label="item.value" :value="item.value" />
-              </el-select>
+              <el-autocomplete v-model="postForm.company" :fetch-suggestions="(q, c) => autoQuery(q, c, companyAry)" :placeholder="fields.company" clearable class="el-input" />
             </el-form-item>
           </el-col>
+          <!-- 姓名 -->
+          <el-col :span="6">
+            <el-form-item prop="name" :label="fields.name" :label-width="labelWidth">
+              <el-input v-model="postForm.name" :placeholder="fields.name" maxlength="4" clearable />
+            </el-form-item>
+          </el-col>
+          <!-- 部门 -->
+          <el-col :span="6">
+            <el-form-item prop="department" :label="fields.department" :label-width="labelWidth">
+              <el-autocomplete v-model="postForm.department" :fetch-suggestions="(q, c) => autoQuery(q, c, departmentAry)" :placeholder="fields.department" clearable class="el-input" />
+            </el-form-item>
+          </el-col>
+          <!--项目组-->
+          <el-col :span="6">
+            <el-form-item prop="team" :label="fields.team" :label-width="labelWidth">
+              <el-autocomplete v-model="postForm.team" :fetch-suggestions="(q, c) => autoQuery(q, c, teamAry)" :placeholder="fields.team" clearable class="el-input" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <!--基本工资-->
+          <el-col :span="6">
+            <el-form-item prop="basePay" :label="fields.basePay" :label-width="labelWidth">
+              <el-autocomplete v-model="postForm.basePay" :fetch-suggestions="(q, c) => autoQuery(q, c, basePayAry)" :placeholder="fields.basePay" clearable class="el-input" />
+            </el-form-item>
+          </el-col>
+          <!--绩效工资-->
+          <el-col :span="6">
+            <el-form-item prop="meritPay" :label="fields.meritPay" :label-width="labelWidth">
+              <el-autocomplete v-model="postForm.meritPay" :fetch-suggestions="(q, c) => autoQuery(q, c, meritPayAry)" :placeholder="fields.meritPay" clearable class="el-input" />
+            </el-form-item>
+          </el-col>
+          <!--合计工资-->
+          <el-col :span="6">
+            <el-form-item prop="totalPay" :label="fields.totalPay" :label-width="labelWidth">
+              <el-input v-model="totalPay" :placeholder="fields.totalPay" disabled />
+            </el-form-item>
+          </el-col>
+          <!--工伤保险单位-->
+          <el-col :span="6">
+            <el-form-item prop="unInjury" :label="`${fields.unInjury}${fields.unit}`" :label-width="labelWidth">
+              <el-autocomplete v-model="postForm.unInjury" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.unInjury}${fields.unit}`" clearable class="el-input" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <!-- 养老保险个人 -->
+          <el-col :span="6">
+            <el-form-item prop="myPension" :label="`${fields.myPension}${fields.personal}`" :label-width="labelWidth">
+              <el-autocomplete v-model="postForm.myPension" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.myPension}${fields.personal}`" clearable class="el-input" />
+            </el-form-item>
+          </el-col>
+          <!-- 养老保险单位 -->
+          <el-col :span="6">
+            <el-form-item prop="unPension" :label="`${fields.unPension}${fields.unit}`" :label-width="labelWidth">
+              <el-autocomplete v-model="postForm.unPension" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.unPension}${fields.unit}`" clearable class="el-input" />
+            </el-form-item>
+          </el-col>
+          <!-- 失业保险个人 -->
+          <el-col :span="6">
+            <el-form-item prop="myUnemployment" :label="`${fields.myUnemployment}${fields.personal}`" :label-width="labelWidth">
+              <el-autocomplete v-model="postForm.myUnemployment" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.myUnemployment}${fields.personal}`" clearable class="el-input" />
+            </el-form-item>
+          </el-col>
+          <!-- 失业保险单位 -->
+          <el-col :span="6">
+            <el-form-item prop="unUnemployment" :label="`${fields.unUnemployment}${fields.unit}`" :label-width="labelWidth">
+              <el-autocomplete v-model="postForm.unUnemployment" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.unUnemployment}${fields.unit}`" clearable class="el-input" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <!--医疗保险个人-->
+          <el-col :span="6">
+            <el-form-item prop="myMedicalCare" :label="`${fields.myMedicalCare}${fields.personal}`" :label-width="labelWidth">
+              <el-autocomplete v-model="postForm.myMedicalCare" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.myMedicalCare}${fields.personal}`" clearable class="el-input" />
+            </el-form-item>
+          </el-col>
+          <!--医疗保险单位-->
+          <el-col :span="6">
+            <el-form-item prop="unMedicalCare" :label="`${fields.unMedicalCare}${fields.unit}`" :label-width="labelWidth">
+              <el-autocomplete v-model="postForm.unMedicalCare" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.unMedicalCare}${fields.unit}`" clearable class="el-input" />
+            </el-form-item>
+          </el-col>
+          <!--生育保险单位-->
+          <el-col :span="6">
+            <el-form-item prop="unBirth" :label="`${fields.unBirth}${fields.unit}`" :label-width="labelWidth">
+              <el-autocomplete v-model="postForm.unBirth" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.unBirth}${fields.unit}`" clearable class="el-input" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
           <!-- 公积金个人 -->
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item>
               <el-form-item prop="myAccumulationFund" :label="`${fields.myAccumulationFund}${fields.personal}`" :label-width="labelWidth">
                 <el-autocomplete v-model="postForm.myAccumulationFund" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.myAccumulationFund}${fields.personal}`" clearable class="el-input" />
@@ -20,111 +110,23 @@
             </el-form-item>
           </el-col>
           <!-- 公积金单位 -->
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item>
               <el-form-item prop="unAccumulationFund" :label="`${fields.unAccumulationFund}${fields.unit}`" :label-width="labelWidth">
                 <el-autocomplete v-model="postForm.unAccumulationFund" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.unAccumulationFund}${fields.unit}`" clearable class="el-input" />
               </el-form-item>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
-          <!-- 姓名 -->
-          <el-col :span="8">
-            <el-form-item prop="name" :label="fields.name" :label-width="labelWidth">
-              <el-input v-model="postForm.name" :placeholder="fields.name" maxlength="4" clearable />
-            </el-form-item>
-          </el-col>
-          <!-- 养老保险个人 -->
-          <el-col :span="8">
-            <el-form-item prop="myPension" :label="`${fields.myPension}${fields.personal}`" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.myPension" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.myPension}${fields.personal}`" clearable class="el-input" />
-            </el-form-item>
-          </el-col>
-          <!-- 养老保险单位 -->
-          <el-col :span="8">
-            <el-form-item prop="unPension" :label="`${fields.unPension}${fields.unit}`" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.unPension" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.unPension}${fields.unit}`" clearable class="el-input" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <!-- 部门 -->
-          <el-col :span="8">
-            <el-form-item prop="department" :label="fields.department" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.department" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="fields.department" clearable class="el-input" />
-            </el-form-item>
-          </el-col>
-          <!-- 失业保险个人 -->
-          <el-col :span="8">
-            <el-form-item prop="myUnemployment" :label="`${fields.myUnemployment}${fields.personal}`" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.myUnemployment" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.myUnemployment}${fields.personal}`" clearable class="el-input" />
-            </el-form-item>
-          </el-col>
-          <!-- 失业保险单位 -->
-          <el-col :span="8">
-            <el-form-item prop="unUnemployment" :label="`${fields.unUnemployment}${fields.unit}`" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.unUnemployment" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.unUnemployment}${fields.unit}`" clearable class="el-input" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <!--项目组-->
-          <el-col :span="8">
-            <el-form-item prop="team" :label="fields.team" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.team" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="fields.team" clearable class="el-input" />
-            </el-form-item>
-          </el-col>
-          <!--医疗保险个人-->
-          <el-col :span="8">
-            <el-form-item prop="myMedicalCare" :label="`${fields.myMedicalCare}${fields.personal}`" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.myMedicalCare" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.myMedicalCare}${fields.personal}`" clearable class="el-input" />
-            </el-form-item>
-          </el-col>
-          <!--医疗保险单位-->
-          <el-col :span="8">
-            <el-form-item prop="unMedicalCare" :label="`${fields.unMedicalCare}${fields.unit}`" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.unMedicalCare" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.unMedicalCare}${fields.unit}`" clearable class="el-input" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <!--基本工资-->
-          <el-col :span="8">
-            <el-form-item prop="basePay" :label="fields.basePay" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.basePay" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="fields.basePay" clearable class="el-input" />
-            </el-form-item>
-          </el-col>
-          <!--考核-->
-          <el-col :span="8">
+          <!--天数-->
+          <el-col :span="6">
             <el-form-item prop="assessment" :label="fields.assessment" :label-width="labelWidth">
-              <el-input v-model="postForm.assessment" :placeholder="fields.assessment" :disabled="true" class="el-input" />
+              <el-input v-model="postForm.assessment" :placeholder="fields.assessment" class="el-input" />
             </el-form-item>
           </el-col>
-          <!--生育保险单位-->
-          <el-col :span="8">
-            <el-form-item prop="unBirth" :label="`${fields.unBirth}${fields.unit}`" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.unBirth" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.unBirth}${fields.unit}`" clearable class="el-input" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <!--绩效工资-->
-          <el-col :span="8">
-            <el-form-item prop="meritPay" :label="fields.meritPay" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.meritPay" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="fields.meritPay" clearable class="el-input" />
-            </el-form-item>
-          </el-col>
-          <!--补贴-->
-          <el-col :span="8">
+          <!--扣款-->
+          <el-col :span="6">
             <el-form-item prop="subsidy" :label="fields.subsidy" :label-width="labelWidth">
-              <el-input v-model="postForm.subsidy" :placeholder="fields.subsidy" :disabled="true" class="el-input" />
-            </el-form-item>
-          </el-col>
-          <!--工伤保险单位-->
-          <el-col :span="8">
-            <el-form-item prop="unInjury" :label="`${fields.unInjury}${fields.unit}`" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.unInjury" :fetch-suggestions="(q, c) => autoQuery(q, c, accumulationFundAry)" :placeholder="`${fields.unInjury}${fields.unit}`" clearable class="el-input" />
+              <el-input v-model="postForm.subsidy" :placeholder="fields.subsidy" class="el-input" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -146,10 +148,11 @@
 // components
 // data
 import { fields } from '../modules/fields'
-import { accumulationFundAry, defaultPostForm } from '../modules/base'
+import { basePayAry, meritPayAry, accumulationFundAry, defaultPostForm } from '../modules/base'
 import { detailRulesForm } from '../modules/rules'
 // filter
 // function
+import { usedParseOnly } from '../utils/usedParse'
 // mixin
 import DetailMixin from '@/components/Mixins/DetailMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
@@ -168,6 +171,10 @@ export default {
     return {
       fields,
       companyAry: [],
+      departmentAry: [],
+      teamAry: [],
+      basePayAry,
+      meritPayAry,
       accumulationFundAry,
       defaultPostForm,
       autoQuery,
@@ -177,7 +184,13 @@ export default {
   computed: {
     submitText() {
       return this.isUpdate ? '修改员工信息' : this.monthId === 0 ? '新增员工信息' : '修改员工月表信息'
+    },
+    totalPay() {
+      return +this.postForm.basePay + +this.postForm.meritPay
     }
+  },
+  mounted() {
+    this.getUsed()
   },
   created() {
     if (this.isUpdate === false) {
@@ -185,6 +198,17 @@ export default {
     }
   },
   methods: {
+    getUsed() {
+      salaryApi.used({ name: 1, company: 1, department: 1, team: 1 }).then(({ code, data }) => {
+        if (code === 200) {
+          this.companyAry = [...data.company]
+          const department = usedParseOnly(data.department)
+          this.departmentAry = [...department]
+          const team = usedParseOnly(data.team)
+          this.teamAry = [...team]
+        }
+      })
+    },
     getDetail() {
       if (this.monthId === 0 && this.isUpdate) {
         console.log('🚀 ~ file: detail.vue ~ line 186 ~ getDetail ~ isUpdate', 'isUpdate')
@@ -246,4 +270,11 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.itemTitle {
+  font-weight: bold;
+  line-height: 30px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+</style>

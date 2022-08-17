@@ -17,6 +17,13 @@
       <el-select v-model="queryList.team" filterable class="filter-ele" :placeholder="fields.team" clearable @change="handleFilter">
         <el-option v-for="item in teamAry" :key="item.value" :label="item.label" :value="item.value" />
       </el-select>
+      <!-- 状态搜索 -->
+      <el-select v-model="queryList.isUse" class="filter-ele" :placeholder="`${fields['isUse']}`" clearable @clear="handleFilter" @change="handleFilter">
+        <el-option v-for="(item, key) in defineIsUseAry" :key="key" :value="item.value" :label="item.label" />
+      </el-select>
+      <el-button class="filter-btn el-icon-search" type="primary" style="width: auto" @click="handleFilter"> 查询 </el-button>
+      <el-button class="filter-btn el-icon-plus" type="primary" style="width: auto" @click="$router.push('create')"> 新增 </el-button>
+      <el-button class="filter-btn el-icon-brush" type="primary" style="width: auto" @click="$router.push('month')"> 月表 </el-button>
     </div>
   </div>
 </template>
@@ -28,11 +35,12 @@ import { salaryApi } from '@/api/salary'
 import { fields } from './modules/fields'
 // filter
 // function
-import { usedParse } from './utils/list'
+import { usedParseEmpty } from './utils/usedParse'
 // mixin
 import ListMixin from '@/components/Mixins/ListMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
 // plugins
+import { defineIsUseAry } from 'methods-often/import'
 // settings
 export default {
   name: 'SalaryList',
@@ -44,7 +52,8 @@ export default {
       nameAry: [],
       companyAry: [],
       departmentAry: [],
-      teamAry: []
+      teamAry: [],
+      defineIsUseAry
     }
   },
   mounted() {
@@ -56,9 +65,9 @@ export default {
         if (code === 200) {
           this.nameAry = [...data.name]
           this.companyAry = [...data.company]
-          const department = usedParse(data.department, '未分部门')
+          const department = usedParseEmpty(data.department, '未分部门')
           this.departmentAry = [...department]
-          const team = usedParse(data.team, '未分项目组')
+          const team = usedParseEmpty(data.team, '未分项目组')
           this.teamAry = [...team]
         }
       })

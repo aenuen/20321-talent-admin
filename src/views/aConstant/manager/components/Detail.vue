@@ -120,7 +120,7 @@ export default {
       return newAry
     },
     submitText() {
-      return this.isUpdate ? '编辑用户' : '创建用户'
+      return this.isUpdate ? '编辑用户' : '新增用户'
     }
   },
   created() {

@@ -18,7 +18,7 @@
       <el-date-picker v-model="queryList.aheadDate" :placeholder="fields.aheadDate" class="filter-ele" value-format="yyyy-MM-dd" type="date" @change="handleFilter" />
       <el-date-picker v-model="queryList.afterDate" :placeholder="fields.afterDate" class="filter-ele" value-format="yyyy-MM-dd" type="date" @change="handleFilter" />
       <el-button type="primary" class="filter-btn el-icon-search" @click="handleFilter"> 搜索 </el-button>
-      <el-button type="primary" class="filter-btn el-icon-plus" @click="routerGo('create')"> 创建 </el-button>
+      <el-button type="primary" class="filter-btn el-icon-plus" @click="$router.push('create')"> 新增 </el-button>
       <el-dropdown class="avatar-container hover-effect" trigger="click">
         <el-button type="primary" class="filter-btn el-icon-document"> 导出 </el-button>
         <el-dropdown-menu slot="dropdown">
