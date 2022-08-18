@@ -16,7 +16,7 @@ export const usedParseOnly = (ary) => {
   const result = []
   ary.forEach(item => {
     if (item.value) {
-      result.push(item)
+      result.push({ value: String(item.value).padStart(2, '0') })
     }
   })
   return arrayOrderByField(result, 'value', true)

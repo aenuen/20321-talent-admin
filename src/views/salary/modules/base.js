@@ -55,6 +55,7 @@ export const myMedicalCareAry = [
   { value: '79.84' }
 ]
 
+// 医疗单位
 export const unMedicalCareAry = [
   { value: '0' },
   { value: '279.07' },

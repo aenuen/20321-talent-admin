@@ -35,7 +35,7 @@ import { salaryApi } from '@/api/salary'
 import { fields } from './modules/fields'
 // filter
 // function
-import { usedParseEmpty } from './utils/usedParse'
+import { usedParseEmpty, usedParseOnly } from './utils/usedParse'
 // mixin
 import ListMixin from '@/components/Mixins/ListMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
@@ -63,12 +63,10 @@ export default {
     getUsed() {
       salaryApi.used({ name: 1, company: 1, department: 1, team: 1 }).then(({ code, data }) => {
         if (code === 200) {
-          this.nameAry = [...data.name]
-          this.companyAry = [...data.company]
-          const department = usedParseEmpty(data.department, '未分部门')
-          this.departmentAry = [...department]
-          const team = usedParseEmpty(data.team, '未分项目组')
-          this.teamAry = [...team]
+          this.nameAry = [...usedParseOnly(data.name)]
+          this.companyAry = [...usedParseOnly(data.company)]
+          this.departmentAry = [...usedParseEmpty(data.department, '未分部门')]
+          this.teamAry = [...usedParseEmpty(data.team, '未分项目组')]
         }
       })
     }
