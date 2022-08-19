@@ -16,19 +16,20 @@ export default {
     selectionChange(val) {
       this.multipleSelection = val
     },
-    // 批量编辑
-    batchUpdate() {
+    // 批量编辑确认
+    updateBatchConfirm() {
       if (this.multipleSelection.length <= 0) {
         this.$message.info('请选择需要批量编辑的内容')
       } else {
-        this.batchUpdateControl(true)
+        this.batchUpdateToggle(true)
       }
     },
-    batchUpdateControl(boolean) {
+    // 关闭/打开批量编辑框
+    batchUpdateToggle(boolean = false) {
       this.batchUpdateShow = boolean
     },
-    // 批量删除
-    batchRemoveConfirm() {
+    // 批量删除确认
+    removeBatchConfirm() {
       if (this.multipleSelection.length <= 0) {
         this.$message.info('请选择需要批量删除的内容', '温馨提示', {
           type: 'warning'
@@ -38,14 +39,15 @@ export default {
           type: 'warning'
         })
           .then(() => {
-            this.batchRemove()
+            this.removeBatch()
           })
           .catch(() => {
             this.$message.info('取消批量删除')
           })
       }
     },
-    batchRemove() {}
+    // 开始批量删除
+    removeBatch() {}
   }
 }
 </script>

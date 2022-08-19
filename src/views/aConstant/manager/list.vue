@@ -36,7 +36,7 @@
     <div style="text-align: center">
       <Pagination :hidden="tableDataLength <= 0" :total="tableDataLength" :page.sync="queryList.page" :limit.sync="queryList.pageSize" @pagination="refresh" />
     </div>
-    <Dialog :control="batchUpdateShow" title="批量编辑" @controlChange="batchUpdateControl"> 1 </Dialog>
+    <Dialog :control="batchUpdateShow" title="批量编辑" @controlChange="batchUpdateToggle"> 1 </Dialog>
   </div>
 </template>
 

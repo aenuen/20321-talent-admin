@@ -26,7 +26,7 @@
       <!-- 打印 -->
       <el-button type="default" class="filter-btn el-icon-printer" @click="printTable('TableList', eFilename)"> 打印 </el-button>
     </div>
-    <TableList id="TableList" :name="queryList.name" :table-data="tableData" :table-loading="tableLoading" />
+    <detailsTable id="TableList" :name="queryList.name" :table-data="tableData" :table-loading="tableLoading" />
     <div style="height: 50px" />
   </div>
 </template>
@@ -34,7 +34,7 @@
 // api
 import { salaryApi } from '@/api/salary'
 // components
-import TableList from './components/tableList'
+import detailsTable from './components/detailsTable'
 // data
 import { fields } from './modules/fields'
 import { eHeader, eFields } from './modules/eList'
@@ -51,7 +51,7 @@ import { exportData } from '@/libs/export'
 // settings
 export default {
   name: 'SalaryDetails',
-  components: { TableList },
+  components: { detailsTable },
   mixins: [ListMixin, MethodsMixin],
   data() {
     return {

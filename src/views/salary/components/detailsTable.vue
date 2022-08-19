@@ -4,7 +4,7 @@
       <el-empty :image-size="100" :description="emptyText" />
     </template>
     <el-table-column :label="fields.index" type="index" align="center" width="80" />
-    <el-table-column prop="name" :label="`${fields['name']}`" align="center" />
+    <el-table-column prop="name" :label="fields.name" align="center" />
     <el-table-column prop="yearMonth" :label="fields.yearMonth" align="center" />
     <el-table-column prop="company" :label="fields.company" align="center" />
     <!-- 养老保险个人 -->
@@ -67,7 +67,7 @@ export default {
   },
   computed: {
     emptyText() {
-      return this.name ? '未能找到符合的数据' : '请先选择一个员工姓名'
+      return this.name ? '未能找到符合条件的数据' : '请先选择一个员工姓名'
     }
   }
 }

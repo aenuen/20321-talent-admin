@@ -1,22 +1,26 @@
-import { arrayOrderByField } from 'methods-often/import'
+import { arrayOrderByField, typeNumber, typeString } from 'methods-often/import'
 
 export const usedParseEmpty = (ary, desc) => {
   const result = []
   ary.forEach(item => {
     if (item.value) {
       result.push({ value: item.value, label: item.value })
-    } else {
-      result.push({ value: 'empty', label: desc })
     }
   })
-  return arrayOrderByField(result, 'value', true)
+  const newResult = arrayOrderByField(result, 'value', true)
+  newResult.unshift({ value: 'empty', label: desc })
+  return newResult
 }
 
 export const usedParseOnly = (ary) => {
   const result = []
   ary.forEach(item => {
     if (item.value) {
-      result.push({ value: String(item.value).padStart(2, '0') })
+      if (typeNumber(item.value)) {
+        result.push({ value: (+item.value).toFixed(2) })
+      } else if (typeString(item.value)) {
+        result.push({ value: item.value })
+      }
     }
   })
   return arrayOrderByField(result, 'value', true)

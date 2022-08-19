@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-if="selectVal" :title="title" width="815px" :visible.sync="selectVal">
+  <el-dialog v-if="selectVal" :title="title" :width="width" :visible.sync="selectVal">
     <slot />
   </el-dialog>
 </template>
@@ -8,7 +8,8 @@
 export default {
   props: {
     title: { type: String, default: '批量编辑' },
-    control: { type: Boolean, default: false }
+    control: { type: Boolean, default: false },
+    width: { type: Number, default: 1200 }
   },
   computed: {
     selectVal: {

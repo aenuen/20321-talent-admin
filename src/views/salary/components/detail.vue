@@ -32,13 +32,13 @@
           <!--基本工资-->
           <el-col :span="6">
             <el-form-item prop="basePay" :label="fields.basePay" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.basePay" :fetch-suggestions="(q, c) => autoQuery(q, c, basePayAry)" :placeholder="fields.basePay" clearable class="el-input" />
+              <el-autocomplete v-model="postForm.basePay" :fetch-suggestions="(q, c) => autoQuery(q, c, basePayAry)" :placeholder="fields.basePay" clearable class="el-input" @select="postForm.basePay = +postForm.basePay" />
             </el-form-item>
           </el-col>
           <!--绩效工资-->
           <el-col :span="6">
             <el-form-item prop="meritPay" :label="fields.meritPay" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.meritPay" :fetch-suggestions="(q, c) => autoQuery(q, c, meritPayAry)" :placeholder="fields.meritPay" clearable class="el-input" />
+              <el-autocomplete v-model="postForm.meritPay" :fetch-suggestions="(q, c) => autoQuery(q, c, meritPayAry)" :placeholder="fields.meritPay" clearable class="el-input" @select="postForm.meritPay = +postForm.meritPay" />
             </el-form-item>
           </el-col>
           <!--合计工资-->
@@ -52,7 +52,7 @@
           <!-- 养老保险个人 -->
           <el-col :span="6">
             <el-form-item prop="myPension" :label="`${fields.myPension}${fields.personal}`" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.myPension" :fetch-suggestions="(q, c) => autoQuery(q, c, myPensionAry)" :placeholder="`${fields.myPension}${fields.personal}`" clearable class="el-input">
+              <el-autocomplete v-model="postForm.myPension" :fetch-suggestions="(q, c) => autoQuery(q, c, myPensionAry)" :placeholder="`${fields.myPension}${fields.personal}`" clearable class="el-input" @select="postForm.myPension = +postForm.myPension">
                 <template slot="append">
                   <el-button icon="el-icon-right" @click="pensionChange" />
                 </template>
@@ -62,13 +62,13 @@
           <!-- 养老保险单位 -->
           <el-col :span="6">
             <el-form-item prop="unPension" :label="`${fields.unPension}${fields.unit}`" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.unPension" :fetch-suggestions="(q, c) => autoQuery(q, c, unPensionAry)" :placeholder="`${fields.unPension}${fields.unit}`" clearable class="el-input" />
+              <el-autocomplete v-model="postForm.unPension" :fetch-suggestions="(q, c) => autoQuery(q, c, unPensionAry)" :placeholder="`${fields.unPension}${fields.unit}`" clearable class="el-input" @select="postForm.unPension = +postForm.unPension" />
             </el-form-item>
           </el-col>
           <!-- 失业保险个人 -->
           <el-col :span="6">
             <el-form-item prop="myUnemployment" :label="`${fields.myUnemployment}${fields.personal}`" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.myUnemployment" :fetch-suggestions="(q, c) => autoQuery(q, c, myUnemploymentAry)" :placeholder="`${fields.myUnemployment}${fields.personal}`" clearable class="el-input">
+              <el-autocomplete v-model="postForm.myUnemployment" :fetch-suggestions="(q, c) => autoQuery(q, c, myUnemploymentAry)" :placeholder="`${fields.myUnemployment}${fields.personal}`" clearable class="el-input" @select="postForm.myUnemployment = +postForm.myUnemployment">
                 <template slot="append">
                   <el-button icon="el-icon-right" @click="employmentChange" />
                 </template>
@@ -78,7 +78,7 @@
           <!-- 失业保险单位 -->
           <el-col :span="6">
             <el-form-item prop="unUnemployment" :label="`${fields.unUnemployment}${fields.unit}`" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.unUnemployment" :fetch-suggestions="(q, c) => autoQuery(q, c, unUnemploymentAry)" :placeholder="`${fields.unUnemployment}${fields.unit}`" clearable class="el-input" />
+              <el-autocomplete v-model="postForm.unUnemployment" :fetch-suggestions="(q, c) => autoQuery(q, c, unUnemploymentAry)" :placeholder="`${fields.unUnemployment}${fields.unit}`" clearable class="el-input" @select="postForm.unUnemployment = +postForm.unUnemployment" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -86,7 +86,7 @@
           <!--医疗保险个人-->
           <el-col :span="6">
             <el-form-item prop="myMedicalCare" :label="`${fields.myMedicalCare}${fields.personal}`" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.myMedicalCare" :fetch-suggestions="(q, c) => autoQuery(q, c, myMedicalCareAry)" :placeholder="`${fields.myMedicalCare}${fields.personal}`" clearable class="el-input">
+              <el-autocomplete v-model="postForm.myMedicalCare" :fetch-suggestions="(q, c) => autoQuery(q, c, myMedicalCareAry)" :placeholder="`${fields.myMedicalCare}${fields.personal}`" clearable class="el-input" @select="postForm.myMedicalCare = +postForm.myMedicalCare">
                 <template slot="append">
                   <el-button icon="el-icon-right" @click="medicalCareChange" />
                 </template>
@@ -96,19 +96,19 @@
           <!--医疗保险单位-->
           <el-col :span="6">
             <el-form-item prop="unMedicalCare" :label="`${fields.unMedicalCare}${fields.unit}`" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.unMedicalCare" :fetch-suggestions="(q, c) => autoQuery(q, c, unMedicalCareAry)" :placeholder="`${fields.unMedicalCare}${fields.unit}`" clearable class="el-input" />
+              <el-autocomplete v-model="postForm.unMedicalCare" :fetch-suggestions="(q, c) => autoQuery(q, c, unMedicalCareAry)" :placeholder="`${fields.unMedicalCare}${fields.unit}`" clearable class="el-input" @select="postForm.unMedicalCare = +postForm.unMedicalCare" />
             </el-form-item>
           </el-col>
           <!--生育保险单位-->
           <el-col :span="6">
             <el-form-item prop="unBirth" :label="`${fields.unBirth}${fields.unit}`" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.unBirth" :fetch-suggestions="(q, c) => autoQuery(q, c, unBirthAry)" :placeholder="`${fields.unBirth}${fields.unit}`" clearable class="el-input" />
+              <el-autocomplete v-model="postForm.unBirth" :fetch-suggestions="(q, c) => autoQuery(q, c, unBirthAry)" :placeholder="`${fields.unBirth}${fields.unit}`" clearable class="el-input" @select="postForm.unBirth = +postForm.unBirth" />
             </el-form-item>
           </el-col>
           <!--工伤保险单位-->
           <el-col :span="6">
             <el-form-item prop="unInjury" :label="`${fields.unInjury}${fields.unit}`" :label-width="labelWidth">
-              <el-autocomplete v-model="postForm.unInjury" :fetch-suggestions="(q, c) => autoQuery(q, c, unInjuryAry)" :placeholder="`${fields.unInjury}${fields.unit}`" clearable class="el-input" />
+              <el-autocomplete v-model="postForm.unInjury" :fetch-suggestions="(q, c) => autoQuery(q, c, unInjuryAry)" :placeholder="`${fields.unInjury}${fields.unit}`" clearable class="el-input" @select="postForm.unInjury = +postForm.unInjury" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -117,7 +117,7 @@
           <el-col :span="6">
             <el-form-item>
               <el-form-item prop="myAccumulationFund" :label="`${fields.myAccumulationFund}${fields.personal}`" :label-width="labelWidth">
-                <el-autocomplete v-model="postForm.myAccumulationFund" :fetch-suggestions="(q, c) => autoQuery(q, c, myAccumulationFundAry)" :placeholder="`${fields.myAccumulationFund}${fields.personal}`" clearable class="el-input">
+                <el-autocomplete v-model="postForm.myAccumulationFund" :fetch-suggestions="(q, c) => autoQuery(q, c, myAccumulationFundAry)" :placeholder="`${fields.myAccumulationFund}${fields.personal}`" clearable class="el-input" @select="postForm.myAccumulationFund = +postForm.myAccumulationFund">
                   <template slot="append">
                     <el-button icon="el-icon-right" @click="accumulationFundChange" />
                   </template>
@@ -129,20 +129,20 @@
           <el-col :span="6">
             <el-form-item>
               <el-form-item prop="unAccumulationFund" :label="`${fields.unAccumulationFund}${fields.unit}`" :label-width="labelWidth">
-                <el-autocomplete v-model="postForm.unAccumulationFund" :fetch-suggestions="(q, c) => autoQuery(q, c, myAccumulationFundAry)" :placeholder="`${fields.unAccumulationFund}${fields.unit}`" clearable class="el-input" />
+                <el-autocomplete v-model="postForm.unAccumulationFund" :fetch-suggestions="(q, c) => autoQuery(q, c, myAccumulationFundAry)" :placeholder="`${fields.unAccumulationFund}${fields.unit}`" clearable class="el-input" @select="postForm.unAccumulationFund = +postForm.unAccumulationFund" />
               </el-form-item>
             </el-form-item>
           </el-col>
           <!--天数-->
           <el-col :span="6">
             <el-form-item prop="assessment" :label="fields.assessment" :label-width="labelWidth">
-              <el-input v-model="postForm.assessment" :placeholder="fields.assessment" class="el-input" />
+              <el-input v-model="postForm.assessment" :placeholder="fields.assessment" class="el-input" @select="postForm.assessment = +postForm.assessment" />
             </el-form-item>
           </el-col>
           <!--扣款-->
           <el-col :span="6">
             <el-form-item prop="subsidy" :label="fields.subsidy" :label-width="labelWidth">
-              <el-input v-model="postForm.subsidy" :placeholder="fields.subsidy" class="el-input" />
+              <el-input v-model="postForm.subsidy" :placeholder="fields.subsidy" class="el-input" @select="postForm.subsidy = +postForm.subsidy" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -164,7 +164,7 @@
 // components
 // data
 import { fields } from '../modules/fields'
-import { basePayAry, meritPayAry, defaultPostForm } from '../modules/base'
+import { defaultPostForm } from '../modules/base'
 import { detailRulesForm } from '../modules/rules'
 // filter
 // function
@@ -190,8 +190,8 @@ export default {
       companyAry: [],
       departmentAry: [],
       teamAry: [],
-      basePayAry,
-      meritPayAry,
+      basePayAry: [],
+      meritPayAry: [],
       myPensionAry: [],
       unPensionAry: [],
       myUnemploymentAry: [],
@@ -212,7 +212,7 @@ export default {
       return this.isUpdate ? '修改员工信息' : this.monthId === 0 ? '新增员工信息' : '修改员工月表信息'
     },
     totalPay() {
-      return +this.postForm.basePay + +this.postForm.meritPay
+      return +this.postForm.basePay + +this.postForm.meritPay || 0
     }
   },
   watch: {
@@ -282,6 +282,8 @@ export default {
           company: 1,
           department: 1,
           team: 1,
+          basePay: 0,
+          meritPay: 0,
           myPension: 1,
           unPension: 1,
           myUnemployment: 1,
@@ -298,6 +300,9 @@ export default {
             this.companyAry = [...usedParseOnly(data.company)]
             this.departmentAry = [...usedParseOnly(data.department)]
             this.teamAry = [...usedParseOnly(data.team)]
+            this.teamAry = [...usedParseOnly(data.team)]
+            this.basePayAry = [...usedParseOnly(data.basePay)]
+            this.meritPayAry = [...usedParseOnly(data.meritPay)]
             this.myPensionAry = [...usedParseOnly(data.myPension)]
             this.unPensionAry = [...usedParseOnly(data.unPension)]
             this.myUnemploymentAry = [...usedParseOnly(data.myUnemployment)]

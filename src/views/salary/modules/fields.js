@@ -1,6 +1,8 @@
 export const fields = {
   index: '序号',
-  isUse: '状态',
+  id: '编号',
+  work: '操作',
+  isUse: '使用状态',
   yearMonth: '年月',
   name: '姓名',
   company: '公司',

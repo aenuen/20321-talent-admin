@@ -21,16 +21,29 @@
       <el-select v-model="queryList.isUse" class="filter-ele" :placeholder="`${fields['isUse']}`" clearable @clear="handleFilter" @change="handleFilter">
         <el-option v-for="(item, key) in defineIsUseAry" :key="key" :value="item.value" :label="item.label" />
       </el-select>
-      <el-button class="filter-btn el-icon-search" type="primary" style="width: auto" @click="handleFilter"> 查询 </el-button>
-      <el-button class="filter-btn el-icon-plus" type="primary" style="width: auto" @click="$router.push('create')"> 新增 </el-button>
-      <el-button class="filter-btn el-icon-brush" type="primary" style="width: auto" @click="$router.push('month')"> 月表 </el-button>
+      <el-button class="filter-btn el-icon-search" type="default" style="width: auto" @click="handleFilter"> 查询 </el-button>
+      <el-button class="filter-btn el-icon-plus" type="success" style="width: auto" @click="$router.push('create')"> 新增 </el-button>
+      <el-button class="filter-btn el-icon-brush" type="success" style="width: auto" @click="$router.push('month')"> 月表 </el-button>
+      <el-button class="filter-btn el-icon-edit" type="primary" style="width: auto" @click="updateBatchConfirm"> 批量编辑 </el-button>
+      <el-button class="filter-btn el-icon-delete" type="danger" style="width: auto" @click="removeBatchConfirm"> 批量删除 </el-button>
     </div>
+    <ListTable :table-data="tableData" :table-loading="tableLoading" :is-use="tableIsUse" @selectionChange="selectionChange" @onSortChange="onSortChange" @onIsUseChange="onIsUseChange" @onRemoveUser="onRemoveUser" />
+    <div style="text-align: center">
+      <Pagination :hidden="tableDataLength <= 0" :total="tableDataLength" :page.sync="queryList.page" :limit.sync="queryList.pageSize" @pagination="refresh" />
+    </div>
+    <Dialog :control="batchUpdateShow" @controlChange="batchUpdateToggle">
+      <Detail />
+    </Dialog>
   </div>
 </template>
 <script>
 // api
 import { salaryApi } from '@/api/salary'
 // components
+import Pagination from '@/components/Pagination'
+import Dialog from '@/components/Dialog'
+import ListTable from './components/listTable'
+import Detail from './components/detail'
 // data
 import { fields } from './modules/fields'
 // filter
@@ -38,14 +51,15 @@ import { fields } from './modules/fields'
 import { usedParseEmpty, usedParseOnly } from './utils/usedParse'
 // mixin
 import ListMixin from '@/components/Mixins/ListMixin'
-import MethodsMixin from '@/components/Mixins/MethodsMixin'
+import AloneMixin from '@/components/Mixins/AloneMixin'
+import BatchMixin from '@/components/Mixins/BatchMixin'
 // plugins
-import { defineIsUseAry } from 'methods-often/import'
+import { defineIsUseAry, keyLight } from 'methods-often/import'
 // settings
 export default {
   name: 'SalaryList',
-  components: {},
-  mixins: [ListMixin, MethodsMixin],
+  components: { Pagination, Dialog, ListTable, Detail },
+  mixins: [ListMixin, AloneMixin, BatchMixin],
   data() {
     return {
       fields,
@@ -53,6 +67,7 @@ export default {
       companyAry: [],
       departmentAry: [],
       teamAry: [],
+      tableIsUse: [],
       defineIsUseAry
     }
   },
@@ -60,6 +75,13 @@ export default {
     this.getUsed()
   },
   methods: {
+    // 设置数据
+    setData() {
+      return {
+        sort: '-id'
+      }
+    },
+    // 获取使用过的数据
     getUsed() {
       salaryApi.used({ name: 1, company: 1, department: 1, team: 1 }).then(({ code, data }) => {
         if (code === 200) {
@@ -67,6 +89,52 @@ export default {
           this.companyAry = [...usedParseOnly(data.company)]
           this.departmentAry = [...usedParseEmpty(data.department, '未分部门')]
           this.teamAry = [...usedParseEmpty(data.team, '未分项目组')]
+        }
+      })
+    },
+    // 获取列表
+    startAction() {
+      salaryApi.list(this.queryList).then(({ code, data }) => {
+        if (code === 200) {
+          const { list, count } = data
+          this.tableData = list
+          this.tableDataLength = count
+          this.tableLoading = false
+          this.tableData.forEach((item) => {
+            this.tableIsUse[item.id] = +item.isUse === 1
+            item.name_kw = keyLight(this.queryList, 'name', item.name)
+            item.company_kw = keyLight(this.queryList, 'company', item.company)
+            item.department_kw = keyLight(this.queryList, 'department', item.department)
+            item.team_kw = keyLight(this.queryList, 'team', item.team)
+          })
+        }
+      })
+    },
+    // 状态切换
+    onIsUseChange() {},
+    // 确认删除
+    onRemoveUser(id) {
+      this.removeId = id
+      this.aloneRemoveConfirm()
+    },
+    // 删除员工
+    aloneRemove() {
+      salaryApi.remove({ id: this.removeId }).then(({ code, msg }) => {
+        if (code === 200) {
+          this.$message.success(msg)
+          this.refreshStrong()
+        } else {
+          this.$message.error(msg)
+        }
+      })
+    },
+    removeBatch() {
+      salaryApi.removeBatch({ ids: this.multipleSelection }).then(({ code, msg }) => {
+        if (code === 200) {
+          this.$message.success(msg)
+          this.refreshStrong()
+        } else {
+          this.$message.error(msg)
         }
       })
     }
