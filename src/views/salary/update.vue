@@ -1,9 +1,10 @@
 <template>
-  <div></div>
+  <detail is-update />
 </template>
 <script>
 // api
 // components
+import detail from './components/detail'
 // data
 // filter
 // function
@@ -11,10 +12,7 @@
 // plugins
 // settings
 export default {
-  components: {},
-  data() {
-    return {}
-  }
+  components: { detail }
 }
 </script>
 <style lang="scss" scoped></style>

@@ -25,8 +25,9 @@ export const fields = {
   unAccumulationFund: '公积金',
   unBirth: '生育',
   subtotal: '小计',
-  assessment: '天数',
-  subsidy: '扣款',
+  assessment: '考核',
+  subsidy: '补贴',
+  deduct: '扣款',
   aheadYearMonth: '开始年月',
   afterYearMonth: '结束年月'
 }

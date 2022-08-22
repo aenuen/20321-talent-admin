@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-if="selectVal" :title="title" :width="width" :visible.sync="selectVal">
+  <el-dialog v-if="selectVal" :title="title" :width="width + 'px'" :visible.sync="selectVal">
     <slot />
   </el-dialog>
 </template>

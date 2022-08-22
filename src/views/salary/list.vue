@@ -31,8 +31,8 @@
     <div style="text-align: center">
       <Pagination :hidden="tableDataLength <= 0" :total="tableDataLength" :page.sync="queryList.page" :limit.sync="queryList.pageSize" @pagination="refresh" />
     </div>
-    <Dialog :control="batchUpdateShow" @controlChange="batchUpdateToggle">
-      <Detail />
+    <Dialog :control="batchUpdateShow" :width="1200" @controlChange="batchUpdateToggle">
+      <Detail is-batch />
     </Dialog>
   </div>
 </template>
@@ -111,7 +111,17 @@ export default {
       })
     },
     // 状态切换
-    onIsUseChange() {},
+    onIsUseChange(event, id) {
+      event = event ? '1' : '0'
+      salaryApi.isUse({ id, event }).then((res) => {
+        const { data, msg } = res
+        if (+data === 1) {
+          this.$message.success(msg)
+        } else {
+          this.$message.info(msg)
+        }
+      })
+    },
     // 确认删除
     onRemoveUser(id) {
       this.removeId = id
