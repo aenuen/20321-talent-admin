@@ -8,7 +8,7 @@
     <el-table-column :label="fields.work" align="center" width="120">
       <template slot-scope="{ row: { id } }">
         <el-button type="primary" icon="el-icon-edit" size="mini" @click="$router.push({ path: `update/${id}` })" />
-        <el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemoveUser(id)" />
+        <el-button type="danger" icon="el-icon-delete" size="mini" @click="onAloneRemove(id)" />
       </template>
     </el-table-column>
     <el-table-column :label="fields.name" prop="name" align="center">
@@ -66,6 +66,7 @@ import TableMixin from '@/components/Mixins/TableMixin'
 // plugins
 // settings
 export default {
+  name: 'SalaryComponentsListTable',
   components: {},
   mixins: [TableMixin],
   props: {

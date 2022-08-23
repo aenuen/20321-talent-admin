@@ -129,28 +129,28 @@
           </el-col>
         </el-row>
         <el-row>
-          <!--个人所税税-->
-          <el-col v-if="!isBatch" :span="6">
-            <el-form-item prop="myIncomeTax" :label="fields.personal + fields.myIncomeTax" :label-width="labelWidth">
-              <el-input v-model="postForm.myIncomeTax" :placeholder="fields.personal + fields.myIncomeTax" class="el-input" @select="postForm.myIncomeTax = +postForm.myIncomeTax" />
-            </el-form-item>
-          </el-col>
           <!--考核-->
           <el-col v-if="!isBatch" :span="6">
             <el-form-item prop="assessment" :label="fields.assessment" :label-width="labelWidth">
               <el-input v-model="postForm.assessment" :placeholder="fields.assessment" class="el-input" @select="postForm.assessment = +postForm.assessment" />
             </el-form-item>
           </el-col>
-          <!--补贴-->
+          <!--天数-->
           <el-col v-if="!isBatch" :span="6">
-            <el-form-item prop="subsidy" :label="fields.subsidy" :label-width="labelWidth">
-              <el-input v-model="postForm.subsidy" :placeholder="fields.subsidy" class="el-input" @select="postForm.subsidy = +postForm.subsidy" />
+            <el-form-item prop="days" :label="fields.days" :label-width="labelWidth">
+              <el-input v-model="postForm.days" :placeholder="fields.days" class="el-input" @select="postForm.days = +postForm.days" />
             </el-form-item>
           </el-col>
           <!--扣款-->
           <el-col v-if="!isBatch" :span="6">
             <el-form-item prop="deduct" :label="fields.deduct" :label-width="labelWidth">
               <el-input v-model="postForm.deduct" :placeholder="fields.deduct" class="el-input" @select="postForm.deduct = +postForm.deduct" />
+            </el-form-item>
+          </el-col>
+          <!--补贴-->
+          <el-col v-if="!isBatch" :span="6">
+            <el-form-item prop="subsidy" :label="fields.subsidy" :label-width="labelWidth">
+              <el-input v-model="postForm.subsidy" :placeholder="fields.subsidy" class="el-input" @select="postForm.subsidy = +postForm.subsidy" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -186,6 +186,7 @@ import { autoQuery, controlInputPrice } from 'methods-often/import'
 import { salaryApi } from '../../../api/salary'
 // settings
 export default {
+  name: 'SalaryComponentsDetail',
   components: {},
   mixins: [DetailMixin, MethodsMixin],
   props: {
@@ -274,21 +275,21 @@ export default {
     'postForm.unAccumulationFund': function (value) {
       this.postForm.unAccumulationFund = controlInputPrice(value)
     },
-    // 个人所得税
-    'postForm.myIncomeTax': function (value) {
-      this.postForm.myIncomeTax = controlInputPrice(value)
-    },
     // 考核
     'postForm.assessment': function (value) {
       this.postForm.assessment = controlInputPrice(value)
     },
-    // 补贴
-    'postForm.subsidy': function (value) {
-      this.postForm.subsidy = controlInputPrice(value)
+    // 天数
+    'postForm.days': function (value) {
+      this.postForm.days = controlInputPrice(value)
     },
     // 扣款
     'postForm.deduct': function (value) {
       this.postForm.deduct = controlInputPrice(value)
+    },
+    // 补贴
+    'postForm.subsidy': function (value) {
+      this.postForm.subsidy = controlInputPrice(value)
     }
   },
   mounted() {

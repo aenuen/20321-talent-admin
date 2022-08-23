@@ -12,13 +12,13 @@ export default {
     }
   },
   mounted() {
-    this.startAction()
+    this.startHandle()
   },
   beforeRouteUpdate(to, from, next) {
     if (to.path === from.path) {
       const oldQuery = Object.assign({}, from.query)
       const newQuery = Object.assign({}, to.query)
-      JSON.stringify(oldQuery) !== JSON.stringify(newQuery) && this.startAction()
+      JSON.stringify(oldQuery) !== JSON.stringify(newQuery) && this.startHandle()
     }
     next()
   },
@@ -40,7 +40,7 @@ export default {
     setData() {
       return {}
     },
-    startAction() {},
+    startHandle() {},
     handleFilter() {
       this.queryList.page = 1
       this.refresh()

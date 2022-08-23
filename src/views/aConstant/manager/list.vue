@@ -100,7 +100,7 @@ export default {
         sort: '-id'
       }
     },
-    startAction() {
+    startHandle() {
       userApi.list(this.queryList).then((res) => {
         const { code, data } = res
         const { list, count } = data

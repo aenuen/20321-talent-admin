@@ -7,17 +7,20 @@
       </el-select>
       <el-date-picker v-model="queryList.yearMonth" :placeholder="fields.yearMonth" class="filter-ele" value-format="yyyy-MM" type="month" :clearable="false" @change="handleFilter" />
     </div>
+    <MonthTable :table-data="tableData" :table-loading="tableLoading" />
   </div>
 </template>
 <script>
 // api
 import { salaryApi } from '@/api/salary'
 // components
+import MonthTable from './components/monthTable.vue'
 // data
 import { fields } from './modules/fields'
 // filter
 // function
 import { usedParseOnly } from './utils/usedParse'
+import { monthData } from './utils/monthData'
 // mixin
 import ListMixin from '@/components/Mixins/ListMixin'
 import AloneMixin from '@/components/Mixins/AloneMixin'
@@ -26,7 +29,7 @@ import BatchMixin from '@/components/Mixins/BatchMixin'
 import { timeGetYearMonth } from 'methods-often/import'
 // settings
 export default {
-  components: {},
+  components: { MonthTable },
   mixins: [ListMixin, AloneMixin, BatchMixin],
   data() {
     return {
@@ -50,6 +53,16 @@ export default {
       salaryApi.used({ company: 1 }).then(({ code, data }) => {
         if (code === 200) {
           this.companyAry = [...usedParseOnly(data.company)]
+        }
+      })
+    },
+    startHandle() {
+      salaryApi.month(this.queryList).then(({ code, data, msg }) => {
+        if (code === 200) {
+          this.tableData = [...monthData(data)]
+          this.tableLoading = false
+        } else {
+          this.$message.warning(msg)
         }
       })
     }

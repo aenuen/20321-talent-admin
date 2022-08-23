@@ -7,8 +7,8 @@ export default {
     onIsUseChange(event, id) {
       this.$emit('onIsUseChange', event, id)
     },
-    onRemoveUser(id) {
-      this.$emit('onRemoveUser', id)
+    onAloneRemove(id) {
+      this.$emit('onAloneRemove', id)
     },
     onSelectionChange(val) {
       this.$emit('selectionChange', val)

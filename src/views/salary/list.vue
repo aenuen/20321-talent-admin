@@ -27,7 +27,7 @@
       <el-button class="filter-btn el-icon-edit" type="primary" style="width: auto" @click="updateBatchConfirm"> 批量编辑 </el-button>
       <el-button class="filter-btn el-icon-delete" type="danger" style="width: auto" @click="removeBatchConfirm"> 批量删除 </el-button>
     </div>
-    <ListTable :table-data="tableData" :table-loading="tableLoading" :is-use="tableIsUse" @selectionChange="selectionChange" @onSortChange="onSortChange" @onIsUseChange="onIsUseChange" @onRemoveUser="onRemoveUser" />
+    <ListTable :table-data="tableData" :table-loading="tableLoading" :is-use="tableIsUse" @selectionChange="selectionChange" @onSortChange="onSortChange" @onIsUseChange="onIsUseChange" @onAloneRemove="onAloneRemove" />
     <div style="text-align: center">
       <Pagination :hidden="tableDataLength <= 0" :total="tableDataLength" :page.sync="queryList.page" :limit.sync="queryList.pageSize" @pagination="refresh" />
     </div>
@@ -93,7 +93,7 @@ export default {
       })
     },
     // 获取列表
-    startAction() {
+    startHandle() {
       salaryApi.list(this.queryList).then(({ code, data }) => {
         if (code === 200) {
           const { list, count } = data
@@ -123,7 +123,7 @@ export default {
       })
     },
     // 确认删除
-    onRemoveUser(id) {
+    onAloneRemove(id) {
       this.removeId = id
       this.aloneRemoveConfirm()
     },
@@ -138,6 +138,7 @@ export default {
         }
       })
     },
+    // 批量删除员工
     removeBatch() {
       salaryApi.removeBatch({ ids: this.multipleSelection }).then(({ code, msg }) => {
         if (code === 200) {

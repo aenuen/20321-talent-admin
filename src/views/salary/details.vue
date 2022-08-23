@@ -82,7 +82,7 @@ export default {
         }
       })
     },
-    startAction() {
+    startHandle() {
       salaryApi.details(this.queryList).then(({ code, data }) => {
         if (code === 200) {
           const { list, count } = data

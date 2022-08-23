@@ -6,6 +6,7 @@ export const salaryApi = {
   used: (params) => request({ url: `/salary/used?${qs.stringify(params)}`, method: 'get' }), // 使用过的数据
   details: (params) => request({ url: `/salary/details?${qs.stringify(params)}`, method: 'get' }), // 医社保明细
   list: (params) => request({ url: `/salary/list?${qs.stringify(params)}`, method: 'get' }), // 员工列表
+  month: (params) => request({ url: `/salary/month?${qs.stringify(params)}`, method: 'get' }), // 月表列表
   detail: (params) => request({ url: `/salary/detail?${qs.stringify(params)}`, method: 'get' }), // 员工详情
   // post
   create: (data) => request({ url: '/salary/create', method: 'post', data }), // 新增员工

@@ -11,6 +11,7 @@ export const fields = {
   basePay: '基本工资',
   meritPay: '绩效工资',
   totalPay: '工资合计',
+  shouldPay: '应发工资',
   personal: '个人',
   unit: '单位',
   myPension: '养老',
@@ -26,8 +27,9 @@ export const fields = {
   unBirth: '生育',
   subtotal: '小计',
   assessment: '考核',
-  subsidy: '补贴',
+  days: '天数',
   deduct: '扣款',
+  subsidy: '补贴',
   aheadYearMonth: '开始年月',
   afterYearMonth: '结束年月'
 }

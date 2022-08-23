@@ -54,6 +54,7 @@ import { fields } from '../modules/fields'
 // plugins
 // settings
 export default {
+  name: 'SalaryComponentsDetailsTable',
   components: {},
   props: {
     tableLoading: Boolean,
