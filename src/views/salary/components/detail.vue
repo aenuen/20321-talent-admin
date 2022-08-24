@@ -4,19 +4,19 @@
       <el-form ref="postForm" :model="postForm" :rules="rulesForm">
         <el-row>
           <!-- 公司 -->
-          <el-col v-if="!isBatch" :span="8">
+          <el-col v-if="!isBatch" :span="6">
             <el-form-item prop="company" :label="fields.company" :label-width="labelWidth">
               <el-autocomplete v-model="postForm.company" :fetch-suggestions="(q, c) => autoQuery(q, c, companyAry)" :placeholder="fields.company" clearable class="el-input" />
             </el-form-item>
           </el-col>
           <!-- 姓名 -->
-          <el-col v-if="!isBatch" :span="8">
+          <el-col v-if="!isBatch" :span="6">
             <el-form-item prop="name" :label="fields.name" :label-width="labelWidth">
               <el-input v-model="postForm.name" :placeholder="fields.name" maxlength="4" clearable />
             </el-form-item>
           </el-col>
           <!-- 部门 -->
-          <el-col v-if="!isBatch" :span="8">
+          <el-col v-if="!isBatch" :span="6">
             <el-form-item prop="department" :label="fields.department" :label-width="labelWidth">
               <el-autocomplete v-model="postForm.department" :fetch-suggestions="(q, c) => autoQuery(q, c, departmentAry)" :placeholder="fields.department" clearable class="el-input" />
             </el-form-item>
@@ -220,7 +220,7 @@ export default {
   },
   computed: {
     submitText() {
-      return this.isBatch ? '批量编辑员工信息' : this.isUpdate ? '修改员工信息' : this.monthId === 0 ? '新增员工信息' : '修改员工月表信息'
+      return this.isBatch ? '批量编辑员工信息' : this.isUpdate ? '编辑员工信息' : this.monthId === 0 ? '新增员工信息' : '编辑员工月表信息'
     },
     totalPay() {
       return +this.postForm.basePay + +this.postForm.meritPay || 0
@@ -355,7 +355,11 @@ export default {
     // 开始处理
     startHandle() {
       if (this.monthId > 0 && this.isUpdate === false) {
-        console.log('🚀 ~ file: detail.vue ~ line 191 ~ startHandle ~ monthId', 'monthId')
+        salaryApi.monthDetail({ id: this.monthId }).then(({ code, data }) => {
+          if (code === 200) {
+            this.postForm = { ...data }
+          }
+        })
       }
     },
     // 养老
@@ -388,7 +392,21 @@ export default {
         this.submitLoadingOpen()
         this.$refs.postForm.validate((valid, fields) => {
           if (valid) {
-            if (this.isUpdate) {
+            if (this.monthId > 0) {
+              salaryApi
+                .monthUpdate(this.postForm)
+                .then(({ code, msg }) => {
+                  if (code === 200) {
+                    this.$message.success(msg)
+                    this.$emit('onUpdateSuccess')
+                  } else {
+                    this.$message.error(msg)
+                  }
+                })
+                .catch(() => {
+                  this.submitLoadingClose()
+                })
+            } else if (this.isUpdate) {
               salaryApi
                 .update(this.postForm)
                 .then(({ code, msg }) => {

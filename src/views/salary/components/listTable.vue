@@ -4,7 +4,7 @@
       <el-empty :image-size="100" :description="emptyText" />
     </template>
     <el-table-column type="selection" width="50" align="center" />
-    <el-table-column prop="id" :label="fields.id" sortable="custom" align="center" />
+    <el-table-column prop="id" :label="fields.id" sortable="custom" width="80" align="center" />
     <el-table-column :label="fields.work" align="center" width="120">
       <template slot-scope="{ row: { id } }">
         <el-button type="primary" icon="el-icon-edit" size="mini" @click="$router.push({ path: `update/${id}` })" />
@@ -33,20 +33,6 @@
     </el-table-column>
     <el-table-column prop="basePay" :label="fields.basePay" align="center" />
     <el-table-column prop="meritPay" :label="fields.meritPay" align="center" />
-    <el-table-column :label="fields.myPension" align="center">
-      <el-table-column prop="myPension" :label="fields.personal" align="center" />
-    </el-table-column>
-    <el-table-column :label="fields.unPension" align="center">
-      <el-table-column prop="unPension" :label="fields.unit" align="center" />
-    </el-table-column>
-    <el-table-column prop="myUnemployment" :label="fields.myUnemployment + fields.personal" align="center" />
-    <el-table-column prop="unUnemployment" :label="fields.unUnemployment + fields.unit" align="center" />
-    <el-table-column prop="myMedicalCare" :label="fields.myMedicalCare + fields.personal" align="center" />
-    <el-table-column prop="unMedicalCare" :label="fields.unMedicalCare + fields.unit" align="center" />
-    <el-table-column prop="unInjury" :label="fields.unInjury + fields.unit" align="center" />
-    <el-table-column prop="unBirth" :label="fields.unBirth + fields.unit" align="center" />
-    <el-table-column prop="myAccumulationFund" :label="fields.myAccumulationFund + fields.personal" align="center" />
-    <el-table-column prop="unAccumulationFund" :label="fields.unAccumulationFund + fields.unit" align="center" />
     <el-table-column :label="fields.isUse" align="center">
       <template slot-scope="{ row: { id } }">
         <el-switch v-model="isUse[id]" active-color="#13ce66" inactive-color="#ff4949" @change="onIsUseChange($event, id)" />

@@ -12,6 +12,9 @@ export default {
     },
     onSelectionChange(val) {
       this.$emit('selectionChange', val)
+    },
+    onUpdateRow(row) {
+      this.$emit('onUpdateRow', row.id)
     }
   }
 }
