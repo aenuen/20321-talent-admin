@@ -16,23 +16,12 @@
     <el-table-column label="工资统计" align="center">
       <el-table-column prop="basePay" label="基本" align="center" />
       <el-table-column prop="meritPay" label="绩效" align="center" />
-      <el-table-column prop="onePay" :label="fields.subtotal" align="center" />
+      <el-table-column prop="payTotal" :label="fields.subtotal" align="center" />
     </el-table-column>
-    <el-table-column label="扣款、补贴" align="center">
-      <el-table-column label="缺勤扣款" align="center">
-        <el-table-column :label="fields.days" align="center">
-          <template slot-scope="{ row: { days } }">
-            <span>{{ days || 0 }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column :label="fields.deduct" align="center">
-          <template slot-scope="{ row: { deduct } }">
-            <span>{{ deduct || 0 }}</span>
-          </template>
-        </el-table-column>
-      </el-table-column>
+    <el-table-column label="扣款及补贴" align="center">
       <el-table-column prop="subsidy" :label="fields.subsidy" align="center" />
-      <el-table-column prop="twoPay" :label="fields.subtotal" align="center" />
+      <el-table-column prop="deduct" :label="fields.deduct" align="center" />
+      <el-table-column prop="SAndDTotal" :label="fields.subtotal" align="center" />
     </el-table-column>
     <el-table-column label="代扣代缴" align="center">
       <el-table-column :label="fields.myPension" align="center">
@@ -50,9 +39,9 @@
       <el-table-column :label="fields.myIncomeTax" align="center">
         <el-table-column prop="myIncomeTax" :label="fields.personal" align="center" />
       </el-table-column>
-      <el-table-column prop="therePay" :label="fields.subtotal" align="center" />
+      <el-table-column prop="personalTotal" :label="fields.subtotal" align="center" />
     </el-table-column>
-    <el-table-column prop="fourPay" label="实发工资" align="center" />
+    <el-table-column prop="grantPay" label="实发工资" align="center" />
   </el-table>
 </template>
 <script>

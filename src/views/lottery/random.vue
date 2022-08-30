@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <div class="app-container">
+    <div class="filter-container"></div>
+  </div>
 </template>
 <script>
 // api
