@@ -20,7 +20,7 @@ import { salaryApi } from '@/api/salary'
 // plugins
 // settings
 export default {
-  name: 'SalaryComponentsMonthPersonal',
+  name: 'SalaryComponentsMonthAddPer',
   props: {
     monthData: { type: Array, default: () => [] },
     company: { type: String, default: '' },
@@ -37,8 +37,9 @@ export default {
     this.parseData()
   },
   methods: {
+    // 月表公司员工
     parseData() {
-      salaryApi.comPersonnel({ company: this.company }).then(({ code, data, msg }) => {
+      salaryApi.monthComPer({ company: this.company }).then(({ code, data, msg }) => {
         if (code === 200) {
           const selected = []
           this.monthData.forEach((item) => selected.push(item.sid))
@@ -52,14 +53,15 @@ export default {
         }
       })
     },
+    // 增加月表员工
     addPersonnel() {
       const addNumber = []
       this.selected.forEach((item) => this.oldValue.includes(item) || addNumber.push(item))
       if (addNumber.length > 0) {
-        salaryApi.addPersonnel({ yearMonth: this.yearMonth, addNumber }).then(({ code, msg }) => {
+        salaryApi.monthAddPer({ yearMonth: this.yearMonth, addNumber }).then(({ code, msg }) => {
           if (code === 200) {
             this.$message.success(msg)
-            this.$emit('onAddPersonnel')
+            this.$emit('onMonthAddPer')
           } else {
             this.$message.error(msg)
           }

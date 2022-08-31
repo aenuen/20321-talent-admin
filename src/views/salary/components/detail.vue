@@ -202,6 +202,7 @@ export default {
   props: {
     isUpdate: { type: Boolean, default: () => false },
     isBatch: { type: Boolean, default: () => false },
+    mSelectAry: { type: Array, default: () => [] },
     monthId: { type: Number, default: 0 }
   },
   data() {
@@ -411,9 +412,27 @@ export default {
                 .then(({ code, msg }) => {
                   if (code === 200) {
                     this.$message.success(msg)
-                    this.$emit('onUpdateSuccess')
+                    this.$emit('aloneUpdateSuccess')
                   } else {
                     this.$message.error(msg)
+                  }
+                })
+                .catch(() => {
+                  this.submitLoadingClose()
+                })
+            } else if (this.isBatch) {
+              salaryApi
+                .monthBatchUPdate({
+                  ...this.postForm,
+                  ...{ ids: this.mSelectAry }
+                })
+                .then(({ code, msg }) => {
+                  if (code === 200) {
+                    this.submitHandle(msg)
+                    this.$emit('batchUpdateSuccess')
+                  } else {
+                    this.$message.error(msg)
+                    this.submitLoadingClose()
                   }
                 })
                 .catch(() => {
@@ -436,7 +455,10 @@ export default {
                 })
             } else {
               salaryApi
-                .create(this.postForm)
+                .create({
+                  ...this.postForm,
+                  ...{ ids: this.mSelectAry }
+                })
                 .then(({ code, msg }) => {
                   if (code === 200) {
                     this.submitHandle(msg)

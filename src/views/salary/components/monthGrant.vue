@@ -1,11 +1,11 @@
 <template>
-  <el-table :key="1" :data="tableData" border fit highlight-current-row style="width: 100%" @selection-change="onSelectionChange" @row-dblclick="onUpdateRow">
+  <el-table :key="1" :data="tableData" border fit highlight-current-row style="width: 100%" @selection-change="onSelectionChange" @row-dblclick="onAloneDblclick">
     <template slot="empty">
       <el-empty :image-size="100" :description="emptyText" />
     </template>
-    <el-table-column v-if="selectionShow" type="selection" width="65" align="center" />
+    <el-table-column v-if="selectorShow" type="selection" width="65" align="center" />
     <el-table-column v-if="!removeShow" type="index" :label="fields.index" width="65" align="center" />
-    <el-table-column v-if="removeShow" :label="fields.work" align="center" width="65" fixed="left">
+    <el-table-column v-if="removeShow" :label="fields.work" align="center" width="65">
       <template slot-scope="{ row: { id } }">
         <el-button type="danger" icon="el-icon-delete" size="mini" @click="onAloneRemove(id)" />
       </template>
@@ -61,7 +61,8 @@ export default {
   mixins: [TableMixin],
   props: {
     tableData: { type: Array, default: () => [] },
-    selectionShow: Boolean,
+    yearMonth: { type: String, default: '' },
+    selectorShow: Boolean,
     removeShow: Boolean
   },
   data() {
