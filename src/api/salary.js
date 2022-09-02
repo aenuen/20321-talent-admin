@@ -17,6 +17,7 @@ export const salaryApi = {
   update: (data) => request({ url: '/salary/update', method: 'post', data }), // 编辑员工
   batchUpdate: (data) => request({ url: '/salary/batchUpdate', method: 'post', data }), // 批量编辑员工
   isUse: data => request({ url: '/salary/isUse', method: 'post', data }), // 启用&&禁用员工
+  incomeTax: data => request({ url: '/salary/incomeTax', method: 'post', data }), // 更新个人所得税
   monthAddPer: data => request({ url: '/salary/monthAddPer', method: 'post', data }), // 添加月表员工
   monthUpdate: data => request({ url: '/salary/monthUpdate', method: 'post', data }), // 编辑月表员工,
   monthRemove: data => request({ url: '/salary/monthRemove', method: 'post', data }), // 删除月表员工,

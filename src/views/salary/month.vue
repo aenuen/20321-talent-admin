@@ -1,45 +1,60 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <!-- 公司搜索 -->
-      <el-select v-model="queryList.company" filterable class="filter-ele" :placeholder="fields.company" @change="handleFilter">
-        <el-option v-for="item in companyAry" :key="item.value" :label="item.value" :value="item.value" />
-      </el-select>
-      <!-- 年月搜索 -->
-      <el-date-picker v-model="queryList.yearMonth" :placeholder="fields.yearMonth" class="filter-ele" value-format="yyyy-MM" type="month" @change="handleFilter" />
-      <el-button class="filter-btn el-icon-plus" style="width: auto" @click="personnelShow = true"> 增加月表人数 </el-button>
-      <el-checkbox v-model="selectorShow" style="margin-left: 10px">显示多显</el-checkbox>
-      <el-button v-if="selectorShow" type="success" class="filter-btn el-icon-edit" style="width: auto" @click="batchUpdateConfirm"> 批量编辑 </el-button>
-      <el-button v-if="selectorShow" type="danger" class="filter-btn el-icon-delete" style="width: auto" @click="batchRemoveConfirm"> 批量删除 </el-button>
-      <el-checkbox v-model="removeShow" style="margin-left: 10px">显示删除</el-checkbox>
+      <div class="filter-work">
+        <div class="left">
+          <!-- 公司搜索 -->
+          <el-select v-model="queryList.company" filterable class="filter-ele" :placeholder="fields.company" @change="handleFilter">
+            <el-option v-for="item in companyAry" :key="item.value" :label="item.value" :value="item.value" />
+          </el-select>
+          <!-- 年月搜索 -->
+          <el-date-picker v-model="queryList.yearMonth" :placeholder="fields.yearMonth" class="filter-ele" value-format="yyyy-MM" type="month" @change="handleFilter" />
+          <!-- 增加月表员工 -->
+          <el-button class="filter-btn el-icon-plus" style="width: auto" @click="personnelShow = true"> 增加月表员工 </el-button>
+          <!-- 显示多显 -->
+          <el-checkbox v-model="selectorShow" style="margin-left: 10px">显示多显</el-checkbox>
+          <!-- 批量编辑 -->
+          <el-button v-if="selectorShow" type="success" class="filter-btn el-icon-edit" style="width: auto" @click="batchUpdateConfirm"> 批量编辑 </el-button>
+          <!-- 批量删除 -->
+          <el-button v-if="selectorShow" type="danger" class="filter-btn el-icon-delete" style="width: auto" @click="batchRemoveConfirm"> 批量删除 </el-button>
+          <el-checkbox v-model="removeShow" style="margin-left: 10px">显示删除</el-checkbox>
+        </div>
+        <div class="right">
+          <!-- 个税及打印 -->
+          <HeaderButtons :tab-name="tabName" :tab-id="tabId" @onEditTax="taxShow = true" />
+        </div>
+      </div>
+      <!-- 增加月表员工 -->
+      <Dialog :control="personnelShow" title="增加月表人员" :width="630" @controlChange="personnelShow = false">
+        <MonthAddPer :month-data="tableData" :company="queryList.company" :year-month="queryList.yearMonth" @onMonthAddPer="onMonthAddPer" />
+      </Dialog>
+      <!-- 编辑月表员工 -->
+      <Dialog :control="updateShow" title="编辑月表人员" :width="990" @controlChange="updateShow = false">
+        <Detail :month-id="monthId" @aloneUpdateSuccess="aloneUpdateSuccess" />
+      </Dialog>
+      <!-- 批量编辑月表员工 -->
+      <Dialog :control="batchUpdateShow" title="批量编辑月表人员" :width="990" @controlChange="batchUpdateShow = false">
+        <Detail is-batch :m-select-ary="selectorAry" @batchUpdateSuccess="batchUpdateSuccess" />
+      </Dialog>
+      <!-- 编辑个人所得税 -->
+      <Dialog :control="taxShow" title="编辑个人所得税" :width="990" :fullscreen="true" @controlChange="taxShow = false">
+        <IncomeTax :table-data="tableData" @incomeTaxSuccess="incomeTaxSuccess" />
+      </Dialog>
     </div>
-    <!-- 增加月表员工 -->
-    <Dialog :control="personnelShow" title="增加月表人员" :width="630" @controlChange="personnelShow = false">
-      <MonthAddPer :month-data="tableData" :company="queryList.company" :year-month="queryList.yearMonth" @onMonthAddPer="onMonthAddPer" />
-    </Dialog>
-    <!-- 编辑月表员工 -->
-    <Dialog :control="updateShow" title="编辑月表人员" :width="990" @controlChange="updateShow = false">
-      <Detail :month-id="monthId" @aloneUpdateSuccess="aloneUpdateSuccess" />
-    </Dialog>
-    <!-- 批量编辑月表员工 -->
-    <Dialog :control="batchUpdateShow" title="批量编辑月表人员" :width="990" @controlChange="batchUpdateShow = false">
-      <Detail is-batch :m-select-ary="selectorAry" @batchUpdateSuccess="batchUpdateSuccess" />
-    </Dialog>
-    <!-- 编辑个人所得税 -->
-    <Dialog :control="taxShow" title="编辑个人所得税" :width="990" :fullscreen="true" @controlChange="taxShow = false"> 1 </Dialog>
     <!-- 签标切换 -->
     <el-tabs v-model="queryList.tabPosition" type="border-card" @tab-click="tabsClick">
       <el-tab-pane label="工资发放表" name="grant">
         <!-- 工资发放表 -->
-        <HeaderButtons table-name="工资发放表" @onEditTax="taxShow = true" />
         <div id="grant">
           <HeaderTitle :company="queryList.company" :year-month="queryList.yearMonth" />
           <monthGrant :table-data="tableData" :year-month="queryList.yearMonth" :selector-show="selectorShow" :remove-show="removeShow" @onAloneRemove="onAloneRemove" @onAloneDblclick="onAloneDblclick" @selectionChange="selectionChange" />
         </div>
       </el-tab-pane>
       <el-tab-pane label="社保医保单位分配表" name="social"> </el-tab-pane>
+      <el-tab-pane label="社保医保统计表" name="socialTeam" :disabled="queryList.company === '居乐'"> </el-tab-pane>
       <el-tab-pane label="个人所得税申报表" name="income"> </el-tab-pane>
       <el-tab-pane label="工资计提表" name="wages"></el-tab-pane>
+      <el-tab-pane label="工资计提统计表" name="wagesTeam" :disabled="queryList.company === '居乐'"></el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -53,6 +68,7 @@ import monthGrant from './components/monthGrant.vue'
 import Detail from './components/detail.vue'
 import HeaderButtons from './components/headerButtons.vue'
 import HeaderTitle from './components/headerTitle.vue'
+import IncomeTax from './components/incomeTax.vue'
 // data
 import { fields } from './modules/fields'
 // filter
@@ -65,7 +81,7 @@ import ListMixin from '@/components/Mixins/ListMixin'
 import { timeGetYearMonth } from 'methods-often/import'
 // settings
 export default {
-  components: { Dialog, MonthAddPer, monthGrant, Detail, HeaderButtons, HeaderTitle },
+  components: { Dialog, MonthAddPer, monthGrant, Detail, HeaderButtons, HeaderTitle, IncomeTax },
   mixins: [ListMixin],
   data() {
     return {
@@ -75,7 +91,9 @@ export default {
       personnelShow: false,
       selectorShow: false,
       removeShow: false,
-      taxShow: false
+      taxShow: false,
+      tabName: '工资放发表',
+      tabId: 'grant'
     }
   },
   mounted() {
@@ -101,6 +119,8 @@ export default {
     // 标签切换
     tabsClick(tab) {
       this.queryList.tabPosition = tab.name
+      this.tabName = tab.label
+      this.tableId = tab.name
       this.refreshStrong()
     },
     // 获取月表数据
@@ -116,6 +136,10 @@ export default {
     // 增加公司员工成功
     onMonthAddPer() {
       this.personnelShow = false
+      this.refreshStrong()
+    },
+    incomeTaxSuccess() {
+      this.taxShow = false
       this.refreshStrong()
     },
     // 单个删除
@@ -148,4 +172,9 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.filter-work {
+  display: flex;
+  justify-content: space-between; /* 横向中间自动空间 */
+}
+</style>

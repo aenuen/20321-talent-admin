@@ -1,7 +1,7 @@
 <template>
   <div style="text-align: right">
     <el-button class="el-icon-edit" @click="onEditTax">编辑个人所得税</el-button>
-    <el-button class="el-icon-printer">打印{{ tableName }}</el-button>
+    <el-button class="el-icon-printer">打印{{ tabName }}</el-button>
   </div>
 </template>
 <script>
@@ -16,7 +16,8 @@
 export default {
   components: {},
   props: {
-    tableName: { type: String, default: '' }
+    tabName: { type: String, default: '' },
+    tabId: { type: String, default: '' }
   },
   data() {
     return {}
