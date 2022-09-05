@@ -12,7 +12,7 @@
         <el-row>
           <el-col>
             <el-form-item :label-width="labelWidth">
-              <el-button v-loading="submitLoading" type="primary" :disabled="submitLoading" @click="updateIncomeTax">编辑个人所得税</el-button> <span>共计：{{ total }}</span>
+              <el-button v-loading="submitLoading" type="primary" :disabled="submitLoading" @click="updateIncomeTax">编辑个人所得税</el-button> <span>个人所得税共计：{{ total }}</span>
             </el-form-item>
           </el-col>
         </el-row>

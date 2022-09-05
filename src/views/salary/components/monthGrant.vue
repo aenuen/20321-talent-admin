@@ -56,12 +56,11 @@ import TableMixin from '@/components/Mixins/TableMixin'
 // plugins
 // settings
 export default {
-  name: 'SalaryComponentsMonthTable',
+  name: 'SalaryComponentsMonthGrant',
   components: {},
   mixins: [TableMixin],
   props: {
     tableData: { type: Array, default: () => [] },
-    yearMonth: { type: String, default: '' },
     selectorShow: Boolean,
     removeShow: Boolean
   },

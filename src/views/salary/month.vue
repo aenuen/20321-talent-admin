@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
+    <div class="filter-container" style="overflow: hidden">
       <div class="filter-work">
         <div class="left">
           <!-- 公司搜索 -->
@@ -21,7 +21,7 @@
         </div>
         <div class="right">
           <!-- 个税及打印 -->
-          <HeaderButtons :tab-name="tabName" :tab-id="tabId" @onEditTax="taxShow = true" />
+          <HeaderButtons :tab-name="tabName" :tab-code="tabCode" @onUpdateTax="taxShow = true" />
         </div>
       </div>
       <!-- 增加月表员工 -->
@@ -42,19 +42,45 @@
       </Dialog>
     </div>
     <!-- 签标切换 -->
-    <el-tabs v-model="queryList.tabPosition" type="border-card" @tab-click="tabsClick">
+    <el-tabs v-model="queryList.tabCode" type="border-card" style="width: 100%" @tab-click="tabsClick">
       <el-tab-pane label="工资发放表" name="grant">
         <!-- 工资发放表 -->
         <div id="grant">
-          <HeaderTitle :company="queryList.company" :year-month="queryList.yearMonth" />
-          <monthGrant :table-data="tableData" :year-month="queryList.yearMonth" :selector-show="selectorShow" :remove-show="removeShow" @onAloneRemove="onAloneRemove" @onAloneDblclick="onAloneDblclick" @selectionChange="selectionChange" />
+          <headerTitleGrant :company="queryList.company" :year-month="queryList.yearMonth" is-grant />
+          <monthGrant :table-data="tableData" :selector-show="selectorShow" :remove-show="removeShow" @onAloneRemove="onAloneRemove" @onAloneDblclick="onAloneDblclick" @selectionChange="selectionChange" />
         </div>
       </el-tab-pane>
-      <el-tab-pane label="社保医保单位分配表" name="social"> </el-tab-pane>
-      <el-tab-pane label="社保医保统计表" name="socialTeam" :disabled="queryList.company === '居乐'"> </el-tab-pane>
-      <el-tab-pane label="个人所得税申报表" name="income"> </el-tab-pane>
-      <el-tab-pane label="工资计提表" name="wages"></el-tab-pane>
-      <el-tab-pane label="工资计提统计表" name="wagesTeam" :disabled="queryList.company === '居乐'"></el-tab-pane>
+      <el-tab-pane label="社保医保单位分配表" name="social">
+        <!-- 社保医保单位分配表 -->
+        <div id="social">
+          <headerTitleNone :company="queryList.company" :year-month="queryList.yearMonth" />
+          <monthSocial :table-data="tableData" :selector-show="selectorShow" :remove-show="removeShow" @onAloneRemove="onAloneRemove" @onAloneDblclick="onAloneDblclick" @selectionChange="selectionChange" />
+        </div>
+        <headerTeam tab-name="社保医保项目组统计表" tab-code="teamSocial" />
+        <div id="teamSocial">
+          <headerTitleNone :company="queryList.company" :year-month="queryList.yearMonth" />
+          <TeamSocial :table-data="teamSocial" />
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="个人所得税申报表" name="income">
+        <!-- 个人所得税申报表 -->
+        <div id="income">
+          <headerTitleNone :company="queryList.company" :year-month="queryList.yearMonth" />
+          <monthIncome :table-data="tableData" :selector-show="selectorShow" :remove-show="removeShow" @onAloneRemove="onAloneRemove" @onAloneDblclick="onAloneDblclick" @selectionChange="selectionChange" />
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="工资计提表" name="wages">
+        <!-- 工资计提表  -->
+        <div id="wages">
+          <headerTitleNone :company="queryList.company" :year-month="queryList.yearMonth" />
+          <monthWages id="wages" :table-data="tableData" :selector-show="selectorShow" :remove-show="removeShow" @onAloneRemove="onAloneRemove" @onAloneDblclick="onAloneDblclick" @selectionChange="selectionChange" />
+        </div>
+        <headerTeam tab-name="工资计提项目组统计表" tab-code="teamWages" />
+        <div id="teamWages">
+          <headerTitleNone :company="queryList.company" :year-month="queryList.yearMonth" />
+          <TeamWages :table-data="teamWages" />
+        </div>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -64,36 +90,53 @@ import { salaryApi } from '@/api/salary'
 // components
 import Dialog from '@/components/Dialog'
 import MonthAddPer from './components/monthAddPer'
-import monthGrant from './components/monthGrant.vue'
-import Detail from './components/detail.vue'
-import HeaderButtons from './components/headerButtons.vue'
-import HeaderTitle from './components/headerTitle.vue'
-import IncomeTax from './components/incomeTax.vue'
+import monthGrant from './components/monthGrant'
+import monthSocial from './components/monthSocial'
+import monthIncome from './components/monthIncome'
+import monthWages from './components/monthWages'
+import TeamSocial from './components/teamSocial'
+import TeamWages from './components/teamWages'
+import Detail from './components/detail'
+import HeaderButtons from './components/headerButtons'
+import headerTeam from './components/headerTeam'
+import headerTitleGrant from './components/headerTitleGrant'
+import headerTitleNone from './components/headerTitleNone'
+import IncomeTax from './components/incomeTax'
 // data
 import { fields } from './modules/fields'
 // filter
 // function
 import { usedParseOnly } from './utils/usedParse'
 import { monthData } from './utils/monthData'
+import { teamSocial } from './utils/teamSocial'
+import { teamWages } from './utils/teamWages'
 // mixin
 import ListMixin from '@/components/Mixins/ListMixin'
 // plugins
 import { timeGetYearMonth } from 'methods-often/import'
 // settings
 export default {
-  components: { Dialog, MonthAddPer, monthGrant, Detail, HeaderButtons, HeaderTitle, IncomeTax },
+  components: { Dialog, MonthAddPer, monthGrant, monthSocial, monthIncome, monthWages, TeamSocial, TeamWages, Detail, HeaderButtons, headerTeam, headerTitleGrant, headerTitleNone, IncomeTax },
   mixins: [ListMixin],
   data() {
     return {
       fields,
       companyAry: [],
       monthId: 0,
+      teamSocial: [],
+      teamWages: [],
       personnelShow: false,
       selectorShow: false,
       removeShow: false,
-      taxShow: false,
-      tabName: '工资放发表',
-      tabId: 'grant'
+      taxShow: false
+    }
+  },
+  computed: {
+    tabName() {
+      return this.queryList.tabName || '工资发放表'
+    },
+    tabCode() {
+      return this.queryList.tabCode || 'grant'
     }
   },
   mounted() {
@@ -105,7 +148,8 @@ export default {
       return {
         company: '尚德',
         yearMonth: timeGetYearMonth(),
-        tabPosition: 'grant'
+        tabCode: 'grant',
+        tabName: '工资放发表'
       }
     },
     // 获取使用过的数据
@@ -118,16 +162,24 @@ export default {
     },
     // 标签切换
     tabsClick(tab) {
-      this.queryList.tabPosition = tab.name
+      this.queryList.tabName = tab.label
+      this.queryList.tabCode = tab.name
       this.tabName = tab.label
-      this.tableId = tab.name
+      this.tabCode = tab.name
       this.refreshStrong()
     },
     // 获取月表数据
     startHandle() {
       salaryApi.monthList(this.queryList).then(({ code, data, msg }) => {
         if (code === 200) {
-          this.tableData = [...monthData(data)]
+          if (data.length > 0) {
+            this.tableData = [...monthData(data)]
+            this.teamSocial = teamSocial(this.tableData) // 医保社保项目组统计
+            this.teamWages = teamWages(this.tableData) // 工资计提项目组统计
+          } else {
+            this.tableData = [...[]]
+            this.$message.warning(`${this.queryList.yearMonth}暂无数据`)
+          }
         } else {
           this.$message.warning(msg)
         }

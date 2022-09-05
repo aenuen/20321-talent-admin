@@ -39,9 +39,9 @@ export default {
   font-size: 14px;
   color: #aaa;
   display: flex;
-  div {
-    flex: 1;
-    text-align: center;
-  }
+}
+.tableHeader div {
+  flex: 1;
+  text-align: center;
 }
 </style>
