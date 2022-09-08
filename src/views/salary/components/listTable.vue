@@ -1,14 +1,14 @@
 <template>
-  <el-table :key="1" :loading="tableLoading" :data="tableData" border fit highlight-current-row style="width: 100%" :default-sort="tableSort" @sort-change="onSortChange" @selection-change="onSelectionChange">
+  <el-table :key="1" :loading="tableLoading" :data="tableData" border fit highlight-current-row style="width: 100%" :default-sort="tableSort" @sort-change="onSortChange" @selection-change="onSelectorChange">
     <template slot="empty">
-      <el-empty :image-size="100" :description="emptyText" />
+      <el-empty :image-size="100" description="未能找到符合条件的数据" />
     </template>
     <el-table-column type="selection" width="50" align="center" />
     <el-table-column prop="id" :label="fields.id" sortable="custom" width="80" align="center" />
     <el-table-column :label="fields.work" align="center" width="120">
       <template slot-scope="{ row: { id } }">
         <el-button type="primary" icon="el-icon-edit" size="mini" @click="$router.push({ path: `update/${id}` })" />
-        <el-button type="danger" icon="el-icon-delete" size="mini" @click="onAloneRemove(id)" />
+        <el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemoveAlone(id)" />
       </template>
     </el-table-column>
     <el-table-column :label="fields.name" prop="name" align="center">
@@ -64,11 +64,6 @@ export default {
   data() {
     return {
       fields
-    }
-  },
-  computed: {
-    emptyText() {
-      return '未能找到符合条件的数据'
     }
   }
 }

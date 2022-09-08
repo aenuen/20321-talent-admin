@@ -10,7 +10,7 @@ const salaryRouter = {
     {
       path: 'list', name: 'salaryList', component: () => import('@/views/salary/list'),
       meta: {
-        title: '工员列表',
+        title: '员工列表',
         roles: ['admin']
       }
     },

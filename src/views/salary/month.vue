@@ -10,13 +10,13 @@
           <!-- 年月搜索 -->
           <el-date-picker v-model="queryList.yearMonth" :placeholder="fields.yearMonth" class="filter-ele" value-format="yyyy-MM" type="month" @change="handleFilter" />
           <!-- 增加月表员工 -->
-          <el-button class="filter-btn el-icon-plus" style="width: auto" @click="personnelShow = true"> 增加月表员工 </el-button>
+          <el-button type="success" class="filter-btn el-icon-plus" style="width: auto" @click="personnelShow = true"> 增加月表员工 </el-button>
           <!-- 显示多显 -->
           <el-checkbox v-model="selectorShow" style="margin-left: 10px">显示多显</el-checkbox>
           <!-- 批量编辑 -->
-          <el-button v-if="selectorShow" type="success" class="filter-btn el-icon-edit" style="width: auto" @click="batchUpdateConfirm"> 批量编辑 </el-button>
+          <el-button v-if="selectorShow" type="success" class="filter-btn el-icon-edit" style="width: auto" @click="updateBatchConfirm"> 批量编辑 </el-button>
           <!-- 批量删除 -->
-          <el-button v-if="selectorShow" type="danger" class="filter-btn el-icon-delete" style="width: auto" @click="batchRemoveConfirm"> 批量删除 </el-button>
+          <el-button v-if="selectorShow" type="danger" class="filter-btn el-icon-delete" style="width: auto" @click="removeBatchConfirm"> 批量删除 </el-button>
           <el-checkbox v-model="removeShow" style="margin-left: 10px">显示删除</el-checkbox>
         </div>
         <div class="right">
@@ -30,11 +30,11 @@
       </Dialog>
       <!-- 编辑月表员工 -->
       <Dialog :control="updateShow" title="编辑月表人员" :width="990" @controlChange="updateShow = false">
-        <Detail :month-id="monthId" @aloneUpdateSuccess="aloneUpdateSuccess" />
+        <Detail :month-id="monthId" @updateAloneSuccess="updateAloneSuccess" />
       </Dialog>
       <!-- 批量编辑月表员工 -->
-      <Dialog :control="batchUpdateShow" title="批量编辑月表人员" :width="990" @controlChange="batchUpdateShow = false">
-        <Detail is-batch :m-select-ary="selectorAry" @batchUpdateSuccess="batchUpdateSuccess" />
+      <Dialog :control="updateBatchShow" title="批量编辑月表人员" :width="990" @controlChange="updateBatchShow = false">
+        <Detail is-batch :selector-ary="selectorAry" @updateBatchSuccess="updateBatchSuccess" />
       </Dialog>
       <!-- 编辑个人所得税 -->
       <Dialog :control="taxShow" title="编辑个人所得税" :width="990" :fullscreen="true" @controlChange="taxShow = false">
@@ -46,38 +46,40 @@
       <el-tab-pane label="工资发放表" name="grant">
         <!-- 工资发放表 -->
         <div id="grant">
-          <headerTitleGrant :company="queryList.company" :year-month="queryList.yearMonth" is-grant />
-          <monthGrant :table-data="tableData" :selector-show="selectorShow" :remove-show="removeShow" @onAloneRemove="onAloneRemove" @onAloneDblclick="onAloneDblclick" @selectionChange="selectionChange" />
+          <header-title-grant :company="queryList.company" :year-month="queryList.yearMonth" is-grant />
+          <monthGrant :table-data="tableData" :selector-show="selectorShow" :remove-show="removeShow" @onRemoveAlone="onRemoveAlone" @onDblclickAlone="onDblclickAlone" @onSelectorChange="onSelectorChange" />
         </div>
       </el-tab-pane>
       <el-tab-pane label="社保医保单位分配表" name="social">
         <!-- 社保医保单位分配表 -->
         <div id="social">
-          <headerTitleNone :company="queryList.company" :year-month="queryList.yearMonth" />
-          <monthSocial :table-data="tableData" :selector-show="selectorShow" :remove-show="removeShow" @onAloneRemove="onAloneRemove" @onAloneDblclick="onAloneDblclick" @selectionChange="selectionChange" />
+          <header-title-none :company="queryList.company" :year-month="queryList.yearMonth" />
+          <monthSocial :table-data="tableData" :selector-show="selectorShow" :remove-show="removeShow" @onRemoveAlone="onRemoveAlone" @onDblclickAlone="onDblclickAlone" @onSelectorChange="onSelectorChange" />
         </div>
+        <!-- 社保医保项目组统计表 -->
         <headerTeam tab-name="社保医保项目组统计表" tab-code="teamSocial" />
         <div id="teamSocial">
-          <headerTitleNone :company="queryList.company" :year-month="queryList.yearMonth" />
+          <header-title-none :company="queryList.company" :year-month="queryList.yearMonth" />
           <TeamSocial :table-data="teamSocial" />
         </div>
       </el-tab-pane>
       <el-tab-pane label="个人所得税申报表" name="income">
         <!-- 个人所得税申报表 -->
         <div id="income">
-          <headerTitleNone :company="queryList.company" :year-month="queryList.yearMonth" />
-          <monthIncome :table-data="tableData" :selector-show="selectorShow" :remove-show="removeShow" @onAloneRemove="onAloneRemove" @onAloneDblclick="onAloneDblclick" @selectionChange="selectionChange" />
+          <header-title-none :company="queryList.company" :year-month="queryList.yearMonth" />
+          <monthIncome :table-data="tableData" :selector-show="selectorShow" :remove-show="removeShow" @onRemoveAlone="onRemoveAlone" @onDblclickAlone="onDblclickAlone" @onSelectorChange="onSelectorChange" />
         </div>
       </el-tab-pane>
       <el-tab-pane label="工资计提表" name="wages">
         <!-- 工资计提表  -->
         <div id="wages">
-          <headerTitleNone :company="queryList.company" :year-month="queryList.yearMonth" />
-          <monthWages id="wages" :table-data="tableData" :selector-show="selectorShow" :remove-show="removeShow" @onAloneRemove="onAloneRemove" @onAloneDblclick="onAloneDblclick" @selectionChange="selectionChange" />
+          <header-title-none :company="queryList.company" :year-month="queryList.yearMonth" />
+          <monthWages id="wages" :table-data="tableData" :selector-show="selectorShow" :remove-show="removeShow" @onRemoveAlone="onRemoveAlone" @onDblclickAlone="onDblclickAlone" @onSelectorChange="onSelectorChange" />
         </div>
-        <headerTeam tab-name="工资计提项目组统计表" tab-code="teamWages" />
+        <!-- 工资计提项目组统计表 -->
+        <HeaderTeam tab-name="工资计提项目组统计表" tab-code="teamWages" />
         <div id="teamWages">
-          <headerTitleNone :company="queryList.company" :year-month="queryList.yearMonth" />
+          <header-title-none :company="queryList.company" :year-month="queryList.yearMonth" />
           <TeamWages :table-data="teamWages" />
         </div>
       </el-tab-pane>
@@ -89,19 +91,19 @@
 import { salaryApi } from '@/api/salary'
 // components
 import Dialog from '@/components/Dialog'
-import MonthAddPer from './components/monthAddPer'
-import monthGrant from './components/monthGrant'
-import monthSocial from './components/monthSocial'
-import monthIncome from './components/monthIncome'
-import monthWages from './components/monthWages'
-import TeamSocial from './components/teamSocial'
-import TeamWages from './components/teamWages'
-import Detail from './components/detail'
-import HeaderButtons from './components/headerButtons'
-import headerTeam from './components/headerTeam'
-import headerTitleGrant from './components/headerTitleGrant'
-import headerTitleNone from './components/headerTitleNone'
-import IncomeTax from './components/incomeTax'
+import MonthAddPer from './components/MonthAddPer'
+import MonthGrant from './components/MonthGrant'
+import MonthSocial from './components/MonthSocial'
+import MonthIncome from './components/MonthIncome'
+import MonthWages from './components/MonthWages'
+import TeamSocial from './components/TeamSocial'
+import TeamWages from './components/TeamWages'
+import Detail from './components/Detail'
+import HeaderButtons from './components/HeaderButtons'
+import HeaderTeam from './components/HeaderTeam'
+import HeaderTitleGrant from './components/HeaderTitleGrant'
+import HeaderTitleNone from './components/HeaderTitleNone'
+import IncomeTax from './components/IncomeTax'
 // data
 import { fields } from './modules/fields'
 // filter
@@ -116,7 +118,7 @@ import ListMixin from '@/components/Mixins/ListMixin'
 import { timeGetYearMonth } from 'methods-often/import'
 // settings
 export default {
-  components: { Dialog, MonthAddPer, monthGrant, monthSocial, monthIncome, monthWages, TeamSocial, TeamWages, Detail, HeaderButtons, headerTeam, headerTitleGrant, headerTitleNone, IncomeTax },
+  components: { Dialog, MonthAddPer, MonthGrant, MonthSocial, MonthIncome, MonthWages, TeamSocial, TeamWages, Detail, HeaderButtons, HeaderTeam, HeaderTitleGrant, HeaderTitleNone, IncomeTax },
   mixins: [ListMixin],
   data() {
     return {
@@ -125,10 +127,9 @@ export default {
       monthId: 0,
       teamSocial: [],
       teamWages: [],
-      personnelShow: false,
-      selectorShow: false,
-      removeShow: false,
-      taxShow: false
+      personnelShow: false, // 显示增加公司员工控制变量
+      removeShow: false, // 显示删除按钮控制变量
+      taxShow: false // 显示编辑个人所得税控制变量
     }
   },
   computed: {
@@ -149,7 +150,7 @@ export default {
         company: '尚德',
         yearMonth: timeGetYearMonth(),
         tabCode: 'grant',
-        tabName: '工资放发表'
+        tabName: '工资发放表'
       }
     },
     // 获取使用过的数据
@@ -195,7 +196,7 @@ export default {
       this.refreshStrong()
     },
     // 单个删除
-    aloneRemove() {
+    removeAlone() {
       salaryApi.monthRemove({ id: this.removeId }).then(({ code, msg }) => {
         if (code === 200) {
           this.$message.success(msg)
@@ -206,8 +207,8 @@ export default {
       })
     },
     // 批量删除
-    batchRemove() {
-      salaryApi.monthBatchRemove({ ids: this.selectorAry }).then(({ code, msg }) => {
+    removeBatch() {
+      salaryApi.monthRemoveBatch({ ids: this.selectorAry }).then(({ code, msg }) => {
         if (code === 200) {
           this.$message.success(msg)
           this.refreshStrong()
@@ -217,7 +218,7 @@ export default {
       })
     },
     // 双击行编辑
-    onAloneDblclick(id) {
+    onDblclickAlone(id) {
       this.updateShow = true
       this.monthId = id
     }

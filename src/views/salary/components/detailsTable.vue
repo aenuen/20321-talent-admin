@@ -54,7 +54,7 @@ import { fields } from '../modules/fields'
 // plugins
 // settings
 export default {
-  name: 'SalaryComponentsDetailsTable',
+  name: 'SalaryComponentsDetailsTable', // 社医保明细表格
   components: {},
   props: {
     tableLoading: Boolean,

@@ -30,6 +30,7 @@ import { salaryApi } from '@/api/salary'
 // mixin
 import DetailMixin from '@/components/Mixins/DetailMixin'
 // plugins
+import { calcSum } from 'methods-often/import'
 // settings
 export default {
   mixins: [DetailMixin],
@@ -48,7 +49,7 @@ export default {
     total: function () {
       let total = 0
       this.dataAry.forEach((item) => {
-        total = +total + +item.myIncomeTax
+        total = calcSum([+total || 0, +item.myIncomeTax || 0])
       })
       return total
     }

@@ -1,11 +1,11 @@
 <template>
-  <el-table :key="1" :loading="tableLoading" :data="tableData" border fit highlight-current-row style="width: 100%" :default-sort="tableSort" @sort-change="onSortChange" @selection-change="onSelectionChange">
+  <el-table :key="1" :loading="tableLoading" :data="tableData" border fit highlight-current-row style="width: 100%" :default-sort="tableSort" @sort-change="onSortChange" @selection-change="onSelectorChange">
     <el-table-column type="selection" width="50" align="center" />
     <el-table-column :label="fields.id" prop="id" align="center" width="80" sortable="custom" />
     <el-table-column :label="fields.work" align="center" width="120" fixed="left">
       <template slot-scope="{ row: { id } }">
         <el-button type="primary" icon="el-icon-edit" size="mini" @click="$router.push({ path: `update/${id}` })" />
-        <el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemoveUser(id)" />
+        <el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemoveAlone(id)" />
       </template>
     </el-table-column>
     <el-table-column :label="fields.username" prop="username" align="center">
@@ -71,6 +71,7 @@ import noneImage from '@/assets/image/noneImage.png'
 import { Y_M_D_H_I_Filter } from '@/libs/filter'
 // function
 // mixin
+import TableMixin from '@/components/Mixins/TableMixin'
 // plugins
 // settings
 export default {
@@ -78,6 +79,7 @@ export default {
   filters: {
     Y_M_D_H_I_Filter
   },
+  mixins: [TableMixin],
   props: {
     tableLoading: Boolean,
     tableSort: { type: Object, default: () => {} },
@@ -89,23 +91,6 @@ export default {
     return {
       fields,
       noneImage
-    }
-  },
-  methods: {
-    onSortChange(data) {
-      this.$emit('onSortChange', data)
-    },
-    onIsUseChange(event, id) {
-      this.$emit('onIsUseChange', event, id)
-    },
-    onIsAdminChange(event, id) {
-      this.$emit('onIsAdminChange', event, id)
-    },
-    onRemoveUser(id) {
-      this.$emit('onRemoveUser', id)
-    },
-    onSelectionChange(val) {
-      this.$emit('selectionChange', val)
     }
   }
 }

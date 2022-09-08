@@ -17,26 +17,28 @@
       </el-select>
       <el-date-picker v-model="queryList.aheadDate" :placeholder="fields.aheadDate" class="filter-ele" value-format="yyyy-MM-dd" type="date" @change="handleFilter" />
       <el-date-picker v-model="queryList.afterDate" :placeholder="fields.afterDate" class="filter-ele" value-format="yyyy-MM-dd" type="date" @change="handleFilter" />
-      <el-button type="primary" class="filter-btn el-icon-search" @click="handleFilter"> 搜索 </el-button>
-      <el-button type="primary" class="filter-btn el-icon-plus" @click="$router.push('create')"> 新增 </el-button>
+      <el-button class="filter-btn el-icon-search" @click="handleFilter"> 搜索 </el-button>
+      <el-button type="success" class="filter-btn el-icon-plus" @click="$router.push('create')"> 新增 </el-button>
       <el-dropdown class="avatar-container hover-effect" trigger="click">
-        <el-button type="primary" class="filter-btn el-icon-document"> 导出 </el-button>
+        <el-button class="filter-btn el-icon-document"> 导出 </el-button>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item @click.native="exportData(tableData, eHeader, eFields, '用户')"> 导出EXCEL </el-dropdown-item>
           <el-dropdown-item @click.native="exportData(tableData, eHeader, eFields, '用户', 'csv')"> 导出CSV </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-button type="primary" class="filter-btn el-icon-printer" @click="printTable('userListTable', '用户列表')"> 打印 </el-button>
-      <el-button type="primary" class="filter-btn el-icon-delete" style="width: auto" @click="batchRemoveConfirm"> 批量删除 </el-button>
-      <el-button type="primary" class="filter-btn el-icon-edit" style="width: auto" @click="batchUpdate"> 批量编辑 </el-button>
+      <el-button class="filter-btn el-icon-printer" @click="printTable('userListTable', '用户列表')"> 打印 </el-button>
+      <el-button type="danger" class="filter-btn el-icon-delete" style="width: auto" @click="removeBatchConfirm"> 批量删除 </el-button>
     </div>
+    <!-- 列表 -->
     <div id="userListTable">
-      <ListTable :table-data="tableData" :table-loading="tableLoading" :table-sort="tableSort" :is-use="tableIsUse" :is-admin="tableIsAdmin" @selectionChange="selectionChange" @onSortChange="onSortChange" @onIsUseChange="onIsUseChange" @onIsAdminChange="onIsAdminChange" @onRemoveUser="onRemoveUser" />
+      <ListTable :table-data="tableData" :table-loading="tableLoading" :table-sort="tableSort" :is-use="tableIsUse" :is-admin="tableIsAdmin" @onSelectorChange="onSelectorChange" @onSortChange="onSortChange" @onIsUseChange="onIsUseChange" @onIsAdminChange="onIsAdminChange" @onRemoveAlone="onRemoveAlone" />
     </div>
+    <!-- 分页 -->
     <div style="text-align: center">
       <Pagination :hidden="tableDataLength <= 0" :total="tableDataLength" :page.sync="queryList.page" :limit.sync="queryList.pageSize" @pagination="refresh" />
     </div>
-    <Dialog :control="batchUpdateShow" title="批量编辑" @controlChange="batchUpdateToggle"> 1 </Dialog>
+    <!-- 批量编辑 -->
+    <Dialog :control="updateBatchShow" title="批量编辑" @controlChange="updateBatchToggle"> 1 </Dialog>
   </div>
 </template>
 
@@ -55,8 +57,6 @@ import { eHeader, eFields } from './modules/eList'
 // function
 // mixin
 import ListMixin from '@/components/Mixins/ListMixin'
-import AloneMixin from '@/components/Mixins/AloneMixin'
-import BatchMixin from '@/components/Mixins/BatchMixin'
 // plugins
 import { shortcutScope, defineIsUseAry, defineBooleanAry, keyLight } from 'methods-often/import'
 import { printTable } from '@/libs/print'
@@ -65,7 +65,7 @@ import { exportData } from '@/libs/export'
 export default {
   name: 'ManagerList',
   components: { Dialog, ListTable, Pagination },
-  mixins: [ListMixin, AloneMixin, BatchMixin],
+  mixins: [ListMixin],
   data() {
     return {
       fields,
@@ -95,11 +95,13 @@ export default {
     }
   },
   methods: {
+    // 初始设置
     setData() {
       return {
         sort: '-id'
       }
     },
+    // 获取列表
     startHandle() {
       userApi.list(this.queryList).then((res) => {
         const { code, data } = res
@@ -122,11 +124,8 @@ export default {
         }
       })
     },
-    onRemoveUser(id) {
-      this.removeId = id
-      this.aloneRemoveConfirm()
-    },
-    aloneRemove() {
+    // 单个删除
+    removeAlone() {
       userApi.remove({ id: this.removeId }).then(({ code, msg }) => {
         if (code === 200) {
           this.$message.success(msg)
@@ -137,17 +136,19 @@ export default {
         }
       })
     },
-    batchRemove() {
-      userApi.batchRemove({ ids: this.multipleSelection }).then(({ msg, code }) => {
+    // 批量删除
+    removeBatch() {
+      userApi.removeBatch({ ids: this.selectorAry }).then(({ msg, code }) => {
         if (code === 200) {
           this.$message.success(msg)
-          this.multipleSelection = []
+          this.selectorAry = []
           this.refreshStrong()
         } else {
           this.$message.error(msg)
         }
       })
     },
+    // 状态改变
     onIsUseChange(event, id) {
       event = event ? '1' : '0'
       userApi.isUse({ id, event }).then((res) => {
@@ -159,6 +160,7 @@ export default {
         }
       })
     },
+    // 管理员切换
     onIsAdminChange(event, id) {
       event = event ? '1' : '0'
       userApi.isAdmin({ id, event }).then((res) => {

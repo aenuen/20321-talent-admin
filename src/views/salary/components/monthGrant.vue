@@ -1,13 +1,13 @@
 <template>
-  <el-table :key="1" :data="tableData" border fit highlight-current-row style="width: 100%" @selection-change="onSelectionChange" @row-dblclick="onAloneDblclick">
+  <el-table :key="1" :data="tableData" show-summary border fit highlight-current-row style="width: 100%" @selection-change="onSelectorChange" @row-dblclick="onDblclickAlone">
     <template slot="empty">
-      <el-empty :image-size="100" :description="emptyText" />
+      <el-empty :image-size="100" description="未能找到符合条件的数据" />
     </template>
     <el-table-column v-if="selectorShow" type="selection" width="65" align="center" />
     <el-table-column v-if="!removeShow" type="index" :label="fields.index" width="65" align="center" />
     <el-table-column v-if="removeShow" :label="fields.work" align="center" width="65">
       <template slot-scope="{ row: { id } }">
-        <el-button type="danger" icon="el-icon-delete" size="mini" @click="onAloneRemove(id)" />
+        <el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemoveAlone(id)" />
       </template>
     </el-table-column>
     <el-table-column prop="name" :label="fields.name" align="center" />
@@ -67,11 +67,6 @@ export default {
   data() {
     return {
       fields
-    }
-  },
-  computed: {
-    emptyText() {
-      return '未能找到符合条件的数据'
     }
   }
 }

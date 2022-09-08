@@ -16,7 +16,7 @@ export default {
       // 多选
       selectorAry: [], // 多选数组值
       selectorShow: false, // 多选显示
-      batchUpdateShow: false // 批量编辑显示
+      updateBatchShow: false // 批量编辑显示
     }
   },
   mounted() {
@@ -72,23 +72,23 @@ export default {
       this.handleFilter()
     },
     // 单个编辑成功
-    aloneUpdateSuccess() {
+    updateAloneSuccess() {
       this.updateId = 0
       this.updateShow = false
       this.refreshStrong()
     },
     // 单个删除
-    onAloneRemove(id) {
+    onRemoveAlone(id) {
       this.removeId = id
-      this.aloneRemoveConfirm()
+      this.removeAloneConfirm()
     },
     // 单个删除确定
-    aloneRemoveConfirm() {
+    removeAloneConfirm() {
       this.$confirm('删除后将无法恢复，确定继续删除吗？', '温馨提示', {
         type: 'warning'
       })
         .then(() => {
-          this.aloneRemove()
+          this.removeAlone()
         })
         .catch(() => {
           this.removeId = 0
@@ -96,49 +96,49 @@ export default {
         })
     },
     // 个人删除处理
-    aloneRemove() {},
+    removeAlone() {},
     // 选中赋值
-    selectionChange(val) {
+    onSelectorChange(val) {
       this.selectorAry = val
     },
     // 批量编辑确认
-    batchUpdateConfirm() {
-      if (this.selectorAry.length <= 0) {
-        this.$message.info('请选择需要批量编辑的内容')
+    updateBatchConfirm() {
+      if (this.selectorAry.length > 0) {
+        this.updateBatchToggle(true)
       } else {
-        this.batchUpdateToggle(true)
+        this.$message.info('请选择需要批量编辑的内容')
       }
     },
     // 关闭/打开批量编辑框
-    batchUpdateToggle(boolean = false) {
-      this.batchUpdateShow = boolean
+    updateBatchToggle(boolean = false) {
+      this.updateBatchShow = boolean
     },
     // 批量编辑成功
-    batchUpdateSuccess() {
+    updateBatchSuccess() {
       this.selectorAry = []
-      this.batchUpdateShow = false
+      this.updateBatchShow = false
       this.refreshStrong()
     },
     // 批量删除确认
-    batchRemoveConfirm() {
-      if (this.selectorAry.length <= 0) {
-        this.$message.info('请选择需要批量删除的内容', '温馨提示', {
-          type: 'warning'
-        })
-      } else {
+    removeBatchConfirm() {
+      if (this.selectorAry.length > 0) {
         this.$confirm('删除后将无法恢复，确定继续批量删除吗？', '温馨提示', {
           type: 'warning'
         })
           .then(() => {
-            this.batchRemove()
+            this.removeBatch()
           })
           .catch(() => {
             this.$message.info('取消批量删除')
           })
+      } else {
+        this.$message.info('请选择需要批量删除的内容', '温馨提示', {
+          type: 'warning'
+        })
       }
     },
     // 开始批量删除
-    batchRemove() {}
+    removeBatch() {}
   }
 }
 </script>

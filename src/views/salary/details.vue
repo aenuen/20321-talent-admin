@@ -19,14 +19,14 @@
       <el-dropdown class="avatar-container hover-effect" trigger="click">
         <el-button type="default" class="filter-btn el-icon-document"> 导出 </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="exportData(tableData, eHeader, eFields, eFilename)"> 导出EXCEL </el-dropdown-item>
-          <el-dropdown-item @click.native="exportData(tableData, eHeader, eFields, eFilename, 'csv')"> 导出CSV </el-dropdown-item>
+          <el-dropdown-item @click.native="exportData(tableData, detailsExport.header, detailsExport.fields, eFilename)"> 导出EXCEL </el-dropdown-item>
+          <el-dropdown-item @click.native="exportData(tableData, detailsExport.header, detailsExport.fields, eFilename, 'csv')"> 导出CSV </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 打印 -->
       <el-button type="default" class="filter-btn el-icon-printer" @click="printTable('TableList', eFilename)"> 打印 </el-button>
     </div>
-    <detailsTable id="TableList" :name="queryList.name" :table-data="tableData" :table-loading="tableLoading" />
+    <details-table id="TableList" :name="queryList.name" :table-data="tableData" :table-loading="tableLoading" />
     <div style="height: 50px" />
   </div>
 </template>
@@ -34,10 +34,10 @@
 // api
 import { salaryApi } from '@/api/salary'
 // components
-import detailsTable from './components/detailsTable'
+import DetailsTable from './components/DetailsTable'
 // data
 import { fields } from './modules/fields'
-import { eHeader, eFields } from './modules/eList'
+import { detailsExport } from './modules/exportData'
 // filter
 // function
 import { subtotal } from './utils/details'
@@ -51,7 +51,7 @@ import { exportData } from '@/libs/export'
 // settings
 export default {
   name: 'SalaryDetails',
-  components: { detailsTable },
+  components: { DetailsTable },
   mixins: [ListMixin, MethodsMixin],
   data() {
     return {
@@ -59,8 +59,7 @@ export default {
       autoQuery,
       printTable,
       exportData,
-      eHeader,
-      eFields,
+      detailsExport,
       nameAry: [],
       companyAry: []
     }

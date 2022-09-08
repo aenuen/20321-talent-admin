@@ -4,7 +4,7 @@
 <script>
 // api
 // components
-import detail from './components/detail'
+import detail from './components/Detail'
 // data
 // filter
 // function

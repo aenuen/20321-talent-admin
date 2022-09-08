@@ -17,6 +17,7 @@
 import { dateMonthNext } from 'methods-often/import'
 // settings
 export default {
+  name: 'SalaryComponentsHeaderTitleGrant', // 头部标题(发放表)
   components: {},
   props: {
     company: { type: String, default: '' },

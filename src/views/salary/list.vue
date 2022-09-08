@@ -24,16 +24,14 @@
       <el-button class="filter-btn el-icon-search" type="default" style="width: auto" @click="handleFilter"> 查询 </el-button>
       <el-button class="filter-btn el-icon-plus" type="success" style="width: auto" @click="$router.push('create')"> 新增 </el-button>
       <el-button class="filter-btn el-icon-brush" type="success" style="width: auto" @click="$router.push('month')"> 月表 </el-button>
-      <el-button class="filter-btn el-icon-edit" type="primary" style="width: auto" @click="updateBatchConfirm"> 批量编辑 </el-button>
       <el-button class="filter-btn el-icon-delete" type="danger" style="width: auto" @click="removeBatchConfirm"> 批量删除 </el-button>
     </div>
-    <ListTable :table-data="tableData" :table-loading="tableLoading" :is-use="tableIsUse" @selectionChange="selectionChange" @onSortChange="onSortChange" @onIsUseChange="onIsUseChange" @onAloneRemove="onAloneRemove" />
+    <!-- 列表 -->
+    <ListTable :table-data="tableData" :table-loading="tableLoading" :is-use="tableIsUse" @onSelectorChange="onSelectorChange" @onSortChange="onSortChange" @onIsUseChange="onIsUseChange" @onRemoveAlone="onRemoveAlone" />
+    <!-- 分页 -->
     <div style="text-align: center">
       <Pagination :hidden="tableDataLength <= 0" :total="tableDataLength" :page.sync="queryList.page" :limit.sync="queryList.pageSize" @pagination="refresh" />
     </div>
-    <Dialog :control="batchUpdateShow" :width="1200" @controlChange="batchUpdateToggle">
-      <Detail is-batch />
-    </Dialog>
   </div>
 </template>
 <script>
@@ -41,9 +39,7 @@
 import { salaryApi } from '@/api/salary'
 // components
 import Pagination from '@/components/Pagination'
-import Dialog from '@/components/Dialog'
-import ListTable from './components/listTable'
-import Detail from './components/detail'
+import ListTable from './components/ListTable'
 // data
 import { fields } from './modules/fields'
 // filter
@@ -51,15 +47,13 @@ import { fields } from './modules/fields'
 import { usedParseEmpty, usedParseOnly } from './utils/usedParse'
 // mixin
 import ListMixin from '@/components/Mixins/ListMixin'
-import AloneMixin from '@/components/Mixins/AloneMixin'
-import BatchMixin from '@/components/Mixins/BatchMixin'
 // plugins
 import { defineIsUseAry, keyLight } from 'methods-often/import'
 // settings
 export default {
   name: 'SalaryList',
-  components: { Pagination, Dialog, ListTable, Detail },
-  mixins: [ListMixin, AloneMixin, BatchMixin],
+  components: { Pagination, ListTable },
+  mixins: [ListMixin],
   data() {
     return {
       fields,
@@ -122,13 +116,8 @@ export default {
         }
       })
     },
-    // 确认删除
-    onAloneRemove(id) {
-      this.removeId = id
-      this.aloneRemoveConfirm()
-    },
-    // 删除员工
-    aloneRemove() {
+    // 单独删除员工
+    removeAlone() {
       salaryApi.remove({ id: this.removeId }).then(({ code, msg }) => {
         if (code === 200) {
           this.$message.success(msg)
@@ -140,7 +129,7 @@ export default {
     },
     // 批量删除员工
     removeBatch() {
-      salaryApi.removeBatch({ ids: this.multipleSelection }).then(({ code, msg }) => {
+      salaryApi.removeBatch({ ids: this.selectorAry }).then(({ code, msg }) => {
         if (code === 200) {
           this.$message.success(msg)
           this.refreshStrong()

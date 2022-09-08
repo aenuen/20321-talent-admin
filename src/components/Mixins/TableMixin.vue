@@ -9,25 +9,21 @@ export default {
     onIsUseChange(event, id) {
       this.$emit('onIsUseChange', event, id)
     },
+    // 多选变化
+    onSelectorChange(val) {
+      this.$emit('onSelectorChange', val)
+    },
     // 单个删除
-    onAloneRemove(id) {
-      this.$emit('onAloneRemove', id)
+    onRemoveAlone(id) {
+      this.$emit('onRemoveAlone', id)
     },
     // 单个编辑
-    onAloneUpdate(id) {
+    onUpdateAlone(id) {
       this.$emit('onAloneUpdate', id)
     },
-    // 多选变化
-    onSelectionChange(val) {
-      this.$emit('selectionChange', val)
-    },
     // 双击事件
-    onAloneDblclick(row) {
-      this.$emit('onAloneDblclick', row.id)
-    },
-    // 双击编辑
-    onUpdateRow(row) {
-      this.$emit('onUpdateRow', row.id)
+    onDblclickAlone(row) {
+      this.$emit('onDblclickAlone', row.id)
     }
   }
 }

@@ -21,6 +21,6 @@ export const salaryApi = {
   monthAddPer: data => request({ url: '/salary/monthAddPer', method: 'post', data }), // 添加月表员工
   monthUpdate: data => request({ url: '/salary/monthUpdate', method: 'post', data }), // 编辑月表员工,
   monthRemove: data => request({ url: '/salary/monthRemove', method: 'post', data }), // 删除月表员工,
-  monthBatchUPdate: data => request({ url: '/salary/monthBatchUPdate', method: 'post', data }), // 批量编辑月表员工
-  monthBatchRemove: data => request({ url: '/salary/monthBatchRemove', method: 'post', data }) // 批量编辑月表员工
+  monthUpdateBatch: data => request({ url: '/salary/monthUpdateBatch', method: 'post', data }), // 批量编辑月表员工
+  monthRemoveBatch: data => request({ url: '/salary/monthRemoveBatch', method: 'post', data }) // 批量编辑月表员工
 }

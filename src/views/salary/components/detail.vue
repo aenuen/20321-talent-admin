@@ -46,7 +46,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="monthId > 0 || isBatch">
           <!-- 养老保险个人 -->
           <el-col :span="12">
             <el-form-item prop="myPension" :label="`${fields.myPension}${fields.personal}`" :label-width="labelWidth">
@@ -144,7 +144,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row v-if="!isBatch">
+        <el-row v-if="monthId > 0 || isBatch">
           <!--补贴-->
           <el-col :span="6">
             <el-form-item prop="subsidy" :label="fields.subsidy" :label-width="labelWidth">
@@ -182,7 +182,7 @@
 // components
 // data
 import { fields } from '../modules/fields'
-import { defaultPostForm } from '../modules/base'
+import { defaultData } from '../modules/defaultData'
 import { detailRulesForm } from '../modules/rules'
 // filter
 // function
@@ -200,10 +200,10 @@ export default {
   components: {},
   mixins: [DetailMixin, MethodsMixin],
   props: {
-    isUpdate: { type: Boolean, default: () => false },
-    isBatch: { type: Boolean, default: () => false },
-    mSelectAry: { type: Array, default: () => [] },
-    monthId: { type: Number, default: 0 }
+    isUpdate: { type: Boolean, default: () => false }, // 单独编辑
+    monthId: { type: Number, default: 0 }, // 月表单独编辑
+    isBatch: { type: Boolean, default: () => false }, // 月表批量编辑
+    selectorAry: { type: Array, default: () => [] } // 月表批量编辑时的数据
   },
   data() {
     return {
@@ -224,7 +224,7 @@ export default {
       unBirthAry: [],
       myAccumulationFundAry: [],
       unAccumulationFundAry: [],
-      defaultPostForm,
+      defaultData,
       autoQuery,
       rulesForm: detailRulesForm
     }
@@ -234,10 +234,10 @@ export default {
       return this.isBatch ? '批量编辑员工信息' : this.isUpdate ? '编辑员工信息' : this.monthId === 0 ? '新增员工信息' : '编辑员工月表信息'
     },
     totalPay() {
-      return calcSum([this.postForm.basePay, this.postForm.meritPay])
+      return calcSum([+this.postForm.basePay || 0, +this.postForm.meritPay || 0])
     },
     subTotal() {
-      return calcSum([this.postForm.subsidy, -this.postForm.deduct])
+      return calcSum([+this.postForm.subsidy || 0, -+this.postForm.deduct || 0])
     }
   },
   watch: {
@@ -311,7 +311,7 @@ export default {
   },
   created() {
     if (this.isUpdate === false) {
-      this.postForm = { ...defaultPostForm }
+      this.postForm = { ...defaultData }
     }
   },
   methods: {
@@ -406,13 +406,14 @@ export default {
         this.submitLoadingOpen()
         this.$refs.postForm.validate((valid, fields) => {
           if (valid) {
+            // 编辑月表员工
             if (this.monthId > 0) {
               salaryApi
                 .monthUpdate(this.postForm)
                 .then(({ code, msg }) => {
                   if (code === 200) {
                     this.$message.success(msg)
-                    this.$emit('aloneUpdateSuccess')
+                    this.$emit('updateAloneSuccess')
                   } else {
                     this.$message.error(msg)
                   }
@@ -420,16 +421,19 @@ export default {
                 .catch(() => {
                   this.submitLoadingClose()
                 })
+              // 批量编辑月表员工
             } else if (this.isBatch) {
+              const data = {
+                ...this.postForm,
+                ...{ ids: this.selectorAry }
+              }
+              console.log('🚀 ~ file: Detail.vue ~ line 427 ~ this.$refs.postForm.validate ~ this.isBatch', data)
               salaryApi
-                .monthBatchUPdate({
-                  ...this.postForm,
-                  ...{ ids: this.mSelectAry }
-                })
+                .monthUpdateBatch(data)
                 .then(({ code, msg }) => {
                   if (code === 200) {
                     this.submitHandle(msg)
-                    this.$emit('batchUpdateSuccess')
+                    this.$emit('updateBatchSuccess')
                   } else {
                     this.$message.error(msg)
                     this.submitLoadingClose()
@@ -438,6 +442,7 @@ export default {
                 .catch(() => {
                   this.submitLoadingClose()
                 })
+              // 编辑员工
             } else if (this.isUpdate) {
               salaryApi
                 .update(this.postForm)
@@ -453,12 +458,10 @@ export default {
                 .catch(() => {
                   this.submitLoadingClose()
                 })
+              // 创建
             } else {
               salaryApi
-                .create({
-                  ...this.postForm,
-                  ...{ ids: this.mSelectAry }
-                })
+                .create(this.postForm)
                 .then(({ code, msg }) => {
                   if (code === 200) {
                     this.submitHandle(msg)

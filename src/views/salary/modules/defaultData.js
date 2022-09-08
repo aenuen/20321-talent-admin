@@ -1,5 +1,5 @@
 // 员工信息初始值
-export const defaultPostForm = {
+export const defaultData = {
   basePay: '0',
   meritPay: '0',
   myPension: '0',

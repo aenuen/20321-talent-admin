@@ -2,7 +2,7 @@
   <div class="wrap">
     <div>{{ tabName }}</div>
     <div class="btn">
-      <el-button class="el-icon-printer" @click="printTable(tabCode, tabName, style)">打印{{ tabName }}</el-button>
+      <el-button class="el-icon-printer" @click="printTable(tabCode, tabName, printCss)">打印{{ tabName }}</el-button>
     </div>
   </div>
 </template>
@@ -10,6 +10,7 @@
 // api
 // components
 // data
+import { printCss } from '../modules/printCss'
 // filter
 // function
 // mixin
@@ -17,6 +18,7 @@
 import { printTable } from '@/libs/print'
 // settings
 export default {
+  name: 'SalaryComponentsHeaderTeam', // 头部项目组按钮(打印)
   components: {},
   props: {
     tabName: { type: String, default: '' },
@@ -25,7 +27,7 @@ export default {
   data() {
     return {
       printTable,
-      style: '.tableHeader {width:100%;padding: 20px 0;ine-height: 20px;font-size: 14px;color: #aaa;display: flex;}.tableHeader div {flex: 1;text-align: center;}table tr td,th{border-collapse:collapse;padding:4px;border:1px #000 solid;text-align:center}'
+      printCss
     }
   }
 }
