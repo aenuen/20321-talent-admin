@@ -8,7 +8,7 @@ import printJS from 'print-js'
  * @param {string} [headerStyle] 头部样式
  */
 export const printTable = (tableId, headTitle, style, headerStyle) => {
-  style = style || 'table tr td,th{border-collapse:collapse;padding:15px;border:1px #000 solid;text-align:center}'
+  style = style || 'table tr td,th{border-collapse:collapse;padding:4px;border:1px #000 solid;text-align:center}'
   headerStyle = headerStyle || 'text-align:center;color:#f00;width:100%;'
   printJS({ printable: tableId, header: headTitle, headerStyle, style, type: 'html', scanStyles: false })
 }

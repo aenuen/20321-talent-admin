@@ -9,9 +9,9 @@
       </el-select>
       <el-input-number v-model="number" :min="1" class="filter-ele" label="请输入数量" />
       <el-button type="success" class="filter-btn" @click="randomMake">随便生成</el-button>
-      <el-button class="el-icon-printer filter-btn" @click="printTable('lottery', '大乐透')">打印</el-button>
+      <el-button class="el-icon-printer filter-btn" @click="printTable('seven', '七星彩')">打印</el-button>
     </div>
-    <el-table id="lottery" :key="1" :data="tableData" border fit highlight-current-row style="width: 500px; margin: auto">
+    <el-table id="seven" :key="1" :data="tableData" border fit highlight-current-row style="width: 500px; margin: auto">
       <template slot="empty">
         <el-empty :image-size="100" description="未能找到符合条件的数据" />
       </template>
@@ -28,7 +28,7 @@
 import { fields } from '../modules/fields'
 // filter
 // function
-import { numberAry } from '../utils/numberAry'
+import { numberSeven } from '../utils/numberAry'
 // mixin
 import DetailMixin from '@/components/Mixins/DetailMixin'
 // plugins
@@ -36,7 +36,7 @@ import { aoRandom, arrayOrder } from 'methods-often/import'
 import { printTable } from '@/libs/print'
 // settings
 export default {
-  name: 'LotteryComponentsLottery',
+  name: 'LotteryComponentsSeven',
   components: {},
   mixins: [DetailMixin],
   data() {
@@ -52,30 +52,33 @@ export default {
   computed: {
     beforeData() {
       const result = []
-      for (let index = 1; index <= 35; index++) {
+      for (let index = 0; index <= 9; index++) {
         result.push(String(index).padStart(2, '0'))
       }
       return result
     },
     afterData() {
       const result = []
-      for (let index = 1; index < 13; index++) {
+      for (let index = 0; index <= 14; index++) {
         result.push(String(index).padStart(2, '0'))
       }
       return result
     }
   },
   created() {
-    this.beforeAry = numberAry(35)
-    this.afterAry = numberAry(12)
+    this.beforeAry = numberSeven(9)
+    this.afterAry = numberSeven(14)
   },
   methods: {
     randomMake() {
       if (this.beforeAry.length > 5 && this.afterAry.length > 2 && this.number >= 1) {
         const result = []
         for (let index = 1; index <= this.number; index++) {
-          const before = arrayOrder(aoRandom(this.beforeAry, 5), true)
-          const after = arrayOrder(aoRandom(this.afterAry, 2), true)
+          const before = []
+          for (let i = 0; i < 6; i++) {
+            before.push(aoRandom(this.beforeAry, 1))
+          }
+          const after = arrayOrder(aoRandom(this.afterAry, 1), true)
           const item = { index, before: before.join(' , '), after: after.join(' , ') }
           result.push(item)
         }
