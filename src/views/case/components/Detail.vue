@@ -95,7 +95,7 @@
     <el-row>
       <el-col>
         <el-form-item label="合同及所函" :label-width="labelWidth">
-          <OnlyOne desc="合同" style="margin-right: 20px" />
+          <OnlyOne desc="合同" style="margin-right: 20px" :url="postForm.contract" action="/case/contractUpload" @onUploadSuccess="onUploadSuccess" @onUploadRemove="onUploadRemove" />
           <OnlyOne desc="所函" />
         </el-form-item>
       </el-col>
@@ -161,7 +161,11 @@ export default {
     },
     submitValidate() {
       //
-    }
+    },
+    onUploadSuccess(url) {
+      this.postForm.contract = url
+    },
+    onUploadRemove() {}
   }
 }
 </script>
