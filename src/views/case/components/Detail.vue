@@ -95,7 +95,7 @@
     <el-row>
       <el-col>
         <el-form-item label="合同及所函" :label-width="labelWidth">
-          <OnlyOne desc="合同" style="margin-right: 20px" :url="postForm.contract" action="/case/contractUpload" @onUploadSuccess="onUploadSuccess" @onUploadRemove="onUploadRemove" />
+          <OnlyOne ref="contract" desc="合同" action="/case/contractUpload" style="margin-right: 20px" @onUploadBefore="onContractUploadBefore" @onUploadSuccess="onContractUploadSuccess" @onUploadRemove="onContractUploadRemove" />
           <OnlyOne desc="所函" />
         </el-form-item>
       </el-col>
@@ -107,6 +107,7 @@
 </template>
 <script>
 // api
+import { caseApi } from '@/api/case'
 // components
 import OnlyOne from '@/components/Upload/onlyOne'
 // data
@@ -151,7 +152,19 @@ export default {
       this.postForm.price = controlInputPrice(val)
     }
   },
+  created() {
+    !this.isUpdate && this.getBase()
+  },
   methods: {
+    getBase() {
+      caseApi.base().then(({ code, data }) => {
+        if (code === 200) {
+          const { contract } = data
+          this.postForm.contract = contract
+          this.$refs.contract.fileUrl = contract
+        }
+      })
+    },
     typeChange(value) {
       this.stageAry = typeChange(value)
       if (this.postForm.stage) {
@@ -162,10 +175,26 @@ export default {
     submitValidate() {
       //
     },
-    onUploadSuccess(url) {
+    // 合同上传之前
+    onContractUploadBefore() {
+      return false
+    },
+    // 合同上传成功
+    onContractUploadSuccess(url) {
       this.postForm.contract = url
     },
-    onUploadRemove() {}
+    // 删除合同
+    onContractUploadRemove(url) {
+      caseApi.contractRemove({ url }).then(({ code, msg }) => {
+        if (code === 200) {
+          this.postForm.contract = ''
+          this.$refs.contract.clearFileUrl()
+          this.$message.success(msg)
+        } else {
+          this.$message.error(msg)
+        }
+      })
+    }
   }
 }
 </script>
