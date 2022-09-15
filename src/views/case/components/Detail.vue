@@ -156,6 +156,7 @@ export default {
     !this.isUpdate && this.getBase()
   },
   methods: {
+    // 获取基本数据
     getBase() {
       caseApi.base().then(({ code, data }) => {
         if (code === 200) {
@@ -171,6 +172,7 @@ export default {
         }
       })
     },
+    // 类型改变
     typeChange(value) {
       this.stageAry = typeChange(value)
       if (this.postForm.stage) {
@@ -178,6 +180,7 @@ export default {
         this.$message.warning('请注意，案件类型已改变，请重新选择相应的代理阶段')
       }
     },
+    // 新增案件
     submitValidate() {
       //
     },
@@ -197,9 +200,11 @@ export default {
         }
       })
     },
+    // 所函上传成功
     onLetterUploadSuccess(url) {
       this.postForm.letter = url
     },
+    // 删除所函
     onLetterUploadRemove(id, url) {
       caseApi.letterRemove({ id, url }).then(({ code, msg }) => {
         if (code === 200) {
