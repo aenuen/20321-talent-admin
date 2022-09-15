@@ -95,8 +95,8 @@
     <el-row>
       <el-col>
         <el-form-item label="合同及所函" :label-width="labelWidth">
-          <OnlyOne ref="contract" desc="合同" action="/case/contractUpload" style="margin-right: 20px" @onUploadBefore="onContractUploadBefore" @onUploadSuccess="onContractUploadSuccess" @onUploadRemove="onContractUploadRemove" />
-          <OnlyOne desc="所函" />
+          <OnlyOne ref="contract" desc="合同" action="/case/contractUpload" style="margin-right: 20px" @onUploadSuccess="onContractUploadSuccess" @onUploadRemove="onContractUploadRemove" />
+          <OnlyOne ref="letter" desc="所函" action="/case/letterUpload" style="margin-right: 20px" @onUploadSuccess="onLetterUploadSuccess" @onUploadRemove="onLetterUploadRemove" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -159,9 +159,15 @@ export default {
     getBase() {
       caseApi.base().then(({ code, data }) => {
         if (code === 200) {
-          const { contract } = data
-          this.postForm.contract = contract
-          this.$refs.contract.fileUrl = contract
+          const { contract, letter } = data
+          this.postForm.contract = contract.file
+          this.$refs.contract.fileUrl = contract.file
+          this.$refs.contract.fileAlt = contract.name
+          this.$refs.contract.fileId = contract.id
+          this.postForm.letter = letter.file
+          this.$refs.letter.fileUrl = letter.file
+          this.$refs.letter.fileAlt = letter.name
+          this.$refs.letter.fileId = letter.id
         }
       })
     },
@@ -175,20 +181,30 @@ export default {
     submitValidate() {
       //
     },
-    // 合同上传之前
-    onContractUploadBefore() {
-      return false
-    },
     // 合同上传成功
     onContractUploadSuccess(url) {
       this.postForm.contract = url
     },
     // 删除合同
-    onContractUploadRemove(url) {
-      caseApi.contractRemove({ url }).then(({ code, msg }) => {
+    onContractUploadRemove(id, url) {
+      caseApi.contractRemove({ id, url }).then(({ code, msg }) => {
         if (code === 200) {
           this.postForm.contract = ''
           this.$refs.contract.clearFileUrl()
+          this.$message.success(msg)
+        } else {
+          this.$message.error(msg)
+        }
+      })
+    },
+    onLetterUploadSuccess(url) {
+      this.postForm.letter = url
+    },
+    onLetterUploadRemove(id, url) {
+      caseApi.letterRemove({ id, url }).then(({ code, msg }) => {
+        if (code === 200) {
+          this.postForm.letter = ''
+          this.$refs.letter.clearFileUrl()
           this.$message.success(msg)
         } else {
           this.$message.error(msg)
