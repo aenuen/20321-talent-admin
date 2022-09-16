@@ -45,7 +45,8 @@ const mutations = {
 }
 
 const actions = {
-  login({ commit }, userInfo) { // 用户登录
+  // 用户登录
+  login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       userApi.login({
@@ -67,7 +68,8 @@ const actions = {
       })
     })
   },
-  getInfo({ commit, state }) { // 获取用户信息
+  // 获取用户信息
+  getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       userApi.info(state.token).then(({ code, data }) => {
         if (code === 200) {
@@ -93,7 +95,35 @@ const actions = {
       })
     })
   },
-  logout({ commit, state, dispatch }) { // 用户登出
+  // 刷新token
+  refreshToken({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      userApi.refreshToken({ id: state.aid }).then(({ code, data }) => {
+        if (code === 200) {
+          data || reject('验证失败，请重新登录。')
+          const { roles, id, petName, realName, email, mobile, avatar, introduction } = data
+          if (!roles || roles.length <= 0) {
+            reject('您的用户没有任务的权限')
+          }
+          commit('SET_ROLES', roles)
+          commit('SET_AID', id)
+          commit('SET_PetNAME', petName)
+          commit('SET_RealNAME', realName)
+          commit('SET_EMAIL', email)
+          commit('SET_MOBILE', mobile)
+          commit('SET_AVATAR', avatar)
+          commit('SET_INTRODUCTION', introduction)
+          resolve(data)
+        } else {
+          reject('获取用户信息失败')
+        }
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+  // 用户登出
+  logout({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {
       try {
         commit('SET_TOKEN', '') // 清空token
@@ -107,9 +137,8 @@ const actions = {
       }
     })
   },
-
   // 移除token
-  resetToken({ commit }) {
+  removeToken({ commit }) {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])

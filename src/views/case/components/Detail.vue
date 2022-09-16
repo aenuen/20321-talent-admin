@@ -161,11 +161,11 @@ export default {
       caseApi.base().then(({ code, data }) => {
         if (code === 200) {
           const { contract, letter } = data
-          this.postForm.contract = contract.file
+          this.postForm.contract = contract.id
           this.$refs.contract.fileUrl = contract.file
           this.$refs.contract.fileAlt = contract.name
           this.$refs.contract.fileId = contract.id
-          this.postForm.letter = letter.file
+          this.postForm.letter = letter.id
           this.$refs.letter.fileUrl = letter.file
           this.$refs.letter.fileAlt = letter.name
           this.$refs.letter.fileId = letter.id
@@ -185,12 +185,12 @@ export default {
       //
     },
     // 合同上传成功
-    onContractUploadSuccess(url) {
-      this.postForm.contract = url
+    onContractUploadSuccess(id) {
+      this.postForm.contract = id
     },
     // 删除合同
-    onContractUploadRemove(id, url) {
-      caseApi.contractRemove({ id, url }).then(({ code, msg }) => {
+    onContractUploadRemove(id) {
+      caseApi.contractRemove({ id }).then(({ code, msg }) => {
         if (code === 200) {
           this.postForm.contract = ''
           this.$refs.contract.clearFileUrl()
@@ -201,12 +201,12 @@ export default {
       })
     },
     // 所函上传成功
-    onLetterUploadSuccess(url) {
-      this.postForm.letter = url
+    onLetterUploadSuccess(id) {
+      this.postForm.letter = id
     },
     // 删除所函
-    onLetterUploadRemove(id, url) {
-      caseApi.letterRemove({ id, url }).then(({ code, msg }) => {
+    onLetterUploadRemove(id) {
+      caseApi.letterRemove({ id }).then(({ code, msg }) => {
         if (code === 200) {
           this.postForm.letter = ''
           this.$refs.letter.clearFileUrl()

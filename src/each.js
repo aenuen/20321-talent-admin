@@ -29,7 +29,7 @@ router.beforeEach(async (to, from, next) => {
           router.addRoutes(accessRoutes) // 添加异步路由，和固定路由进行合并 位置：store/modules/permission/actions
           next({ ...to, replace: true }) // 前往目标页面，replace:true 后面的页面不会再回到login页面，而是空白页面
         } catch (error) {
-          await store.dispatch('user/resetToken') // 重置token 位置：store/modules/user/resetToken
+          await store.dispatch('user/removeToken') // 重置token 位置：store/modules/user/removeToken
           Message.error(error || '有错误') // 提示错误
           next(`/login?redirect=${to.path}`) // 重新回到登录页面
           NProgress.done()

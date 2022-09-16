@@ -35,7 +35,7 @@ service.interceptors.response.use(response => {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        store.dispatch('user/resetToken').then(() => { location.reload() })
+        store.dispatch('user/removeToken').then(() => { location.reload() })
       })
     }
     return Promise.reject(new Error(errMsg))

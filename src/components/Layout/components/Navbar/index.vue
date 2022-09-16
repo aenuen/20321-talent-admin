@@ -6,6 +6,7 @@
       <template v-if="device !== 'mobile'">
         <header-search id="header-search" class="right-menu-item" />
         <error-log class="errLog-container right-menu-item hover-effect" />
+        <refresh class="right-menu-item" />
         <full-screen id="full-screen" class="right-menu-item hover-effect" />
         <size-select id="size-select" class="right-menu-item hover-effect" />
       </template>
@@ -21,6 +22,7 @@ import Hamburger from './Hamburger'
 import ErrorLog from './ErrorLog'
 import SizeSelect from './SizeSelect'
 import HeaderSearch from './HeaderSearch'
+import Refresh from './Refresh'
 import fullScreen from '@/components/FullScreen'
 import Avatar from './Avatar'
 
@@ -32,6 +34,7 @@ export default {
     fullScreen,
     SizeSelect,
     HeaderSearch,
+    Refresh,
     Avatar
   },
   computed: {

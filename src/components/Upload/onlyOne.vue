@@ -103,7 +103,7 @@ export default {
           this.fileAlt = name
           this.fileId = id
         }, 1000)
-        this.$emit('onUploadSuccess', url)
+        this.$emit('onUploadSuccess', id)
       }
       this.percentage = 100
       setTimeout(() => {
@@ -140,7 +140,7 @@ export default {
     },
     // 删除
     onUploadRemove() {
-      this.$emit('onUploadRemove', this.fileId, this.fileUrl)
+      this.$emit('onUploadRemove', this.fileId)
     },
     // 清除
     clearFileUrl() {
