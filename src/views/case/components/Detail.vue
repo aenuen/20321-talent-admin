@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="postForm" :model="postForm" :rules="rulesForm">
+  <el-form ref="postForm" :model="postForm" :rules="rulesDetail">
     <el-row>
       <el-col :span="12">
         <el-form-item prop="why" :label="fields.why" :label-width="labelWidth">
@@ -43,7 +43,7 @@
       </el-col>
       <el-col :span="12">
         <el-form-item prop="litigant" :label="fields.litigant" :label-width="labelWidth">
-          <el-input v-model="postForm.idNumber" maxlength="30" show-word-limit prefix-icon="el-icon-postcard" clearable :placeholder="fields.litigant" />
+          <el-input v-model="postForm.litigant" maxlength="30" show-word-limit prefix-icon="el-icon-postcard" clearable :placeholder="fields.litigant" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -87,8 +87,20 @@
     </el-row>
     <el-row>
       <el-col>
-        <el-form-item :label="fields.department" :label-width="labelWidth">
+        <el-form-item prop="department" :label="fields.department" :label-width="labelWidth">
           <el-input v-model="postForm.department" :placeholder="fields.department" prefix-icon="el-icon-s-check" clearable maxlength="30" show-word-limit />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="12">
+        <el-form-item prop="contract" :label="fields.contract" :label-width="labelWidth">
+          <el-input v-model="postForm.contract" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item prop="letter" :label="fields.letter" :label-width="labelWidth">
+          <el-input v-model="postForm.letter" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -112,6 +124,7 @@ import { caseApi } from '@/api/case'
 import OnlyOne from '@/components/Upload/onlyOne'
 // data
 import { fields } from '../modules/fields'
+import { rulesDetail } from '../modules/rulesDetail'
 import { typeAry, typeChange } from '../modules/typeAry'
 import { idTypeAry } from '../modules/idTypeAry'
 // filter
@@ -131,6 +144,7 @@ export default {
     return {
       labelWidth: '160px',
       fields,
+      rulesDetail,
       typeAry,
       idTypeAry,
       stageAry: []
@@ -161,11 +175,13 @@ export default {
       caseApi.base().then(({ code, data }) => {
         if (code === 200) {
           const { contract, letter } = data
-          this.postForm.contract = contract.id
+          this.postForm = {
+            ...{ contract: contract.id },
+            ...{ letter: letter.id }
+          }
           this.$refs.contract.fileUrl = contract.file
           this.$refs.contract.fileAlt = contract.name
           this.$refs.contract.fileId = contract.id
-          this.postForm.letter = letter.id
           this.$refs.letter.fileUrl = letter.file
           this.$refs.letter.fileAlt = letter.name
           this.$refs.letter.fileId = letter.id
@@ -182,7 +198,16 @@ export default {
     },
     // 新增案件
     submitValidate() {
-      //
+      if (!this.submitLoading) {
+        this.submitLoadingOpen()
+        this.$refs.postForm.validate((valid, fields) => {
+          if (valid) {
+            //
+          } else {
+            this.validateErrHandle(fields)
+          }
+        })
+      }
     },
     // 合同上传成功
     onContractUploadSuccess(id) {

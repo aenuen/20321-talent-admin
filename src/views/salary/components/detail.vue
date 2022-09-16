@@ -427,7 +427,6 @@ export default {
                 ...this.postForm,
                 ...{ ids: this.selectorAry }
               }
-              console.log('🚀 ~ file: Detail.vue ~ line 427 ~ this.$refs.postForm.validate ~ this.isBatch', data)
               salaryApi
                 .monthUpdateBatch(data)
                 .then(({ code, msg }) => {
