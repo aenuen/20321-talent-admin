@@ -4,6 +4,7 @@ export const caseApi = {
   // get
   base: () => request({ url: '/case/base', method: 'get' }), // 获取基础数据
   list: params => request({ url: '/case/list?' + qs.stringify(params), method: 'get' }), // 列表
+  invoiceList: params => request({ url: '/case/invoiceList?' + qs.stringify(params), method: 'get' }), // 列表
   managerList: params => request({ url: '/case/managerList?' + qs.stringify(params), method: 'get' }), // 入账管理列表
   // post
   create: (data) => request({ url: '/case/create', method: 'post', data }), // 删除合同

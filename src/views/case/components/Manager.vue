@@ -12,6 +12,7 @@
 </template>
 <script>
 // api
+import { caseApi } from '@/api/case'
 // components
 // data
 // filter
@@ -32,6 +33,14 @@ export default {
   methods: {
     addInvoice() {
       this.$emit('onAddInvoice')
+    },
+    startHandle() {
+      caseApi.invoiceList({ id: this.id }).then(({ code, data }) => {
+        if (code === 200) {
+          this.tableData = data
+          this.tableLoading = false
+        }
+      })
     }
   }
 }

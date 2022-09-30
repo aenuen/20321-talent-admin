@@ -76,7 +76,8 @@ export default {
       managerId: 0,
       managerName: '',
       managerNumber: 0,
-      addInvoice: false
+      addInvoice: false,
+      enterShow: false
     }
   },
   computed: {
