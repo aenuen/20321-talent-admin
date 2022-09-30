@@ -2,8 +2,10 @@ export const fields = {
   id: '编号',
   index: '序号',
   view: '浏览',
-  work: '操作/状态/入账时间',
+  work: '操作',
   state: '状态',
+  // 案件
+  createDate: '创建日期',
   caseName: '案名',
   caseNumber: '字号',
   caseUseName: '案号',
@@ -22,21 +24,28 @@ export const fields = {
   power: '代理权限',
   term: '代理期限',
   department: '受理部门',
-  isInvoice: '是否开发票',
+  memo: '备注',
   contract: '合同',
   letter: '所函',
+  // 发票
   inType: '发票类型',
   inNumber: '发票号码',
   inNot: '不含税价',
   inRate: '税额',
   inHave: '含税价',
   invoiceDate: '发票日期',
-  enterDate: '入账时间',
+  // 进账
+  enterPrice: '入账金额',
+  enterDate: '入账日期',
+  // 其它
+  isUse: '作废',
+  delivery: '原件',
   clientUseName: '合同客户',
   buyCompany: '购访企业',
   createRealName: '承办律师',
-  delivery: '合同原件交付情况',
   createTime: '创建时间',
+  caseYear: '创建年份',
+  createYearMonth: '创建年月',
   payed: '现律所已支付',
   addPay: '增加律所已支付',
   membered: '现会员费个人',
@@ -46,8 +55,5 @@ export const fields = {
   nowUncleared: '现有未结清',
   addUncleared: '增加未结清',
   nowTaxed: '现有增值税款',
-  addTaxed: '增加增值税款',
-  memo: '备注',
-  isRisk: '是否风险',
-  createDate: '创建日期'
+  addTaxed: '增加增值税款'
 }

@@ -42,8 +42,8 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item prop="litigant" :label="fields.litigant" :label-width="labelWidth">
-          <el-input v-model="postForm.litigant" maxlength="30" show-word-limit prefix-icon="el-icon-postcard" clearable :placeholder="fields.litigant" />
+        <el-form-item prop="idNumber" :label="fields.idNumber" :label-width="labelWidth">
+          <el-input v-model="postForm.idNumber" maxlength="30" show-word-limit prefix-icon="el-icon-postcard" clearable :placeholder="fields.idNumber" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -92,7 +92,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row v-show="false">
       <el-col :span="12">
         <el-form-item prop="contract" :label="fields.contract" :label-width="labelWidth">
           <el-input v-model="postForm.contract" />
@@ -101,6 +101,13 @@
       <el-col :span="12">
         <el-form-item prop="letter" :label="fields.letter" :label-width="labelWidth">
           <el-input v-model="postForm.letter" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col>
+        <el-form-item :label="fields.memo" :label-width="labelWidth">
+          <el-input v-model="postForm.memo" :placeholder="fields.memo" :rows="3" type="textarea" maxlength="300" show-word-limit />
         </el-form-item>
       </el-col>
     </el-row>
@@ -131,12 +138,13 @@ import { idTypeAry } from '../modules/idTypeAry'
 // function
 // mixin
 import DetailMixin from '@/components/Mixins/DetailMixin'
+import MethodsMixin from '@/components/Mixins/MethodsMixin'
 // plugins
 import { controlInputPrice } from 'methods-often/import'
 // settings
 export default {
   components: { OnlyOne },
-  mixins: [DetailMixin],
+  mixins: [DetailMixin, MethodsMixin],
   props: {
     isUpdate: Boolean
   },
@@ -202,7 +210,23 @@ export default {
         this.submitLoadingOpen()
         this.$refs.postForm.validate((valid, fields) => {
           if (valid) {
-            //
+            if (this.isUpdate) {
+              //
+            } else {
+              caseApi
+                .create(this.postForm)
+                .then(({ code, msg }) => {
+                  if (code === 200) {
+                    this.$message.success(msg)
+                    this.routerClose('/case/list')
+                  } else {
+                    this.$message.error(msg)
+                  }
+                })
+                .catch(() => {
+                  this.submitLoadingClose()
+                })
+            }
           } else {
             this.validateErrHandle(fields)
           }

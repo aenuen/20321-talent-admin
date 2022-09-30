@@ -17,8 +17,8 @@ export default {
       get() {
         return this.control
       },
-      set(val) {
-        this.$emit('controlChange', val)
+      set() {
+        this.$emit('controlChange')
       }
     }
   }
