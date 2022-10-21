@@ -4,14 +4,14 @@
       <el-row>
         <el-col>
           <el-form-item prop="caseName" :label="fields.caseName" :label-width="labelWidth">
-            <el-input v-model="postForm.caseName" :placeholder="fields.caseName" :disabled="true" clearable />
+            <el-input v-model="caseName" :placeholder="fields.caseName" :disabled="true" clearable />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col>
           <el-form-item prop="caseNumber" :label="fields.caseNumber" :label-width="labelWidth">
-            <el-input v-model="postForm.caseNumber" :placeholder="fields.caseNumber" :disabled="true" clearable />
+            <el-input v-model="caseNumber" :placeholder="fields.caseNumber" :disabled="true" clearable />
           </el-form-item>
         </el-col>
       </el-row>
@@ -33,9 +33,16 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col>
-          <el-form-item prop="inNot" :label="fields.inNot" :label-width="labelWidth">
-            <el-input v-model="postForm.inNot" :placeholder="fields.inNot" clearable />
+        <el-col :span="12">
+          <el-form-item prop="inHave" :label="fields.inHave" :label-width="labelWidth">
+            <el-input v-model="postForm.inHave" :placeholder="fields.inHave" clearable />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item prop="inTax" :label="fields.inTax" :label-width="labelWidth">
+            <el-input v-model="postForm.inTax" :placeholder="fields.inTax" clearable>
+              <template slot="append">%</template>
+            </el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -48,14 +55,14 @@
       </el-row>
       <el-row>
         <el-col>
-          <el-form-item prop="inHave" :label="fields.inHave" :label-width="labelWidth">
-            <el-input v-model="postForm.inHave" :placeholder="fields.inHave" :disabled="true" clearable />
+          <el-form-item prop="inNot" :label="fields.inNot" :label-width="labelWidth">
+            <el-input v-model="postForm.inNot" :placeholder="fields.inNot" clearable />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col>
-          <el-form-item prop="invoiceDate" :label="invoiceDate" :label-width="labelWidth">
+          <el-form-item prop="invoiceDate" :label="fields.invoiceDate" :label-width="labelWidth">
             <el-date-picker v-model="postForm.invoiceDate" type="date" :placeholder="fields.invoiceDate" value-format="yyyy-MM-dd" :clearable="false" />
           </el-form-item>
         </el-col>
@@ -72,6 +79,7 @@
 </template>
 <script>
 // api
+import { caseApi } from '@/api/case'
 // components
 // data
 import { fields } from '../modules/fields'
@@ -81,6 +89,7 @@ import { rulesForm } from '../modules/rulesAddInvoice'
 // mixin
 import DetailMixin from '@/components/Mixins/DetailMixin'
 // plugins
+import { controlInputPrice, holdNumber } from 'methods-often/import'
 // settings
 export default {
   components: {},
@@ -88,7 +97,7 @@ export default {
   props: {
     caseId: { type: Number, default: 0 },
     caseName: { type: String, default: '' },
-    caseNumber: { type: Number, default: 0 }
+    caseNumber: { type: String, default: '' }
   },
   data() {
     return {
@@ -98,23 +107,47 @@ export default {
     }
   },
   watch: {
-    caseId: {
-      handler(value) {
-        this.postForm.id = value
-      },
-      immediate: true
+    'postForm.inHave': function (val) {
+      this.postForm.inHave = controlInputPrice(val)
+      this.goComputed()
     },
-    caseName: {
-      handler(value) {
-        this.postForm.caseName = value
-      },
-      immediate: true
+    'postForm.inTax': function (val) {
+      this.postForm.inTax = holdNumber(val)
+      this.goComputed()
+    }
+  },
+  methods: {
+    // 计算税额、不含税价
+    goComputed() {
+      if (this.postForm.inHave && this.postForm.inTax) {
+        this.postForm.id = this.caseId
+        this.postForm.inRate = +(this.postForm.inHave * (this.postForm.inTax / 100)).toFixed(2)
+        this.postForm.inNot = +(this.postForm.inHave - this.postForm.inRate).toFixed(2)
+      }
     },
-    caseNumber: {
-      handler(value) {
-        this.postForm.caseNumber = value
-      },
-      immediate: true
+    // 提交
+    submitInsert() {
+      if (!this.submitLoading) {
+        this.submitLoadingOpen()
+        this.$refs.postForm.validate((valid, fields) => {
+          if (valid) {
+            caseApi
+              .invoiceCreate(this.postForm)
+              .then(({ code, data, msg }) => {
+                if (code === 200) {
+                  this.$message.success(msg)
+                  this.$emit('invoiceSuccess', { ...this.postForm, ...data })
+                  this.submitLoadingClose()
+                }
+              })
+              .catch(() => {
+                this.submitLoadingClose()
+              })
+          } else {
+            this.validateErrHandle(fields)
+          }
+        })
+      }
     }
   }
 }

@@ -50,7 +50,7 @@ import DetailMixin from '@/components/Mixins/DetailMixin'
 // plugins
 import { mapGetters } from 'vuex'
 import { aoDeleteValue } from 'methods-often/import'
-import ImgCutter from '@/components/imgCutter'
+import ImgCutter from '@/components/ImgCutter'
 // settings
 
 export default {

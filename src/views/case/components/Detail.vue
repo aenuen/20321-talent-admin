@@ -64,15 +64,20 @@
     <el-row>
       <el-col :span="12">
         <el-form-item prop="disputePrice" :label="fields.disputePrice" :label-width="labelWidth">
-          <el-input v-model="postForm.disputePrice" :placeholder="`${fields.disputePrice}，单位元`" prefix-icon="el-icon-money" clearable maxlength="30" show-word-limit />
+          <el-tooltip :value="true" effect="dark" :content="disputePriceBig" placement="bottom-start" :manual="true">
+            <el-input v-model="postForm.disputePrice" :placeholder="`${fields.disputePrice}，单位元`" prefix-icon="el-icon-money" clearable maxlength="30" show-word-limit />
+          </el-tooltip>
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item prop="price" :label="fields.price" :label-width="labelWidth">
-          <el-input v-model="postForm.price" :placeholder="`${fields.price}，单位元`" prefix-icon="el-icon-money" clearable maxlength="30" show-word-limit />
+          <el-tooltip :value="true" effect="dark" :content="priceBig" placement="bottom-start" :manual="true">
+            <el-input v-model="postForm.price" :placeholder="`${fields.price}，单位元`" prefix-icon="el-icon-money" clearable maxlength="10" show-word-limit />
+          </el-tooltip>
         </el-form-item>
       </el-col>
     </el-row>
+    <div style="height: 30px" />
     <el-row>
       <el-col :span="12">
         <el-form-item :label="fields.power" :label-width="labelWidth">
@@ -140,7 +145,7 @@ import { idTypeAry } from '../modules/idTypeAry'
 import DetailMixin from '@/components/Mixins/DetailMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
 // plugins
-import { controlInputPrice } from 'methods-often/import'
+import { controlInputPrice, numberPriceBigWrite } from 'methods-often/import'
 // settings
 export default {
   components: { OnlyOne },
@@ -155,7 +160,9 @@ export default {
       rulesDetail,
       typeAry,
       idTypeAry,
-      stageAry: []
+      stageAry: [],
+      priceBig: '请输入',
+      disputePriceBig: '请输入'
     }
   },
   computed: {
@@ -169,9 +176,11 @@ export default {
   watch: {
     'postForm.disputePrice': function (val) {
       this.postForm.disputePrice = controlInputPrice(val)
+      this.disputePriceBig = numberPriceBigWrite(this.postForm.disputePrice)
     },
     'postForm.price': function (val) {
       this.postForm.price = controlInputPrice(val)
+      this.priceBig = numberPriceBigWrite(this.postForm.price)
     }
   },
   created() {

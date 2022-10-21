@@ -32,11 +32,15 @@
     </div>
     <!-- 入账管理 -->
     <Dialog :control="managerShow" title="入账管理" @controlChange="managerClose">
-      <Manager :id="managerId" @onAddInvoice="addInvoice = true" />
+      <Manager ref="manager" :case-id="managerId" @onAddInvoice="addInvoice = true" @onInvoiceEnter="onInvoiceEnter" />
     </Dialog>
     <!-- 增加发票 -->
-    <Dialog :control="addInvoice" title="增加发票" :width="600" @controlChange="addInvoice = false">
-      <AddInvoice :case-id="managerId" :case-name="managerName" :case-number="managerNumber" />
+    <Dialog :control="addInvoice" title="增加发票" :width="700" @controlChange="addInvoice = false">
+      <AddInvoice :case-id="managerId" :case-name="managerName" :case-number="managerNumber" @invoiceSuccess="invoiceSuccess" />
+    </Dialog>
+    <!-- 发票入账 -->
+    <Dialog :control="enterShow" title="发票入账" :width="500" @controlChange="enterShow = false">
+      <Enter :invoice-id="invoiceId" :case-name="managerName" :case-number="managerNumber" @enterSuccess="enterSuccess" />
     </Dialog>
   </div>
 </template>
@@ -49,6 +53,7 @@ import Dialog from '@/components/Dialog'
 import Pagination from '@/components/Pagination'
 import Manager from './components/Manager'
 import AddInvoice from './components/AddInvoice'
+import Enter from './components/Enter'
 // data
 import { fields } from './modules/fields'
 import { typeAry } from './modules/typeAry'
@@ -63,7 +68,7 @@ import { keyLight } from 'methods-often/import'
 import { mapGetters } from 'vuex'
 // settings
 export default {
-  components: { Dialog, ListTable, Pagination, Manager, AddInvoice },
+  components: { Dialog, ListTable, Pagination, Manager, AddInvoice, Enter },
   mixins: [ListMixin],
   data() {
     return {
@@ -73,11 +78,13 @@ export default {
       caseNameAry,
       tableIsUse: [],
       managerShow: false,
+      managerList: [],
       managerId: 0,
       managerName: '',
       managerNumber: 0,
       addInvoice: false,
-      enterShow: false
+      enterShow: false,
+      invoiceId: 0
     }
   },
   computed: {
@@ -151,6 +158,22 @@ export default {
       this.managerName = ''
       this.managerNumber = 0
       this.managerShow = false
+    },
+    // 增加发票成功
+    invoiceSuccess(invoice) {
+      this.addInvoice = false
+      this.$refs.manager.invoiceSuccess(invoice)
+    },
+    // 打开发票入账
+    onInvoiceEnter(id) {
+      this.invoiceId = id
+      this.enterShow = true
+    },
+    // 发票入账成功
+    enterSuccess() {
+      this.enterShow = false
+      this.startHandle()
+      this.$refs.manager.startHandle()
     }
   }
 }

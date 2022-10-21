@@ -30,9 +30,10 @@ export const fields = {
   // 发票
   inType: '发票类型',
   inNumber: '发票号码',
+  inHave: '含税价',
+  inTax: '税率',
   inNot: '不含税价',
   inRate: '税额',
-  inHave: '含税价',
   invoiceDate: '发票日期',
   // 进账
   enterPrice: '入账金额',
