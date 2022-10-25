@@ -58,7 +58,7 @@ import { eHeader, eFields } from './modules/eList'
 // mixin
 import ListMixin from '@/components/Mixins/ListMixin'
 // plugins
-import { shortcutScope, defineIsUseAry, defineBooleanAry, keyLight } from 'methods-often/import'
+import { defineIsUseAry, defineBooleanAry, keyLight } from 'methods-often/import'
 import { printTable } from '@/libs/print'
 import { exportData } from '@/libs/export'
 // settings
@@ -77,10 +77,7 @@ export default {
       eHeader: eHeader(),
       eFields,
       tableIsAdmin: [],
-      tableIsUse: [],
-      pickerOptions: {
-        shortcuts: shortcutScope()
-      }
+      tableIsUse: []
     }
   },
   computed: {

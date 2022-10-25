@@ -11,7 +11,7 @@
         <el-button type="primary" icon="el-icon-edit" size="mini" @click="$router.push({ path: `update/${id}` })" />
         <el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemoveAlone(id)" />
         <el-button type="success" icon="el-icon-view" size="mini" />
-        <el-button size="mini" @click="onManager(id, caseName, caseNumber)">入账管理</el-button>
+        <el-button size="mini" @click="onManager(id, caseName, caseNumber)">发票管理</el-button>
       </template>
     </el-table-column>
     <el-table-column :label="fields.delivery" align="center">

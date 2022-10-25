@@ -23,9 +23,9 @@
         <template slot-scope="{ row: { enterPrice } }">{{ enterPrice || '--' }}</template>
       </el-table-column>
       <el-table-column :label="fields.work" align="center" width="180">
-        <template slot-scope="{ row: { id } }">
+        <template slot-scope="{ row: { id, enterPrice } }">
           <el-button type="primary" icon="el-icon-d-arrow-right" size="mini" @click="invoiceEnter(id)" />
-          <el-button type="danger" icon="el-icon-delete" size="mini" @click="invoiceRemove(id)" />
+          <el-button type="danger" icon="el-icon-delete" size="mini" :disabled="!!enterPrice" @click="invoiceRemove(id)" />
         </template>
       </el-table-column>
     </el-table>
@@ -57,23 +57,28 @@ export default {
     }
   },
   methods: {
+    // 增加发票
     addInvoice() {
       this.$emit('onAddInvoice')
     },
+    // 获取列表
     startHandle() {
       caseApi.invoiceList({ id: this.caseId }).then(({ code, data }) => {
         if (code === 200) {
-          this.tableData = data
+          this.tableData = [...data]
           this.tableLoading = false
         }
       })
     },
+    // 插入新增的发票
     invoiceSuccess(invoice) {
       this.tableData.unshift(invoice)
     },
+    // 发票入账
     invoiceEnter(id, cid) {
       this.$emit('onInvoiceEnter', id, cid)
     },
+    // 发票删除
     invoiceRemove(id) {
       this.$confirm('删除后将无法恢复，确定继续删除吗？', '温馨提示', {
         type: 'warning'
@@ -83,6 +88,7 @@ export default {
             if (code === 200) {
               this.$message.success(msg)
               this.tableLoading = true
+              this.$emit('invoiceSuccess')
               this.startHandle()
             }
           })

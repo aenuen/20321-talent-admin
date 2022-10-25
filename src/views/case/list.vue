@@ -30,17 +30,17 @@
     <div style="text-align: center">
       <Pagination :hidden="tableDataLength <= 0" :total="tableDataLength" :page.sync="queryList.page" :limit.sync="queryList.pageSize" @pagination="refresh" />
     </div>
-    <!-- 入账管理 -->
-    <Dialog :control="managerShow" title="入账管理" @controlChange="managerClose">
-      <Manager ref="manager" :case-id="managerId" @onAddInvoice="addInvoice = true" @onInvoiceEnter="onInvoiceEnter" />
+    <!-- 发票列表 -->
+    <Dialog :control="managerShow" :title="'“' + managerName + '字' + managerNumber + '号”发票列表'" @controlChange="managerClose">
+      <InvoiceList ref="manager" :case-id="managerId" @onAddInvoice="addInvoice = true" @onInvoiceEnter="onInvoiceEnter" @invoiceSuccess="invoiceSuccess" />
     </Dialog>
     <!-- 增加发票 -->
     <Dialog :control="addInvoice" title="增加发票" :width="700" @controlChange="addInvoice = false">
       <AddInvoice :case-id="managerId" :case-name="managerName" :case-number="managerNumber" @invoiceSuccess="invoiceSuccess" />
     </Dialog>
     <!-- 发票入账 -->
-    <Dialog :control="enterShow" title="发票入账" :width="500" @controlChange="enterShow = false">
-      <Enter :invoice-id="invoiceId" :case-name="managerName" :case-number="managerNumber" @enterSuccess="enterSuccess" />
+    <Dialog :control="enterShow" title="发票入账" :width="700" @controlChange="enterShow = false">
+      <Enter :case-id="managerId" :invoice-id="invoiceId" :case-name="managerName" :case-number="managerNumber" @enterSuccess="enterSuccess" />
     </Dialog>
   </div>
 </template>
@@ -51,7 +51,7 @@ import { caseApi } from '@/api/case'
 import ListTable from './components/ListTable'
 import Dialog from '@/components/Dialog'
 import Pagination from '@/components/Pagination'
-import Manager from './components/Manager'
+import InvoiceList from './components/InvoiceList'
 import AddInvoice from './components/AddInvoice'
 import Enter from './components/Enter'
 // data
@@ -68,7 +68,7 @@ import { keyLight } from 'methods-often/import'
 import { mapGetters } from 'vuex'
 // settings
 export default {
-  components: { Dialog, ListTable, Pagination, Manager, AddInvoice, Enter },
+  components: { Dialog, ListTable, Pagination, InvoiceList, AddInvoice, Enter },
   mixins: [ListMixin],
   data() {
     return {
@@ -162,6 +162,7 @@ export default {
     // 增加发票成功
     invoiceSuccess(invoice) {
       this.addInvoice = false
+      this.startHandle()
       this.$refs.manager.invoiceSuccess(invoice)
     },
     // 打开发票入账
@@ -171,7 +172,6 @@ export default {
     },
     // 发票入账成功
     enterSuccess() {
-      this.enterShow = false
       this.startHandle()
       this.$refs.manager.startHandle()
     }
