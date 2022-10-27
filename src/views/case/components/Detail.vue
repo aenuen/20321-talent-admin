@@ -8,7 +8,7 @@
       </el-col>
       <el-col :span="12">
         <el-form-item prop="type" :label="fields.type" :label-width="labelWidth">
-          <el-select v-model="postForm.type" :placeholder="fields.type" clearable @change="typeChange">
+          <el-select v-model="postForm.type" :placeholder="fields.type" clearable :disabled="isUpdate" @change="typeChange">
             <el-option v-for="item in typeAry" :key="item.key" :label="item.value" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -55,7 +55,7 @@
       </el-col>
       <el-col :span="12">
         <el-form-item prop="stage" :label="fields.stage" :label-width="labelWidth">
-          <el-select ref="stage" v-model="postForm.stage" :placeholder="fields.stage" clearable>
+          <el-select ref="stage" v-model="postForm.stage" :placeholder="fields.stage" clearable :disabled="isUpdate">
             <el-option v-for="item in stageAry" :key="item.key" :label="item.value" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -145,7 +145,7 @@ import { idTypeAry } from '../modules/idTypeAry'
 import DetailMixin from '@/components/Mixins/DetailMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
 // plugins
-import { controlInputPrice, numberPriceBigWrite } from 'methods-often/import'
+import { controlInputPrice, numberPriceBigWrite, controlInputNumberSpace } from 'methods-often/import'
 // settings
 export default {
   components: { OnlyOne },
@@ -174,6 +174,9 @@ export default {
     }
   },
   watch: {
+    'postForm.idNumber': function (val) {
+      this.postForm.idNumber = controlInputNumberSpace(val, 4)
+    },
     'postForm.disputePrice': function (val) {
       this.postForm.disputePrice = controlInputPrice(val)
       this.disputePriceBig = numberPriceBigWrite(this.postForm.disputePrice)
@@ -185,8 +188,19 @@ export default {
   },
   created() {
     !this.isUpdate && this.getBase()
+    console.log(`3501 0419 5510 0700 62`.split(' ').join(''))
   },
   methods: {
+    // 获取案件详情
+    startHandle() {
+      if (this.isUpdate) {
+        caseApi.detail({ id: this.updateId }).then(({ code, data }) => {
+          if (code === 200) {
+            this.postForm = { ...data }
+          }
+        })
+      }
+    },
     // 获取基本数据
     getBase() {
       caseApi.base().then(({ code, data }) => {
@@ -220,7 +234,19 @@ export default {
         this.$refs.postForm.validate((valid, fields) => {
           if (valid) {
             if (this.isUpdate) {
-              //
+              caseApi
+                .update()
+                .then(({ code, msg }) => {
+                  if (code === 200) {
+                    this.$message.success(msg)
+                    this.routerClose('/case/list')
+                  } else {
+                    this.$message.error(msg)
+                  }
+                })
+                .catch(() => {
+                  this.submitLoadingClose()
+                })
             } else {
               caseApi
                 .create(this.postForm)

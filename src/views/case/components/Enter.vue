@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div style="padding-bottom: 20px">
-      <el-table :key="1" :loading="tableLoading" :data="tableData" border fit highlight-current-row show-summary :summary-method="(p) => summaryMethod(p, ['enterPrice'])" style="width: 100%">
+      <el-table :key="3" :loading="tableLoading" :data="tableData" border fit highlight-current-row show-summary :summary-method="(p) => summaryMethod(p, ['enterPrice'])" style="width: 100%">
         <el-table-column :label="fields.id" type="index" align="center" width="80" />
         <el-table-column :label="fields.enterDate" prop="enterDate" align="center" />
         <el-table-column :label="fields.enterPrice" prop="enterPrice" align="center" />

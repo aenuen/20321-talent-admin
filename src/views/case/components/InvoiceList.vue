@@ -3,24 +3,34 @@
     <div class="filter-container">
       <el-button type="success" @click="addInvoice">增加发票</el-button>
     </div>
-    <el-table :key="1" :loading="tableLoading" :data="tableData" border fit highlight-current-row show-summary :summary-method="(p) => summaryMethod(p, ['inHave', 'inRate', 'inNot', 'enterPrice'])" style="width: 100%">
+    <el-table :key="2" :loading="tableLoading" :data="tableData" border fit highlight-current-row show-summary :summary-method="(p) => summaryMethod(p, ['inHave', 'inRate', 'inNot', 'enterPrice'])" style="width: 100%">
       <template slot="empty">
         <el-empty :image-size="100" description="未能找到符合条件的数据" />
       </template>
       <el-table-column :label="fields.invoiceDate" prop="invoiceDate" align="center" />
-      <el-table-column :label="fields.inType" prop="inType" align="center" />
+      <el-table-column :label="fields.inType" align="center">
+        <template slot-scope="{ row: { inType } }">
+          <span>{{ inType }}</span>
+        </template>
+      </el-table-column>
       <el-table-column :label="fields.inNumber" prop="inNumber" align="center" />
       <el-table-column :label="fields.inHave" prop="inHave" align="center" />
       <el-table-column :label="fields.inTax" align="center">
-        <template slot-scope="{ row: { inTax } }">{{ inTax }}%</template>
+        <template slot-scope="{ row: { inTax } }">
+          <span>{{ inTax }}%</span>
+        </template>
       </el-table-column>
       <el-table-column :label="fields.inRate" prop="inRate" align="center" />
       <el-table-column :label="fields.inNot" prop="inNot" align="center" />
       <el-table-column :label="fields.enterDate" prop="enterDate" align="center">
-        <template slot-scope="{ row: { enterDate } }">{{ enterDate || '--' }}</template>
+        <template slot-scope="{ row: { enterDate } }">
+          <span>{{ enterDate || '--' }}</span>
+        </template>
       </el-table-column>
       <el-table-column :label="fields.enterPrice" prop="enterPrice" align="center">
-        <template slot-scope="{ row: { enterPrice } }">{{ enterPrice || '--' }}</template>
+        <template slot-scope="{ row: { enterPrice } }">
+          <span>{{ enterPrice || '--' }}</span>
+        </template>
       </el-table-column>
       <el-table-column :label="fields.work" align="center" width="180">
         <template slot-scope="{ row: { id, enterPrice } }">
@@ -65,7 +75,7 @@ export default {
     startHandle() {
       caseApi.invoiceList({ id: this.caseId }).then(({ code, data }) => {
         if (code === 200) {
-          this.tableData = [...data]
+          this.tableData = data
           this.tableLoading = false
         }
       })
@@ -87,9 +97,7 @@ export default {
           caseApi.invoiceRemove({ id }).then(({ code, msg }) => {
             if (code === 200) {
               this.$message.success(msg)
-              this.tableLoading = true
-              this.$emit('invoiceSuccess')
-              this.startHandle()
+              this.$emit('invoiceRemove')
             }
           })
         })

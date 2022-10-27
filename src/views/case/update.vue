@@ -1,9 +1,12 @@
 <template>
-  <div></div>
+  <div class="app-container">
+    <Detail is-update />
+  </div>
 </template>
 <script>
 // api
 // components
+import Detail from './components/Detail'
 // data
 // filter
 // function
@@ -11,7 +14,8 @@
 // plugins
 // settings
 export default {
-  components: {},
+  name: 'CaseUpdate',
+  components: { Detail },
   data() {
     return {}
   }

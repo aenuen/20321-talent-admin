@@ -32,7 +32,7 @@
     </div>
     <!-- 发票列表 -->
     <Dialog :control="managerShow" :title="'“' + managerName + '字' + managerNumber + '号”发票列表'" @controlChange="managerClose">
-      <InvoiceList ref="manager" :case-id="managerId" @onAddInvoice="addInvoice = true" @onInvoiceEnter="onInvoiceEnter" @invoiceSuccess="invoiceSuccess" />
+      <InvoiceList ref="manager" :case-id="managerId" @onAddInvoice="addInvoice = true" @onInvoiceEnter="onInvoiceEnter" @invoiceRemove="invoiceRemove" />
     </Dialog>
     <!-- 增加发票 -->
     <Dialog :control="addInvoice" title="增加发票" :width="700" @controlChange="addInvoice = false">
@@ -161,9 +161,14 @@ export default {
     },
     // 增加发票成功
     invoiceSuccess(invoice) {
-      this.addInvoice = false
-      this.startHandle()
-      this.$refs.manager.invoiceSuccess(invoice)
+      this.addInvoice = false // 关闭发票列表窗口
+      this.startHandle() // 更新案件列表
+      this.$refs.manager.invoiceSuccess(invoice) // 发票列表加入新增加内容
+    },
+    // 删除发票成功
+    invoiceRemove() {
+      this.startHandle() // 更新案件列表
+      this.$refs.manager.startHandle() // 更新发票列表
     },
     // 打开发票入账
     onInvoiceEnter(id) {
@@ -172,8 +177,8 @@ export default {
     },
     // 发票入账成功
     enterSuccess() {
-      this.startHandle()
-      this.$refs.manager.startHandle()
+      this.startHandle() // 更新案件列表
+      this.$refs.manager.startHandle() // 更新发票列表
     }
   }
 }

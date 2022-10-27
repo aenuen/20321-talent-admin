@@ -13,6 +13,5 @@ export const rulesDetail = {
   stage: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.stage, '选择') }],
   price: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.price) }],
   department: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.department) }],
-  contract: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.contract, '上传') }],
-  letter: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.letter, '上传') }]
+  contract: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.contract, '上传') }]
 }
