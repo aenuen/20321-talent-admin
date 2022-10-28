@@ -119,8 +119,8 @@
     <el-row>
       <el-col>
         <el-form-item label="合同及所函" :label-width="labelWidth">
-          <OnlyOne ref="contract" desc="合同" action="/case/contractUpload" style="margin-right: 20px" @onUploadSuccess="onContractUploadSuccess" @onUploadRemove="onContractUploadRemove" />
-          <OnlyOne ref="letter" desc="所函" action="/case/letterUpload" style="margin-right: 20px" @onUploadSuccess="onLetterUploadSuccess" @onUploadRemove="onLetterUploadRemove" />
+          <OnlyOne ref="contract" :desc="(isUpdate ? '修改' : '上传') + '合同'" :show-update="isUpdate" action="/case/contractUpload" :data="{ cid: contractId }" style="margin-right: 20px" @onUploadSuccess="onContractUploadSuccess" @onUploadRemove="onContractUploadRemove" />
+          <OnlyOne ref="letter" :desc="(isUpdate ? '修改' : '上传') + '所涵'" :show-update="isUpdate" action="/case/letterUpload" style="margin-right: 20px" @onUploadSuccess="onLetterUploadSuccess" @onUploadRemove="onLetterUploadRemove" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -162,7 +162,9 @@ export default {
       idTypeAry,
       stageAry: [],
       priceBig: '请输入',
-      disputePriceBig: '请输入'
+      disputePriceBig: '请输入',
+      contractId: 0,
+      letterId: 0
     }
   },
   computed: {
@@ -196,7 +198,9 @@ export default {
       if (this.isUpdate) {
         caseApi.detail({ id: this.updateId }).then(({ code, data }) => {
           if (code === 200) {
-            this.postForm = { ...data }
+            const { detail, contract, letter } = data
+            this.postForm = { ...detail }
+            this.setData(contract, letter)
           }
         })
       }
@@ -207,17 +211,28 @@ export default {
         if (code === 200) {
           const { contract, letter } = data
           this.postForm = {
-            ...{ contract: contract.id },
-            ...{ letter: letter.id }
+            ...(contract.id ? { contract: contract.id } : {}),
+            ...(letter.id ? { letter: letter.id } : {})
           }
-          this.$refs.contract.fileUrl = contract.file
-          this.$refs.contract.fileAlt = contract.name
-          this.$refs.contract.fileId = contract.id
-          this.$refs.letter.fileUrl = letter.file
-          this.$refs.letter.fileAlt = letter.name
-          this.$refs.letter.fileId = letter.id
+          this.setData(contract, letter)
         }
       })
+    },
+    setData(contract, letter) {
+      // 合同赋值
+      if (contract?.file && contract?.name && contract?.id) {
+        this.$refs.contract.fileUrl = contract.file
+        this.$refs.contract.fileAlt = contract.name
+        this.$refs.contract.fileId = contract.id
+        this.contractId = contract.id
+      }
+      // 所涵赋值
+      if (letter?.file && letter?.name && letter?.id) {
+        this.$refs.letter.fileUrl = letter.file
+        this.$refs.letter.fileAlt = letter.name
+        this.$refs.letter.fileId = letter.id
+        this.letterId = letter.id
+      }
     },
     // 类型改变
     typeChange(value) {

@@ -1,7 +1,11 @@
 <template>
   <div class="uploaderWrap" :style="{ width: width + 'px', height: lastHeight + 'px' }">
+    <div v-if="isEdit" style="position: absolute; bottom: 0; text-align: center">
+      <el-button @click="cancelUpdate">取消编辑</el-button>
+    </div>
     <div class="uploader" :style="{ width: width + 'px', height: height + 'px' }">
-      <el-upload :headers="headers" :action="fileAction" :accept="fileAccept" :show-file-list="false" :on-success="onUploadSuccess" :before-upload="onUploadBefore" :on-error="onUploadError">
+      <el-upload :headers="headers" :action="fileAction" :accept="fileAccept" :data="data" :show-file-list="false" :on-success="onUploadSuccess" :before-upload="onUploadBefore" :on-error="onUploadError">
+        <FileShow v-if="fileUrl" class="content" :file-url="fileUrl" :width="width" :height="height" />
         <div v-if="fileUrl" class="content" :style="{ width: width + 'px', height: height + 'px' }">
           <el-image v-if="classify === 'pic'" :style="{ width: width + 'px', height: height + 'px' }" :src="fileUrl" fit="fit" />
           <el-image v-else-if="classify === 'doc'" :style="{ width: width + 'px', height: height + 'px' }" :src="doc" fit="fit" />
@@ -28,6 +32,9 @@
           <span @click="onUploadRemove">
             <i class="el-icon-delete" />
           </span>
+          <span v-if="showUpdate" @click="onUploadUpdate">
+            <i class="el-icon-edit" />
+          </span>
         </div>
       </div>
     </div>
@@ -39,23 +46,26 @@
 <script>
 // api
 // components
+import FileShow from '@/components/FileShow'
 // data
 // filter
 // function
 // mixin
 // plugins
-import { fileClassify } from 'methods-often/import'
 import { getToken } from '@/libs/utils/token'
 // settings
 import { apiBaseUrl } from '@/libs/axios/settings'
 export default {
+  components: { FileShow },
   props: {
     width: { type: Number, default: 100 },
     height: { type: Number, default: 100 },
     maxSize: { type: Number, default: 2 },
     desc: { type: String, default: '' },
     accept: { type: String, default: '' },
-    action: { type: String, default: '' }
+    action: { type: String, default: '' },
+    data: { type: Object, default: () => {} },
+    showUpdate: Boolean
   },
   data() {
     return {
@@ -67,9 +77,8 @@ export default {
       dialogImageUrl: '',
       percentage: 0,
       progress: false,
-      doc: 'http://localhost:20320/constant/typeImage/word.png',
-      xls: 'http://localhost:20320/constant/typeImage/excel.png',
-      pdf: 'http://localhost:20320/constant/typeImage/pdf.png'
+      fileBak: '',
+      isEdit: false
     }
   },
   computed: {
@@ -88,15 +97,11 @@ export default {
       return this.desc ? this.height + 40 : this.height
     }
   },
-  watch: {
-    fileUrl() {
-      this.classify = fileClassify(this.fileUrl)
-    }
-  },
   methods: {
     // 上传成功
     onUploadSuccess({ code, data }, file) {
       if (code === 200) {
+        this.isEdit = false
         const { url, name, id } = data
         this.$nextTick(() => {
           this.fileUrl = url
@@ -141,6 +146,16 @@ export default {
     // 删除
     onUploadRemove() {
       this.$emit('onUploadRemove', this.fileId)
+    },
+    // 更新
+    onUploadUpdate() {
+      this.fileBak = this.fileUrl
+      this.fileUrl = ''
+      this.isEdit = true
+    },
+    cancelUpdate() {
+      this.fileUrl = this.fileBak
+      this.isEdit = false
     },
     // 清除
     clearFileUrl() {
