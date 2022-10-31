@@ -31,6 +31,15 @@ const caseRouter = {
       hidden: true
     },
     {
+      path: 'view/:id', name: 'caseView', component: () => import('@/views/case/view'),
+      meta: {
+        title: '案件编辑',
+        roles: ['admin'],
+        activeMenu: '/case/list'
+      },
+      hidden: true
+    },
+    {
       path: 'month', name: 'caseMonth', component: () => import('@/views/case/month'),
       meta: {
         title: '律师月表',

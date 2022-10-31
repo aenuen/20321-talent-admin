@@ -29,11 +29,11 @@
           <span v-else @click="onUploadDownload">
             <i class="el-icon-download" />
           </span>
-          <span @click="onUploadRemove">
-            <i class="el-icon-delete" />
-          </span>
           <span v-if="showUpdate" @click="onUploadUpdate">
             <i class="el-icon-edit" />
+          </span>
+          <span v-else @click="onUploadRemove">
+            <i class="el-icon-delete" />
           </span>
         </div>
       </div>
@@ -145,7 +145,15 @@ export default {
     },
     // 删除
     onUploadRemove() {
-      this.$emit('onUploadRemove', this.fileId)
+      this.$confirm('删除后将无法恢复，确定继续删除吗？', '温馨提示', {
+        type: 'warning'
+      })
+        .then(() => {
+          this.$emit('onUploadRemove', this.fileId)
+        })
+        .catch(() => {
+          this.$message.info('取消删除')
+        })
     },
     // 更新
     onUploadUpdate() {

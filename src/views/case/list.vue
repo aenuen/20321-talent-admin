@@ -24,7 +24,7 @@
     </div>
     <!-- 列表 -->
     <div id="caseListTable">
-      <ListTable :table-data="tableData" :table-loading="tableLoading" :table-sort="tableSort" :is-use="tableIsUse" @onSortChange="onSortChange" @onSureDelivery="onSureDelivery" @onIsUseChange="onIsUseChange" @onManager="managerOpen" />
+      <ListTable :table-data="tableData" :table-loading="tableLoading" :table-sort="tableSort" :is-use="tableIsUse" @onSortChange="onSortChange" @onSureDelivery="onSureDelivery" @onIsUseChange="onIsUseChange" @onRemoveAlone="onRemoveAlone" @onManager="managerOpen" />
     </div>
     <!-- 分页 -->
     <div style="text-align: center">
@@ -114,6 +114,15 @@ export default {
             item.type_key = keyLight(this.queryList, 'type', item.type)
             item.client_key = keyLight(this.queryList, 'client', item.client)
           })
+        }
+      })
+    },
+    // 单个删除案件
+    removeAlone() {
+      caseApi.remove({ id: this.removeId }).then(({ code, msg }) => {
+        if (code === 200) {
+          this.$message.success(msg)
+          this.startHandle()
         }
       })
     },

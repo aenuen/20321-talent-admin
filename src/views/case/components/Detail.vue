@@ -111,16 +111,28 @@
     </el-row>
     <el-row>
       <el-col>
-        <el-form-item :label="fields.memo" :label-width="labelWidth">
+        <el-form-item prop="memo" :label="fields.memo" :label-width="labelWidth">
           <el-input v-model="postForm.memo" :placeholder="fields.memo" :rows="3" type="textarea" maxlength="300" show-word-limit />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="12">
+        <el-form-item prop="contract" :label="fields.contract" :label-width="labelWidth">
+          <el-input v-model="postForm.contract" :placeholder="fields.contract" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item prop="letter" :label="fields.letter" :label-width="labelWidth">
+          <el-input v-model="postForm.letter" :placeholder="fields.letter" />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col>
         <el-form-item label="合同及所函" :label-width="labelWidth">
-          <OnlyOne ref="contract" :desc="(isUpdate ? '修改' : '上传') + '合同'" :show-update="isUpdate" action="/case/contractUpload" :data="{ cid: contractId }" style="margin-right: 20px" @onUploadSuccess="onContractUploadSuccess" @onUploadRemove="onContractUploadRemove" />
-          <OnlyOne ref="letter" :desc="(isUpdate ? '修改' : '上传') + '所涵'" :show-update="isUpdate" action="/case/letterUpload" style="margin-right: 20px" @onUploadSuccess="onLetterUploadSuccess" @onUploadRemove="onLetterUploadRemove" />
+          <OnlyOne ref="contract" :desc="(isUpdate ? '修改' : '上传') + '合同'" :show-update="isUpdate" action="/case/contractUpload" :data="{ cid: updateId, contractId: contractId }" style="margin-right: 20px" @onUploadSuccess="onContractUploadSuccess" @onUploadRemove="onContractUploadRemove" />
+          <OnlyOne ref="letter" :desc="(isUpdate ? '修改' : '上传') + '所涵'" :show-update="isUpdate" action="/case/letterUpload" :data="{ cid: updateId, letterId }" style="margin-right: 20px" @onUploadSuccess="onLetterUploadSuccess" @onUploadRemove="onLetterUploadRemove" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -190,7 +202,6 @@ export default {
   },
   created() {
     !this.isUpdate && this.getBase()
-    console.log(`3501 0419 5510 0700 62`.split(' ').join(''))
   },
   methods: {
     // 获取案件详情
@@ -224,6 +235,7 @@ export default {
         this.$refs.contract.fileUrl = contract.file
         this.$refs.contract.fileAlt = contract.name
         this.$refs.contract.fileId = contract.id
+        this.postForm.contract = contract.id
         this.contractId = contract.id
       }
       // 所涵赋值
@@ -231,6 +243,7 @@ export default {
         this.$refs.letter.fileUrl = letter.file
         this.$refs.letter.fileAlt = letter.name
         this.$refs.letter.fileId = letter.id
+        this.postForm.letter = letter.id
         this.letterId = letter.id
       }
     },
@@ -250,7 +263,9 @@ export default {
           if (valid) {
             if (this.isUpdate) {
               caseApi
-                .update()
+                .update({
+                  ...this.postForm
+                })
                 .then(({ code, msg }) => {
                   if (code === 200) {
                     this.$message.success(msg)
@@ -286,6 +301,8 @@ export default {
     // 合同上传成功
     onContractUploadSuccess(id) {
       this.postForm.contract = id
+      console.log('🚀 ~ file: Detail.vue ~ line 292 ~ onContractUploadSuccess ~ this.postForm.contract', this.postForm.contract)
+      this.contractId = id
     },
     // 删除合同
     onContractUploadRemove(id) {
@@ -302,6 +319,8 @@ export default {
     // 所函上传成功
     onLetterUploadSuccess(id) {
       this.postForm.letter = id
+      console.log('🚀 ~ file: Detail.vue ~ line 310 ~ onLetterUploadSuccess ~ this.postForm.letter', this.postForm.letter)
+      this.letterId = id
     },
     // 删除所函
     onLetterUploadRemove(id) {

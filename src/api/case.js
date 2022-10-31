@@ -10,6 +10,7 @@ export const caseApi = {
   // post
   create: (data) => request({ url: '/case/create', method: 'post', data }), // 创建案件
   update: (data) => request({ url: '/case/update', method: 'post', data }), // 更新案件
+  remove: (data) => request({ url: '/case/remove', method: 'post', data }), // 删除案件
   isUse: data => request({ url: '/case/isUse', method: 'post', data }), // 案件作废/取消作废
   contractRemove: (data) => request({ url: '/case/contractRemove', method: 'post', data }), // 删除合同
   letterRemove: (data) => request({ url: '/case/letterRemove', method: 'post', data }), // 删除合同
