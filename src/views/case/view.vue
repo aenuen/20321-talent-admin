@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div style="width: 100%; text-align: center">
-      <el-button class="el-icon-printer" @click="printTable('printContentView', '收案审批单', printStyle)">打印收案审批单</el-button>
+      <el-button class="el-icon-printer" @click="printTable('printContentView', '收案审批单', tablePrintStyle)">打印收案审批单</el-button>
     </div>
     <div id="printContentView" style="width: 900px; margin: auto">
       <div style="text-align: right; line-height: 50px">{{ postForm.createTimestamp | timeFormat('{y}年{m}月{d}日', true) }}</div>
@@ -25,14 +25,14 @@
           <td colspan="5">姓名或单位名称：{{ postForm.name }}</td>
         </tr>
         <tr>
-          <td colspan="5">证件号码：{{ `${postForm.idType} ${postForm.idNumber}` }}</td>
+          <td colspan="5">证件号码：{{ `${postForm.idType}(${postForm.idNumber})` }}</td>
         </tr>
         <tr>
           <td colspan="5">当事方：{{ postForm.parties }}</td>
         </tr>
         <tr>
           <td style="text-align: right">争议标的额：</td>
-          <td colspan="2">{{ postForm.disputePrice }}</td>
+          <td colspan="2">{{ postForm.disputePrice || '--' }}</td>
           <td colspan="2" style="text-align: right">律师代理费：</td>
           <td>{{ postForm.price }}</td>
         </tr>
@@ -75,7 +75,7 @@ import { caseApi } from '@/api/case'
 import DetailMixin from '@/components/Mixins/DetailMixin'
 // plugins
 import { timeFormat } from 'methods-often/import'
-import { printTable } from '@/libs/print'
+import { printTable, tablePrintStyle } from '@/libs/print'
 // settings
 export default {
   name: 'CaseView',
@@ -88,7 +88,7 @@ export default {
     return {
       isUpdate: true,
       printTable,
-      printStyle: 'table{width:100%;color:#333;border-width:1px;border-color:#666;border-collapse:collapse;}table td{border-width:1px;padding:10px;border-style:solid;border-color:#666;background-color:#fff;line-height:25px;}'
+      tablePrintStyle
     }
   },
   methods: {
@@ -108,23 +108,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-table {
-  width: 100%;
-  color: #333;
-  border-width: 1px;
-  border-color: #666;
-  border-collapse: collapse;
-
-  th,
-  td {
-    border-width: 1px;
-    padding: 10px;
-    border-style: solid;
-    border-color: #666;
-    background-color: #fff;
-    line-height: 25px;
-    word-wrap: break-word;
-    word-break: break-all;
-  }
-}
+@import '~@/assets/styles/tablePrintStyle.scss';
 </style>

@@ -4,9 +4,12 @@ export const caseApi = {
   // get
   base: () => request({ url: '/case/base', method: 'get' }), // 获取基础数据
   list: params => request({ url: '/case/list?' + qs.stringify(params), method: 'get' }), // 列表
-  invoiceList: params => request({ url: '/case/invoiceList?' + qs.stringify(params), method: 'get' }), // 发票列表
-  enterList: params => request({ url: '/case/enterList?' + qs.stringify(params), method: 'get' }), // 入账列表
-  detail: params => request({ url: '/case/detail?' + qs.stringify(params), method: 'get' }), // 入账列表
+  invoiceList: params => request({ url: '/case/invoiceList?' + qs.stringify(params), method: 'get' }), // 案件发票列表
+  year: params => request({ url: '/case/year?' + qs.stringify(params), method: 'get' }), // 年份案件列表
+  enterList: params => request({ url: '/case/enterList?' + qs.stringify(params), method: 'get' }), // 案件入账列表
+  detail: params => request({ url: '/case/detail?' + qs.stringify(params), method: 'get' }), // 案件详情
+  type: () => request({ url: '/case/type', method: 'get' }), // 获取类别列表
+  typeCase: params => request({ url: '/case/typeCase?' + qs.stringify(params), method: 'get' }), // 获取类别案件列表
   // post
   create: (data) => request({ url: '/case/create', method: 'post', data }), // 创建案件
   update: (data) => request({ url: '/case/update', method: 'post', data }), // 更新案件

@@ -33,16 +33,37 @@ const caseRouter = {
     {
       path: 'view/:id', name: 'caseView', component: () => import('@/views/case/view'),
       meta: {
-        title: '案件编辑',
+        title: '收案审批表',
         roles: ['admin'],
         activeMenu: '/case/list'
       },
       hidden: true
     },
     {
+      path: 'year', name: 'caseYear', component: () => import('@/views/case/year'),
+      meta: {
+        title: '年份案件',
+        roles: ['admin']
+      }
+    },
+    {
       path: 'month', name: 'caseMonth', component: () => import('@/views/case/month'),
       meta: {
         title: '律师月表',
+        roles: ['admin']
+      }
+    },
+    {
+      path: 'invoice', name: 'caseInvoice', component: () => import('@/views/case/invoice'),
+      meta: {
+        title: '发票统计',
+        roles: ['admin']
+      }
+    },
+    {
+      path: 'type', name: 'caseType', component: () => import('@/views/case/type'),
+      meta: {
+        title: '类型统计',
         roles: ['admin']
       }
     }
