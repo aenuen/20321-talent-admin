@@ -145,6 +145,12 @@
           </el-col>
         </el-row>
         <el-row v-if="monthId > 0 || isBatch">
+          <!--天数-->
+          <el-col :span="6">
+            <el-form-item prop="days" :label="fields.days" :label-width="labelWidth">
+              <el-input v-model="postForm.days" :placeholder="fields.days" clearable class="el-input" @change="postForm.days = +postForm.days" />
+            </el-form-item>
+          </el-col>
           <!--补贴-->
           <el-col :span="6">
             <el-form-item prop="subsidy" :label="fields.subsidy" :label-width="labelWidth">
@@ -158,7 +164,7 @@
             </el-form-item>
           </el-col>
           <!--小计-->
-          <el-col :span="12">
+          <el-col :span="6">
             <el-form-item label="小计" :label-width="labelWidth">
               <el-input v-model="subTotal" disabled class="el-input" />
             </el-form-item>

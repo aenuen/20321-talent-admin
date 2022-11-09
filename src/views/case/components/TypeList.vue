@@ -1,3 +1,10 @@
+<!--
+ * @Author: abbott
+ * @Date: 2022-11-04 17:23:47
+ * @LastEditors: abbott
+ * @LastEditTime: 2022-11-09 15:31:42
+ * @Description:
+-->
 <template>
   <el-table :key="1" :loading="tableLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
     <template slot="empty">
@@ -34,14 +41,15 @@
         <span>{{ inNumber || '--' }}</span>
       </template>
     </el-table-column>
+    <el-table-column :label="fields.delivery" align="center">
+      <template slot-scope="{ row: { delivery } }">
+        <span v-if="+delivery === 1" style="color: green; font-size: 20px">√</span>
+        <span v-else style="color: red; font-size: 20px">×</span>
+      </template>
+    </el-table-column>
     <el-table-column :label="fields.enterDate" align="center">
       <template slot-scope="{ row: { enterDate } }">
         <span>{{ enterDate || '--' }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column :label="fields.enterPrice" align="center">
-      <template slot-scope="{ row: { enterPrice } }">
-        <span>{{ enterPrice }}</span>
       </template>
     </el-table-column>
   </el-table>

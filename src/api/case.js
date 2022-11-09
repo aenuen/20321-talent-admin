@@ -8,7 +8,6 @@ export const caseApi = {
   year: params => request({ url: '/case/year?' + qs.stringify(params), method: 'get' }), // 年份案件列表
   enterList: params => request({ url: '/case/enterList?' + qs.stringify(params), method: 'get' }), // 案件入账列表
   detail: params => request({ url: '/case/detail?' + qs.stringify(params), method: 'get' }), // 案件详情
-  type: () => request({ url: '/case/type', method: 'get' }), // 获取类别列表
   typeCase: params => request({ url: '/case/typeCase?' + qs.stringify(params), method: 'get' }), // 获取类别案件列表
   // post
   create: (data) => request({ url: '/case/create', method: 'post', data }), // 创建案件

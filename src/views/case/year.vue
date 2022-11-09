@@ -37,13 +37,24 @@ export default {
     return {
       fields,
       exportData,
-      exportHeader: ['编号', '创建时间', '发票日期', '入账日期', '承办律师'],
-      exportFields: ['id', 'createDate', 'invoiceDate', 'enterDate', 'createRealName']
+      exportObject: {
+        id: '编号',
+        createDate: '创建日期',
+        case: '案号',
+        client: '合同客户',
+        createRealName: '承办律师',
+        price: '律师代理费',
+        inNumber: '发票号码',
+        enterPrice: '入账金额',
+        enterDate: '入账日期'
+      },
+      exportHeader: ['编号', '创建日期', '类型', '合同客户', '承办律师', '律师代理费', '发票号码', '入账金额', '入账日期'],
+      exportFields: ['id', 'createDate', 'type', 'client', 'createRealName', 'price', 'inNumber', 'enterPrice', 'enterDate']
     }
   },
   computed: {
     exportFilename() {
-      return `${this.queryList.caseYear}年案件统计表`
+      return `${this.queryList.caseYear}${this.queryList.caseName}年案件统计表`
     }
   },
   methods: {
@@ -53,14 +64,20 @@ export default {
         caseYear: timeGetYear()
       }
     },
+    // 获取列表
     startHandle() {
       caseApi.year(this.queryList).then(({ code, data }) => {
         if (code === 200) {
           if (data.length > 0) {
-            data.forEach((element) => (element.createDate = element.createTimestamp))
+            data.forEach((element) => {
+              element.createDate = element.createTimestamp
+              element.case = `(${element.caseYear})${element.caseName}字${element.caseNumber}号`
+            })
             this.tableData = [...data]
-            this.tableLoading = false
+          } else {
+            this.tableData = [...[]]
           }
+          this.tableLoading = false
         }
       })
     }

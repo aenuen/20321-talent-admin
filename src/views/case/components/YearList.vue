@@ -1,24 +1,14 @@
 <template>
   <el-table :key="1" :loading="tableLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
-    <el-table-column :label="fields.id" prop="id" align="center" />
+    <el-table-column :label="fields.id" type="index" align="center" width="80" />
     <el-table-column :label="fields.createDate" align="center">
       <template slot-scope="{ row: { createTimestamp } }">
         <span>{{ createTimestamp | dateFilter }}</span>
       </template>
     </el-table-column>
-    <el-table-column :label="fields.type" align="center">
-      <template slot-scope="{ row: { type } }">
-        <span v-html="type" />
-      </template>
-    </el-table-column>
-    <el-table-column :label="fields.caseName" align="center">
-      <template slot-scope="{ row: { caseName } }">
-        <span v-html="caseName" />
-      </template>
-    </el-table-column>
-    <el-table-column :label="fields.caseNumber" align="center">
-      <template slot-scope="{ row: { caseNumber } }">
-        <span v-html="caseNumber" />
+    <el-table-column :label="fields.caseUseName" align="center" width="200">
+      <template slot-scope="{ row: { caseYear, caseName, caseNumber } }">
+        <span>{{ `(${caseYear})${caseName}字${caseNumber}号` }}</span>
       </template>
     </el-table-column>
     <el-table-column :label="fields.client" align="center" :width="350">

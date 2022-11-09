@@ -19,8 +19,15 @@
       <el-table-column prop="payTotal" :label="fields.subtotal" align="center" />
     </el-table-column>
     <el-table-column label="扣款及补贴" align="center">
-      <el-table-column prop="subsidy" :label="fields.subsidy" align="center" />
-      <el-table-column prop="deduct" :label="fields.deduct" align="center" />
+      <el-table-column :label="fields.days" align="center">
+        <template slot-scope="{ row: { days } }">{{ days || 0 }}</template>
+      </el-table-column>
+      <el-table-column :label="fields.subsidy" align="center">
+        <template slot-scope="{ row: { subsidy } }">{{ subsidy || 0 }}</template>
+      </el-table-column>
+      <el-table-column :label="fields.deduct" align="center">
+        <template slot-scope="{ row: { deduct } }">{{ deduct || 0 }}</template>
+      </el-table-column>
       <el-table-column prop="SAndDTotal" :label="fields.subtotal" align="center" />
     </el-table-column>
     <el-table-column label="代扣代缴" align="center">

@@ -26,6 +26,7 @@ export const fields = {
   unBirth: '生育',
   subtotal: '小计',
   totalPay: '总计',
+  days: '天数',
   subsidy: '补贴',
   deduct: '扣款',
   aheadYearMonth: '开始年月',

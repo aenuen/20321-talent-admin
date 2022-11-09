@@ -2,8 +2,8 @@
   <div class="icons-container">
     <el-tabs type="border-card">
       <el-tab-pane label="Svg图标">
-        <div class="grid">
-          <div v-for="item of svgIcons" :key="item" @click="handleClipboard(generateIconCode(item),$event)">
+        <div class="grid" style="padding-right: 100px">
+          <div v-for="item of svgIcons" :key="item" @click="handleClipboard(generateIconCode(item), $event)">
             <el-tooltip placement="top">
               <div slot="content">{{ generateIconCode(item) }}</div>
               <div class="icon-item">
@@ -15,12 +15,8 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="ElementUI图标">
-        <div class="grid">
-          <div
-            v-for="item of elementIcons"
-            :key="item"
-            @click="handleClipboard(generateElementIconCode(item),$event)"
-          >
+        <div class="grid" style="padding-right: 100px">
+          <div v-for="item of elementIcons" :key="item" @click="handleClipboard(generateElementIconCode(item), $event)">
             <el-tooltip placement="top">
               <div slot="content">
                 {{ generateElementIconCode(item) }}
@@ -34,6 +30,7 @@
         </div>
       </el-tab-pane>
     </el-tabs>
+    <BackToTop />
   </div>
 </template>
 
@@ -41,9 +38,13 @@
 import clipboard from '@/libs/clipboard'
 import svgIcons from '@/libs/svgIcon/config/svg-icons'
 import elementIcons from '@/libs/svgIcon/config/element-icons'
+import BackToTop from '@/components/BackToTop'
 
 export default {
   name: 'Icons',
+  components: {
+    BackToTop
+  },
   data() {
     return {
       svgIcons,

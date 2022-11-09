@@ -14,8 +14,9 @@
           <el-dropdown-item @click.native="exportData(tableData, exportHeader, exportFields, exportFilename, 'csv')"> 导出CSV </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+      <el-button class="filter-btn el-icon-printer" @click="printTable('TypeList', exportFilename)">打印</el-button>
     </div>
-    <TypeList :table-data="tableData" :table-loading="tableLoading" />
+    <TypeList id="TypeList" :table-data="tableData" :table-loading="tableLoading" />
   </div>
 </template>
 <script>
@@ -30,26 +31,33 @@ import { caseNameAry } from './modules/caseNameAry'
 // function
 // mixin
 import ListMixin from '@/components/Mixins/ListMixin'
+import Output from '@/components/Mixins/Output'
 // plugins
 import { timeGetYear } from 'methods-often/import'
-import { exportData } from '@/libs/export'
 // settings
 export default {
   name: 'CaseType',
   components: { TypeList },
-  mixins: [ListMixin],
+  mixins: [ListMixin, Output],
   data() {
     return {
       fields,
       caseNameAry,
-      exportData,
-      exportHeader: ['编号', '创建时间', '发票日期', '入账日期', '承办律师'],
-      exportFields: ['id', 'createDate', 'invoiceDate', 'enterDate', 'createRealName']
+      exportObject: {
+        index: '编号',
+        createDate: '创建时间',
+        case: '案号',
+        client: '合同客户',
+        createRealName: '承办律师',
+        inNumber: '发票号码',
+        deliveryChar: '原件交付情况',
+        enterDate: '入账日期'
+      }
     }
   },
   computed: {
     exportFilename() {
-      return `${this.queryList.caseYear}年案件统计表`
+      return `${this.queryList.caseYear}年度${this.queryList.caseName}案件统计表`
     }
   },
   created() {
@@ -66,6 +74,20 @@ export default {
     },
     startHandle() {
       caseApi.typeCase(this.queryList).then(({ code, data }) => {
+        if (code === 200) {
+          if (data.length > 0) {
+            data.forEach((element, index) => {
+              element.index = index + 1
+              element.createDate = element.createTimestamp
+              element.case = `(${element.caseYear})${element.caseName}字${element.caseNumber}号`
+              element.deliveryChar = +element.delivery === 1 ? '√' : '×'
+            })
+            this.tableData = [...data]
+          } else {
+            this.tableData = [...[]]
+          }
+          this.tableLoading = false
+        }
         if (code === 200) {
           this.tableData = data
           this.tableLoading = false
