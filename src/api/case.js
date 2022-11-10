@@ -9,6 +9,7 @@ export const caseApi = {
   enterList: params => request({ url: '/case/enterList?' + qs.stringify(params), method: 'get' }), // 案件入账列表
   detail: params => request({ url: '/case/detail?' + qs.stringify(params), method: 'get' }), // 案件详情
   typeCase: params => request({ url: '/case/typeCase?' + qs.stringify(params), method: 'get' }), // 获取类别案件列表
+  caseInvoice: params => request({ url: '/case/caseInvoice?' + qs.stringify(params), method: 'get' }), // 获取案件发票列表
   // post
   create: (data) => request({ url: '/case/create', method: 'post', data }), // 创建案件
   update: (data) => request({ url: '/case/update', method: 'post', data }), // 更新案件

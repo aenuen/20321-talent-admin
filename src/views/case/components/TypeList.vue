@@ -2,7 +2,7 @@
  * @Author: abbott
  * @Date: 2022-11-04 17:23:47
  * @LastEditors: abbott
- * @LastEditTime: 2022-11-09 15:31:42
+ * @LastEditTime: 2022-11-10 16:13:39
  * @Description:
 -->
 <template>
@@ -65,7 +65,6 @@ import noneImage from '@/assets/image/noneImage.png'
 import { dateFilter } from '@/libs/filter'
 // function
 // mixin
-import TableMixin from '@/components/Mixins/TableMixin'
 // plugins
 // settings
 export default {
@@ -73,7 +72,6 @@ export default {
   filters: {
     dateFilter
   },
-  mixins: [TableMixin],
   props: {
     tableLoading: Boolean,
     tableData: { type: Array, default: () => [] }

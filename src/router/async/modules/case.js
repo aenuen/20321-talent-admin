@@ -40,13 +40,6 @@ const caseRouter = {
       hidden: true
     },
     {
-      path: 'year', name: 'caseYear', component: () => import('@/views/case/year'),
-      meta: {
-        title: '年份案件',
-        roles: ['admin']
-      }
-    },
-    {
       path: 'month', name: 'caseMonth', component: () => import('@/views/case/month'),
       meta: {
         title: '律师月表',
@@ -57,6 +50,13 @@ const caseRouter = {
       path: 'invoice', name: 'caseInvoice', component: () => import('@/views/case/invoice'),
       meta: {
         title: '发票统计',
+        roles: ['admin']
+      }
+    },
+    {
+      path: 'year', name: 'caseYear', component: () => import('@/views/case/year'),
+      meta: {
+        title: '年份案件',
         roles: ['admin']
       }
     },

@@ -1,3 +1,10 @@
+<!--
+ * @Author: abbott
+ * @Date: 2022-11-01 11:10:55
+ * @LastEditors: abbott
+ * @LastEditTime: 2022-11-10 16:13:16
+ * @Description:
+-->
 <template>
   <el-table :key="1" :loading="tableLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
     <el-table-column :label="fields.id" type="index" align="center" width="80" />
@@ -32,14 +39,15 @@
         <span v-else>{{ invoiceDate || '--' }}</span>
       </template>
     </el-table-column>
+    <el-table-column :label="fields.delivery" align="center">
+      <template slot-scope="{ row: { delivery } }">
+        <span v-if="+delivery === 1" style="color: green; font-size: 20px">√</span>
+        <span v-else style="color: red; font-size: 20px">×</span>
+      </template>
+    </el-table-column>
     <el-table-column :label="fields.enterDate" align="center">
       <template slot-scope="{ row: { enterDate } }">
         <span>{{ enterDate || '--' }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column :label="fields.enterPrice" align="center">
-      <template slot-scope="{ row: { enterPrice } }">
-        <span>{{ enterPrice }}</span>
       </template>
     </el-table-column>
   </el-table>
@@ -55,7 +63,6 @@ import noneImage from '@/assets/image/noneImage.png'
 import { dateFilter } from '@/libs/filter'
 // function
 // mixin
-import TableMixin from '@/components/Mixins/TableMixin'
 // plugins
 // settings
 export default {
@@ -63,7 +70,6 @@ export default {
   filters: {
     dateFilter
   },
-  mixins: [TableMixin],
   props: {
     tableLoading: Boolean,
     tableData: { type: Array, default: () => [] }

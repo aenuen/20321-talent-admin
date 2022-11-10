@@ -42,17 +42,7 @@ export default {
   data() {
     return {
       fields,
-      caseNameAry,
-      exportObject: {
-        index: '编号',
-        createDate: '创建时间',
-        case: '案号',
-        client: '合同客户',
-        createRealName: '承办律师',
-        inNumber: '发票号码',
-        deliveryChar: '原件交付情况',
-        enterDate: '入账日期'
-      }
+      caseNameAry
     }
   },
   computed: {
@@ -71,6 +61,10 @@ export default {
       return {
         caseYear: timeGetYear()
       }
+    },
+    getExportData() {
+      const { id, createDate, caseUseName, client, createRealName, inNumber, delivery, enterDate } = this.fields
+      this.exportObject = { index: id, createDate, case: caseUseName, client, createRealName, inNumber, deliveryChar: delivery, enterDate }
     },
     startHandle() {
       caseApi.typeCase(this.queryList).then(({ code, data }) => {

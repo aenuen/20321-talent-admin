@@ -1,3 +1,10 @@
+<!--
+ * @Author: abbott
+ * @Date: 2022-11-01 10:26:26
+ * @LastEditors: abbott
+ * @LastEditTime: 2022-11-10 09:32:54
+ * @Description:
+-->
 <template>
   <div class="app-container">
     <div class="filter-container">
@@ -10,8 +17,9 @@
           <el-dropdown-item @click.native="exportData(tableData, exportHeader, exportFields, exportFilename, 'csv')"> 导出CSV </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+      <el-button class="filter-btn el-icon-printer" @click="printTable('YearList', exportFilename)">打印</el-button>
     </div>
-    <YearList :table-data="tableData" :table-loading="tableLoading" />
+    <YearList id="YearList" :table-data="tableData" :table-loading="tableLoading" />
   </div>
 </template>
 <script>
@@ -25,6 +33,7 @@ import { fields } from './modules/fields'
 // function
 // mixin
 import ListMixin from '@/components/Mixins/ListMixin'
+import Output from '@/components/Mixins/Output'
 // plugins
 import { timeGetYear } from 'methods-often/import'
 import { exportData } from '@/libs/export'
@@ -32,29 +41,16 @@ import { exportData } from '@/libs/export'
 export default {
   name: 'CaseYear',
   components: { YearList },
-  mixins: [ListMixin],
+  mixins: [ListMixin, Output],
   data() {
     return {
       fields,
-      exportData,
-      exportObject: {
-        id: '编号',
-        createDate: '创建日期',
-        case: '案号',
-        client: '合同客户',
-        createRealName: '承办律师',
-        price: '律师代理费',
-        inNumber: '发票号码',
-        enterPrice: '入账金额',
-        enterDate: '入账日期'
-      },
-      exportHeader: ['编号', '创建日期', '类型', '合同客户', '承办律师', '律师代理费', '发票号码', '入账金额', '入账日期'],
-      exportFields: ['id', 'createDate', 'type', 'client', 'createRealName', 'price', 'inNumber', 'enterPrice', 'enterDate']
+      exportData
     }
   },
   computed: {
     exportFilename() {
-      return `${this.queryList.caseYear}${this.queryList.caseName}年案件统计表`
+      return `${this.queryList.caseYear}年案件统计表`
     }
   },
   methods: {
@@ -64,14 +60,20 @@ export default {
         caseYear: timeGetYear()
       }
     },
+    getExportData() {
+      const { id, createDate, caseUseName, client, createRealName, inNumber, delivery, enterDate } = this.fields
+      this.exportObject = { index: id, createDate, case: caseUseName, client, createRealName, inNumber, deliveryChar: delivery, enterDate }
+    },
     // 获取列表
     startHandle() {
       caseApi.year(this.queryList).then(({ code, data }) => {
         if (code === 200) {
           if (data.length > 0) {
-            data.forEach((element) => {
+            data.forEach((element, index) => {
+              element.index = index + 1
               element.createDate = element.createTimestamp
               element.case = `(${element.caseYear})${element.caseName}字${element.caseNumber}号`
+              element.deliveryChar = +element.delivery === 1 ? '√' : '×'
             })
             this.tableData = [...data]
           } else {

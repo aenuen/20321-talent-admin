@@ -68,6 +68,7 @@ import { keyLight } from 'methods-often/import'
 import { mapGetters } from 'vuex'
 // settings
 export default {
+  name: 'CaseList',
   components: { Dialog, ListTable, Pagination, InvoiceList, AddInvoice, Enter },
   mixins: [ListMixin],
   data() {

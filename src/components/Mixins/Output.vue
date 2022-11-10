@@ -21,10 +21,16 @@ export default {
       exportObject: {}
     }
   },
-  created() {
+  mounted() {
     const { key, value } = objectGetKeyAndValue(this.exportObject)
     this.exportFields = key
     this.exportHeader = value
+  },
+  created() {
+    this.getExportData()
+  },
+  methods: {
+    getExportData() {}
   }
 }
 </script>
