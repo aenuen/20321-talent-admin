@@ -2,7 +2,7 @@
  * @Author: abbott
  * @Date: 2022-11-01 10:26:26
  * @LastEditors: abbott
- * @LastEditTime: 2022-11-10 09:32:54
+ * @LastEditTime: 2022-11-11 10:03:16
  * @Description:
 -->
 <template>
@@ -60,6 +60,7 @@ export default {
         caseYear: timeGetYear()
       }
     },
+    // 获取导出数据
     getExportData() {
       const { id, createDate, caseUseName, client, createRealName, inNumber, delivery, enterDate } = this.fields
       this.exportObject = { index: id, createDate, case: caseUseName, client, createRealName, inNumber, deliveryChar: delivery, enterDate }

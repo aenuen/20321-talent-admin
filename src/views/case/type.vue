@@ -1,3 +1,10 @@
+<!--
+ * @Author: abbott
+ * @Date: 2022-11-01 10:27:26
+ * @LastEditors: abbott
+ * @LastEditTime: 2022-11-11 10:02:56
+ * @Description:
+-->
 <template>
   <div class="app-container">
     <div class="filter-container">
@@ -62,10 +69,12 @@ export default {
         caseYear: timeGetYear()
       }
     },
+    // 获取导出数据
     getExportData() {
       const { id, createDate, caseUseName, client, createRealName, inNumber, delivery, enterDate } = this.fields
       this.exportObject = { index: id, createDate, case: caseUseName, client, createRealName, inNumber, deliveryChar: delivery, enterDate }
     },
+    // 获取列表
     startHandle() {
       caseApi.typeCase(this.queryList).then(({ code, data }) => {
         if (code === 200) {

@@ -2,7 +2,7 @@
  * @Author: abbott
  * @Date: 2022-11-01 10:26:49
  * @LastEditors: abbott
- * @LastEditTime: 2022-11-10 17:26:34
+ * @LastEditTime: 2022-11-11 10:03:47
  * @Description:
 -->
 <template>
@@ -67,6 +67,7 @@ export default {
         ...{ index: id, inNumber, case: caseUseName, client, inType, inNot, inRate, inTax, inHave, enterDate }
       }
     },
+    // 获取列表
     startHandle() {
       caseApi.caseInvoice(this.queryList).then(({ code, data }) => {
         if (code === 200) {
