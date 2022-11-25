@@ -12,6 +12,7 @@ export const caseApi = {
   caseInvoice: params => request({ url: '/case/caseInvoice?' + qs.stringify(params), method: 'get' }), // 获取案件发票列表
   monthList: params => request({ url: '/case/monthList?' + qs.stringify(params), method: 'get' }), // 获取案件发票列表
   insurance: params => request({ url: '/case/insurance?' + qs.stringify(params), method: 'get' }), // 律师医社保列表
+  payList: params => request({ url: '/case/payList?' + qs.stringify(params), method: 'get' }), // 支付列表
   // post
   create: (data) => request({ url: '/case/create', method: 'post', data }), // 创建案件
   update: (data) => request({ url: '/case/update', method: 'post', data }), // 更新案件

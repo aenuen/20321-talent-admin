@@ -116,7 +116,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row v-if="isDevMode">
       <el-col :span="12">
         <el-form-item prop="contract" :label="fields.contract" :label-width="labelWidth">
           <el-input v-model="postForm.contract" :placeholder="fields.contract" />
@@ -147,6 +147,7 @@ import { caseApi } from '@/api/case'
 // components
 import OnlyOne from '@/components/Upload/onlyOne'
 // data
+import { isDevMode } from '@/settings'
 import { fields } from '../modules/fields'
 import { rulesDetail } from '../modules/rulesDetail'
 import { typeAry, typeChange } from '../modules/typeAry'
@@ -167,6 +168,7 @@ export default {
   },
   data() {
     return {
+      isDevMode,
       labelWidth: '160px',
       fields,
       rulesDetail,
@@ -230,6 +232,7 @@ export default {
       })
     },
     setData(contract, letter) {
+      console.log('🚀 ~ file: Detail.vue ~ line 235 ~ setData ~ letter', letter)
       // 合同赋值
       if (contract?.file && contract?.name && contract?.id) {
         this.$refs.contract.fileUrl = contract.file

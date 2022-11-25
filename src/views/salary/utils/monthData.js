@@ -10,7 +10,7 @@ export const monthData = (ary) => {
     // 个人代缴合计
     item.personalTotal = calcSum([item.myPension, item.myUnemployment, item.myMedicalCare, item.myAccumulationFund, item.myIncomeTax])
     // 发放表合计
-    item.grantPay = calcSum([item.income, -item.personalTotal])
+    item.grantPay = +calcSum([item.income, -item.personalTotal]).toFixed(2)
     // 单位社医保
     item.socialPay = calcSum([item.unPension, item.unUnemployment, item.unMedicalCare, item.unAccumulationFund, item.unInjury, item.unBirth])
   })

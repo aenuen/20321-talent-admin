@@ -174,7 +174,7 @@ export default {
       salaryApi.monthList(this.queryList).then(({ code, data, msg }) => {
         if (code === 200) {
           if (data.length > 0) {
-            this.tableData = [...monthData(data)]
+            this.tableData = monthData(data)
             this.teamSocial = teamSocial(this.tableData) // 医保社保项目组统计
             this.teamWages = teamWages(this.tableData) // 工资计提项目组统计
           } else {

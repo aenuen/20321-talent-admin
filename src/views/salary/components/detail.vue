@@ -295,10 +295,6 @@ export default {
     'postForm.unAccumulationFund': function (value) {
       this.postForm.unAccumulationFund = controlInputPrice(value)
     },
-    // 考核
-    'postForm.assessment': function (value) {
-      this.postForm.assessment = controlInputPrice(value)
-    },
     // 天数
     'postForm.days': function (value) {
       this.postForm.days = controlInputPrice(value)

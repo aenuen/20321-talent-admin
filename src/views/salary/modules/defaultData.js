@@ -13,7 +13,6 @@ export const defaultData = {
   unInjury: '0',
   unBirth: '0',
   myIncomeTax: '0',
-  assessment: '1',
   days: '0',
   deduct: '0',
   subsidy: '0'

@@ -1,9 +1,9 @@
 <template>
   <el-table :key="1" :data="tableData" :loading="tableLoading" border fit show-summary highlight-current-row style="width: 100%">
     <el-table-column prop="yearMonth" label="年月" align="center" />
-    <el-table-column prop="myPension" label="养老保险个人" align="center" />
-    <el-table-column prop="myUnemployment" label="失业保险个人" align="center" />
-    <el-table-column prop="myMedicalCare" label="医疗保险个人" align="center" />
+    <el-table-column v-if="!isThat" prop="myPension" label="养老保险个人" align="center" />
+    <el-table-column v-if="!isThat" prop="myUnemployment" label="失业保险个人" align="center" />
+    <el-table-column v-if="!isThat" prop="myMedicalCare" label="医疗保险个人" align="center" />
     <el-table-column prop="unPension" label="养老保险单位" align="center" />
     <el-table-column prop="unUnemployment" label="失业保险单位" align="center" />
     <el-table-column prop="unMedicalCare" label="医疗保险单位" align="center" />
@@ -17,7 +17,6 @@
 // components
 // data
 // filter
-import { fields } from '../../salary/modules/fields'
 // function
 // mixin
 // plugins
@@ -26,12 +25,8 @@ export default {
   components: {},
   props: {
     tableLoading: Boolean,
-    tableData: { type: Array, default: () => [] }
-  },
-  data() {
-    return {
-      fields
-    }
+    tableData: { type: Array, default: () => [] },
+    isThat: Boolean
   }
 }
 </script>

@@ -1,10 +1,17 @@
+<!--
+ * @Author: abbott
+ * @Date: 2022-09-02 15:19:55
+ * @LastEditors: abbott
+ * @LastEditTime: 2022-11-14 10:12:54
+ * @Description:
+-->
 <template>
   <div class="app-container">
     <div style="width: 100%; margin: auto">
       <el-form v-model="postForm">
         <el-row>
           <el-col v-for="item in dataAry" :key="item.id" :span="6">
-            <el-form-item :label="item.name" :label-width="labelWidth">
+            <el-form-item :label="`${item.name}：${item.grantPay}`" :label-width="labelWidth">
               <el-input v-model="item.myIncomeTax" placeholder="请输入个人所得税" :min="0" style="width: 200px" clearable />
             </el-form-item>
           </el-col>
@@ -38,11 +45,16 @@ export default {
     tableData: { type: Array, default: () => [] }
   },
   data() {
-    return {}
+    return {
+      labelWidth: '200px'
+    }
   },
   computed: {
     dataAry: {
       get() {
+        this.tableData.forEach((res) => {
+          res.grantPay = +res.basePay + +res.meritPay - +res.myPension - +res.myUnemployment - +res.myMedicalCare - +res.myAccumulationFund - +res.myIncomeTax
+        })
         return this.tableData
       }
     },

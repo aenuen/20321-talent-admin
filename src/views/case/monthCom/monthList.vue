@@ -6,7 +6,7 @@
  * @Description:
 -->
 <template>
-  <el-table :key="1" :loading="tableLoading" :data="tableData" border fit highlight-current-row style="width: 100%">
+  <el-table :key="1" :loading="tableLoading" :data="tableData" border fit highlight-current-row show-summary :summary-method="(p) => summaryMethod(p, ['price', 'enterPrice'])" style="width: 100%">
     <template slot="empty">
       <el-empty :image-size="100" description="没有此类案件" />
     </template>
@@ -26,14 +26,14 @@
         <span v-html="client" />
       </template>
     </el-table-column>
-    <el-table-column :label="fields.price" align="center">
+    <el-table-column prop="price" :label="fields.price" align="center">
       <template slot-scope="{ row: { price } }">
         <span>{{ price }}</span>
       </template>
     </el-table-column>
-    <el-table-column :label="fields.enterPrice" align="center">
+    <el-table-column prop="enterPrice" :label="fields.enterPrice" align="center">
       <template slot-scope="{ row: { enterPrice } }">
-        <span>{{ enterPrice }}</span>
+        <span>{{ enterPrice || 0 }}</span>
       </template>
     </el-table-column>
     <el-table-column :label="fields.inNumber" align="center">
@@ -54,12 +54,12 @@
 // components
 // data
 import { fields } from '../modules/fields'
-import noneImage from '@/assets/image/noneImage.png'
 // filter
 import { dateFilter } from '@/libs/filter'
 // function
 // mixin
 // plugins
+import { summaryMethod } from 'methods-often/import'
 // settings
 export default {
   name: 'ListTable',
@@ -73,7 +73,7 @@ export default {
   data() {
     return {
       fields,
-      noneImage
+      summaryMethod
     }
   },
   methods: {
