@@ -10,7 +10,7 @@
               </div>
               <div class="box-center">
                 <el-avatar :size="100" :src="avatar" @error="true">
-                  <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" alt />
+                  <img :src="NoneImage" alt />
                 </el-avatar>
               </div>
               <div class="user-info">
@@ -49,6 +49,7 @@ import Email from './components/Email'
 import Mobile from './components/Mobile'
 // data
 import { rolesParse } from './modules/roles'
+import NoneImage from '@/assets/image/noneImage.png'
 // filter
 // function
 // mixin
@@ -62,7 +63,8 @@ export default {
   mixins: [ListMixin],
   data() {
     return {
-      rolesCn: ''
+      rolesCn: '',
+      NoneImage
     }
   },
   computed: {

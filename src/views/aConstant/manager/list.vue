@@ -1,32 +1,49 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
+      <!-- 使用状态搜索 -->
       <el-select v-model="queryList.isUse" class="filter-ele" :placeholder="fields.isUse" clearable @clear="handleFilter" @change="handleFilter">
         <el-option v-for="(item, key) in defineIsUseAry" :key="key" :value="String(item.value)" :label="item.label" />
       </el-select>
+      <!-- 是否管理员搜索 -->
       <el-select v-model="queryList.isAdmin" class="filter-ele" :placeholder="fields.isAdmin" clearable @clear="handleFilter" @change="handleFilter">
         <el-option v-for="(item, key) in defineBooleanAry" :key="key" :value="String(item.value)" :label="item.label" />
       </el-select>
+      <!-- 用户名搜索 -->
       <el-input v-model="queryList.username" :placeholder="fields.username" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @select="handleFilter" />
+      <!-- 昵称搜索 -->
       <el-input v-model="queryList.petName" :placeholder="fields.petName" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @select="handleFilter" />
+      <!-- 真实姓名搜索 -->
       <el-input v-model="queryList.realName" :placeholder="fields.realName" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @select="handleFilter" />
+      <!-- 电子邮箱搜索 -->
       <el-input v-model="queryList.email" :placeholder="fields.email" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @select="handleFilter" />
+      <!-- 手机号码 -->
       <el-input v-model="queryList.mobile" :placeholder="fields.mobile" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @select="handleFilter" />
+      <!-- 角色搜索 -->
       <el-select v-model="queryList.roles" :placeholder="fields.roles" class="filter-ele" clearable @clear="handleFilter" @change="handleFilter">
         <el-option v-for="(item, index) in rolesAry" :key="index" :value="item['value']" :label="item['label']" />
       </el-select>
+      <!-- 开始日期搜索 -->
       <el-date-picker v-model="queryList.aheadDate" :placeholder="fields.aheadDate" class="filter-ele" value-format="yyyy-MM-dd" type="date" @change="handleFilter" />
+      <!-- 结束日期搜索 -->
       <el-date-picker v-model="queryList.afterDate" :placeholder="fields.afterDate" class="filter-ele" value-format="yyyy-MM-dd" type="date" @change="handleFilter" />
+      <!-- 搜索 -->
       <el-button class="filter-btn el-icon-search" @click="handleFilter"> 搜索 </el-button>
+      <!-- 新增按纽 -->
       <el-button type="success" class="filter-btn el-icon-plus" @click="$router.push('create')"> 新增 </el-button>
+      <!-- 导出 -->
+      <!--
       <el-dropdown class="avatar-container hover-effect" trigger="click">
         <el-button class="filter-btn el-icon-document"> 导出 </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="exportData(tableData, eHeader, eFields, '用户')"> 导出EXCEL </el-dropdown-item>
-          <el-dropdown-item @click.native="exportData(tableData, eHeader, eFields, '用户', 'csv')"> 导出CSV </el-dropdown-item>
+          <el-dropdown-item @click.native="exportData(tableData, exportHeader, exportFields, '用户')"> 导出EXCEL </el-dropdown-item>
+          <el-dropdown-item @click.native="exportData(tableData, exportHeader, exportFields, '用户', 'csv')"> 导出CSV </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-button class="filter-btn el-icon-printer" @click="printTable('userListTable', '用户列表')"> 打印 </el-button>
+       -->
+      <!-- 打印 -->
+      <!-- <el-button class="filter-btn el-icon-printer" @click="printTable('userListTable', '用户列表')"> 打印 </el-button> -->
+      <!-- 批量删除 -->
       <el-button type="danger" class="filter-btn el-icon-delete" style="width: auto" @click="removeBatchConfirm"> 批量删除 </el-button>
     </div>
     <!-- 列表 -->
@@ -47,35 +64,39 @@
 import { userApi } from '@/api/user'
 // components
 import Dialog from '@/components/Dialog'
-import ListTable from './components/ListTable'
 import Pagination from '@/components/Pagination'
+import ListTable from './components/ListTable'
 // data
 import { fields } from './modules/fields'
 import { rolesAry, rolesObject, rolesParse } from './modules/roles'
-import { eHeader, eFields } from './modules/eList'
 // filter
 // function
 // mixin
 import ListMixin from '@/components/Mixins/ListMixin'
+import Output from '@/components/Mixins/Output'
 // plugins
 import { defineIsUseAry, defineBooleanAry, keyLight } from 'methods-often/import'
-import { printTable } from '@/libs/print'
-import { exportData } from '@/libs/export'
 // settings
 export default {
   name: 'ManagerList',
   components: { Dialog, ListTable, Pagination },
-  mixins: [ListMixin],
+  mixins: [ListMixin, Output],
   data() {
     return {
       fields,
       rolesObject,
       defineIsUseAry,
       defineBooleanAry,
-      printTable,
-      exportData,
-      eHeader: eHeader(),
-      eFields,
+      exportObject: {
+        id: '编号',
+        username: '用户名',
+        petName: '昵称',
+        realName: '真实姓名',
+        roles: '角色',
+        isAdmin: '是否后台管理员',
+        isUse: '使用状态',
+        created: '创建时间'
+      },
       tableIsAdmin: [],
       tableIsUse: []
     }
