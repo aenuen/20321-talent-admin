@@ -34,7 +34,7 @@
 // api
 import { salaryApi } from '@/api/salary'
 // components
-import DetailsTable from './components/DetailsTable'
+import DetailsTable from './components/detailsTable'
 // data
 import { fields } from './modules/fields'
 import { detailsExport } from './modules/exportData'
@@ -45,7 +45,7 @@ import { subtotal } from './utils/details'
 import ListMixin from '@/components/Mixins/ListMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
 // plugins
-import { autoQuery, arrayOrderByField } from 'methods-often/import'
+import { autoQuery, arrayOrderByField } from 'abbott-methods/import'
 import { printTable } from '@/libs/print'
 import { exportData } from '@/libs/export'
 // settings

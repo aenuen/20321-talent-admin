@@ -75,7 +75,7 @@ import { rolesAry, rolesObject, rolesParse } from './modules/roles'
 import ListMixin from '@/components/Mixins/ListMixin'
 import Output from '@/components/Mixins/Output'
 // plugins
-import { defineIsUseAry, defineBooleanAry, keyLight } from 'methods-often/import'
+import { defineIsUseAry, defineBooleanAry, keyLight } from 'abbott-methods/import'
 // settings
 export default {
   name: 'ManagerList',

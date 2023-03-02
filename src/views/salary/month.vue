@@ -91,19 +91,19 @@
 import { salaryApi } from '@/api/salary'
 // components
 import Dialog from '@/components/Dialog'
-import MonthAddPer from './components/MonthAddPer'
-import MonthGrant from './components/MonthGrant'
-import MonthSocial from './components/MonthSocial'
-import MonthIncome from './components/MonthIncome'
-import MonthWages from './components/MonthWages'
-import TeamSocial from './components/TeamSocial'
-import TeamWages from './components/TeamWages'
-import Detail from './components/Detail'
-import HeaderButtons from './components/HeaderButtons'
-import HeaderTeam from './components/HeaderTeam'
-import HeaderTitleGrant from './components/HeaderTitleGrant'
-import HeaderTitleNone from './components/HeaderTitleNone'
-import IncomeTax from './components/IncomeTax'
+import MonthAddPer from './components/monthAddPer'
+import MonthGrant from './components/monthGrant'
+import MonthSocial from './components/monthSocial'
+import MonthIncome from './components/monthIncome'
+import MonthWages from './components/monthWages'
+import TeamSocial from './components/teamSocial'
+import TeamWages from './components/teamWages'
+import Detail from './components/detail'
+import HeaderButtons from './components/headerButtons'
+import HeaderTeam from './components/headerTeam'
+import HeaderTitleGrant from './components/headerTitleGrant'
+import HeaderTitleNone from './components/headerTitleNone'
+import IncomeTax from './components/incomeTax'
 // data
 import { fields } from './modules/fields'
 // filter
@@ -115,7 +115,7 @@ import { teamWages } from './utils/teamWages'
 // mixin
 import ListMixin from '@/components/Mixins/ListMixin'
 // plugins
-import { timeGetYearMonth } from 'methods-often/import'
+import { timeGetYearMonth } from 'abbott-methods/import'
 // settings
 export default {
   components: { Dialog, MonthAddPer, MonthGrant, MonthSocial, MonthIncome, MonthWages, TeamSocial, TeamWages, Detail, HeaderButtons, HeaderTeam, HeaderTitleGrant, HeaderTitleNone, IncomeTax },

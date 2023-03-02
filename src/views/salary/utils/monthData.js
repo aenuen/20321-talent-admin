@@ -1,4 +1,4 @@
-import { calcSum } from 'methods-often/import'
+import { calcSum } from 'abbott-methods/import'
 export const monthData = (ary) => {
   ary.forEach((item) => {
     // 工资合计

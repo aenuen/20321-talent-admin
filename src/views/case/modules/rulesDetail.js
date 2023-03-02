@@ -1,4 +1,4 @@
-import { validateRequire } from 'methods-often/import'
+import { validateRequire } from 'abbott-methods/import'
 import { fields } from './fields'
 export const rulesDetail = {
   why: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.why) }],

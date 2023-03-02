@@ -1,4 +1,4 @@
-import { timeFormat, timeGetDate, H_Y_M_D_H_I } from 'methods-often/import'
+import { timeFormat, timeGetDate, H_Y_M_D_H_I } from 'abbott-methods/import'
 /**
  * @description 空值
  * @param value

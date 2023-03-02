@@ -1,5 +1,5 @@
 import { caseApi } from '@/api/case'
-import { calcSum } from 'methods-often/import'
+import { calcSum } from 'abbott-methods/import'
 
 export const caseCalc = (yearMonth, lawyer) => new Promise((resolve) => {
   caseApi.monthList({ yearMonth, lawyer }).then(({ code, data }) => {

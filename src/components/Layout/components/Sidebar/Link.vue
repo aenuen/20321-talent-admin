@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { formatExternal } from 'methods-often/import'
+import { formatExternal } from 'abbott-methods/import'
 
 export default {
   props: {

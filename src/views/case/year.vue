@@ -35,7 +35,7 @@ import { fields } from './modules/fields'
 import ListMixin from '@/components/Mixins/ListMixin'
 import Output from '@/components/Mixins/Output'
 // plugins
-import { timeGetYear } from 'methods-often/import'
+import { timeGetYear } from 'abbott-methods/import'
 import { exportData } from '@/libs/export'
 // settings
 export default {

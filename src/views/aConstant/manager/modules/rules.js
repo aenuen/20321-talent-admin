@@ -1,4 +1,4 @@
-import { validateRequire, validateAllCn, validateEmail, validateMobile, validateUsername } from 'methods-often/import'
+import { validateRequire, validateAllCn, validateEmail, validateMobile, validateUsername } from 'abbott-methods/import'
 import { fields } from '@/views/aConstant/manager/modules/fields'
 
 export const BaseDataRule = {

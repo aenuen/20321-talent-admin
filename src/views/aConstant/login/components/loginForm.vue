@@ -16,19 +16,8 @@
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
-          <el-input
-            :key="passwordType"
-            ref="password"
-            v-model="loginForm.password"
-            :type="passwordType"
-            placeholder="密码"
-            name="password"
-            tabindex="2"
-            autocomplete="off"
-            @keyup.native="checkCapsLock"
-            @blur="capsTooltip = false"
-            @keyup.enter.native="login"
-          />
+          <!-- eslint-disable-next-line vue/max-attributes-per-line -->
+          <el-input :key="passwordType" ref="password" v-model="loginForm.password" :type="passwordType" placeholder="密码" name="password" tabindex="2" autocomplete="off" @keyup.native="checkCapsLock" @blur="capsTooltip = false" @keyup.enter.native="login" />
           <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
@@ -40,7 +29,7 @@
 </template>
 
 <script>
-import { validateUsername, validateRequire } from 'methods-often/import'
+import { validateUsername, validateRequire } from 'abbott-methods/import'
 import { CryptoJsEncode } from '@/libs/cryptojs'
 
 export default {

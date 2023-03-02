@@ -198,7 +198,7 @@ import { medicalCareChange } from '../utils/medicalCareChange'
 import DetailMixin from '@/components/Mixins/DetailMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
 // plugins
-import { autoQuery, controlInputPrice, calcSum } from 'methods-often/import'
+import { autoQuery, controlInputPrice, calcSum } from 'abbott-methods/import'
 import { salaryApi } from '../../../api/salary'
 // settings
 export default {

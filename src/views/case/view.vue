@@ -74,7 +74,7 @@ import { caseApi } from '@/api/case'
 // mixin
 import DetailMixin from '@/components/Mixins/DetailMixin'
 // plugins
-import { timeFormat } from 'methods-often/import'
+import { timeFormat } from 'abbott-methods/import'
 import { printTable, tablePrintStyle } from '@/libs/print'
 // settings
 export default {

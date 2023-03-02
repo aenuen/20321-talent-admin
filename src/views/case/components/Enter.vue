@@ -60,7 +60,7 @@ import { rulesForm } from '../modules/rulesEnter'
 import DetailMixin from '@/components/Mixins/DetailMixin'
 import ListMixin from '@/components/Mixins/ListMixin'
 // plugins
-import { controlInputPrice, summaryMethod } from 'methods-often/import'
+import { controlInputPrice, summaryMethod } from 'abbott-methods/import'
 // settings
 export default {
   components: {},

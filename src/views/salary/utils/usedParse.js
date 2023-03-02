@@ -1,4 +1,4 @@
-import { arrayOrderByField, typeNumber, typeString } from 'methods-often/import'
+import { arrayOrderByField, typeNumber, typeString } from 'abbott-methods/import'
 
 export const usedParseEmpty = (ary, desc) => {
   const result = []

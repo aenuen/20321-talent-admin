@@ -1,5 +1,5 @@
 import { export_json_to_excel as exportJson } from '@/libs/export/ExportToExcel'
-import { timeFormat } from 'methods-often/import'
+import { timeFormat } from 'abbott-methods/import'
 
 export const exportData = (data, header, fields, filename, bookType = 'xlsx') => {
   if (data.length > 0) {

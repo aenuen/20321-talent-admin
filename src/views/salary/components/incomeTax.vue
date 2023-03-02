@@ -37,7 +37,7 @@ import { salaryApi } from '@/api/salary'
 // mixin
 import DetailMixin from '@/components/Mixins/DetailMixin'
 // plugins
-import { calcSum } from 'methods-often/import'
+import { calcSum } from 'abbott-methods/import'
 // settings
 export default {
   mixins: [DetailMixin],

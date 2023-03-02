@@ -1,5 +1,5 @@
 <script>
-import { validateErrMsg } from 'methods-often/import'
+import { validateErrMsg } from 'abbott-methods/import'
 
 export default {
   data() {

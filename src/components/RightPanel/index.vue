@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { classAdd, classRemove } from 'methods-often/import'
+import { classAdd, classRemove } from 'abbott-methods/import'
 
 export default {
   name: 'ComponentsRightPanel',

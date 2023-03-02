@@ -89,7 +89,7 @@ import { rulesForm } from '../modules/rulesAddInvoice'
 // mixin
 import DetailMixin from '@/components/Mixins/DetailMixin'
 // plugins
-import { controlInputPrice, holdNumber } from 'methods-often/import'
+import { controlInputPrice, holdNumber } from 'abbott-methods/import'
 // settings
 export default {
   components: {},

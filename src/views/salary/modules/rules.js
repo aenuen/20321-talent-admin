@@ -1,4 +1,4 @@
-import { validateAllCn, validateRequire } from 'methods-often/import'
+import { validateAllCn, validateRequire } from 'abbott-methods/import'
 import { fields } from './fields'
 export const detailRulesForm = {
   company: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.company) }],

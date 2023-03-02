@@ -52,7 +52,7 @@ import { fields } from '../modules/fields'
 // mixin
 import ListMixin from '@/components/Mixins/ListMixin'
 // plugins
-import { summaryMethod } from 'methods-often/import'
+import { summaryMethod } from 'abbott-methods/import'
 // settings
 export default {
   components: {},

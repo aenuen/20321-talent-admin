@@ -1,4 +1,4 @@
-import { validateDate, validatePrice } from 'methods-often/import'
+import { validateDate, validatePrice } from 'abbott-methods/import'
 import { fields } from './fields'
 export const rulesForm = {
   enterPrice: [{ validator: (rule, value, callback) => validatePrice(rule, value, callback, fields.enterPrice) }],

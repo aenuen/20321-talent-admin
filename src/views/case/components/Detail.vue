@@ -158,7 +158,7 @@ import { idTypeAry } from '../modules/idTypeAry'
 import DetailMixin from '@/components/Mixins/DetailMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
 // plugins
-import { controlInputPrice, numberPriceBigWrite, controlInputNumberSpace } from 'methods-often/import'
+import { controlInputPrice, numberPriceBigWrite, controlInputNumberSpace } from 'abbott-methods/import'
 // settings
 export default {
   components: { OnlyOne },

@@ -40,7 +40,7 @@ import { caseNameAry } from './modules/caseNameAry'
 import ListMixin from '@/components/Mixins/ListMixin'
 import Output from '@/components/Mixins/Output'
 // plugins
-import { timeGetYear } from 'methods-often/import'
+import { timeGetYear } from 'abbott-methods/import'
 // settings
 export default {
   name: 'CaseType',

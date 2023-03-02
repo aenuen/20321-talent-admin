@@ -39,7 +39,7 @@
 import { salaryApi } from '@/api/salary'
 // components
 import Pagination from '@/components/Pagination'
-import ListTable from './components/ListTable'
+import ListTable from './components/listTable'
 // data
 import { fields } from './modules/fields'
 // filter
@@ -48,7 +48,7 @@ import { usedParseEmpty, usedParseOnly } from './utils/usedParse'
 // mixin
 import ListMixin from '@/components/Mixins/ListMixin'
 // plugins
-import { defineIsUseAry, keyLight } from 'methods-often/import'
+import { defineIsUseAry, keyLight } from 'abbott-methods/import'
 // settings
 export default {
   name: 'SalaryList',

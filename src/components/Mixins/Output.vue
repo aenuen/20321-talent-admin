@@ -9,7 +9,7 @@
 // settings
 import { exportData } from '@/libs/export'
 import { printTable } from '@/libs/print'
-import { objectGetKeyAndValue } from 'methods-often/import'
+import { objectGetKeyAndValue } from 'abbott-methods/import'
 export default {
   components: {},
   data() {

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { typeString, typeArray } from 'methods-often/import'
+import { typeString, typeArray } from 'abbott-methods/import'
 import store from '@/store'
 import settings from '@/settings'
 

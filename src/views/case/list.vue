@@ -64,7 +64,7 @@ import { caseNameAry } from './modules/caseNameAry'
 // mixin
 import ListMixin from '@/components/Mixins/ListMixin'
 // plugins
-import { keyLight } from 'methods-often/import'
+import { keyLight } from 'abbott-methods/import'
 import { mapGetters } from 'vuex'
 // settings
 export default {

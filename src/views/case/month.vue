@@ -56,7 +56,7 @@ import { detailTable } from './monthUtils/detailTable'
 import ListMixin from '@/components/Mixins/ListMixin'
 import Output from '@/components/Mixins/Output'
 // plugins
-import { timeGetYearMonth, timeFormat, calcSum } from 'methods-often/import'
+import { timeGetYearMonth, timeFormat, calcSum } from 'abbott-methods/import'
 // settings
 export default {
   name: 'CaseMonth',

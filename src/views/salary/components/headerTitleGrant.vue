@@ -14,7 +14,7 @@
 // function
 // mixin
 // plugins
-import { dateMonthNext } from 'methods-often/import'
+import { dateMonthNext } from 'abbott-methods/import'
 // settings
 export default {
   name: 'SalaryComponentsHeaderTitleGrant', // 头部标题(发放表)

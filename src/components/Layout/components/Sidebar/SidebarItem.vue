@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { formatExternal } from 'methods-often/import'
+import { formatExternal } from 'abbott-methods/import'
 import path from 'path'
 import Item from './Item'
 import AppLink from './Link'

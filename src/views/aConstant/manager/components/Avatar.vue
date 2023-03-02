@@ -49,7 +49,7 @@ import { fields } from '../modules/fields'
 import DetailMixin from '@/components/Mixins/DetailMixin'
 // plugins
 import { mapGetters } from 'vuex'
-import { aoDeleteValue } from 'methods-often/import'
+import { aoDeleteValue } from 'abbott-methods/import'
 import ImgCutter from '@/components/ImgCutter'
 // settings
 

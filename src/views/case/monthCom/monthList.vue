@@ -59,7 +59,7 @@ import { dateFilter } from '@/libs/filter'
 // function
 // mixin
 // plugins
-import { summaryMethod } from 'methods-often/import'
+import { summaryMethod } from 'abbott-methods/import'
 // settings
 export default {
   name: 'ListTable',

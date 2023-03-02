@@ -1,6 +1,6 @@
 <script>
 import { export_json_to_excel as exportJson } from '@/libs/export/ExportToExcel'
-import { timeFormat } from 'methods-often/import'
+import { timeFormat } from 'abbott-methods/import'
 
 export default {
   methods: {

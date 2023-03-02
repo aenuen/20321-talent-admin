@@ -18,7 +18,7 @@ import { apiBaseUrl } from '@/libs/axios/settings'
 // function
 // mixin
 // plugins
-import { fileClassify } from 'methods-often/import'
+import { fileClassify } from 'abbott-methods/import'
 // settings
 export default {
   components: {},

@@ -37,7 +37,7 @@ import { fields } from './modules/fields'
 import ListMixin from '@/components/Mixins/ListMixin'
 import Output from '@/components/Mixins/Output'
 // plugins
-import { timeGetYearMonth } from 'methods-often/import'
+import { timeGetYearMonth } from 'abbott-methods/import'
 // settings
 export default {
   name: 'CaseInvoice',

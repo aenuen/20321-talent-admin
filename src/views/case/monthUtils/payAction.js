@@ -1,5 +1,5 @@
 import { caseApi } from '@/api/case'
-import { arrayOrderByField } from 'methods-often/import'
+import { arrayOrderByField } from 'abbott-methods/import'
 export const payAction = (yearMonth, lawyer) => new Promise((resolve) => {
   caseApi.payList({ yearMonth, lawyer }).then(({ code, data }) => {
     const list = code === 200 ? data.list : []

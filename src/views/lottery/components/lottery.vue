@@ -32,7 +32,7 @@ import { numberAry } from '../utils/numberAry'
 // mixin
 import DetailMixin from '@/components/Mixins/DetailMixin'
 // plugins
-import { aoRandom, arrayOrder } from 'methods-often/import'
+import { aoRandom, arrayOrder } from 'abbott-methods/import'
 import { printTable } from '@/libs/print'
 // settings
 export default {
