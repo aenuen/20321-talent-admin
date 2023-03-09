@@ -2,7 +2,7 @@
  * @Author: abbott
  * @Date: 2022-11-01 11:10:55
  * @LastEditors: abbott
- * @LastEditTime: 2022-11-10 16:13:16
+ * @LastEditTime: 2023-03-07 11:03:32
  * @Description:
 -->
 <template>
@@ -13,14 +13,34 @@
         <span>{{ createTimestamp | dateFilter }}</span>
       </template>
     </el-table-column>
-    <el-table-column :label="fields.caseUseName" align="center" width="200">
-      <template slot-scope="{ row: { caseYear, caseName, caseNumber } }">
-        <span>{{ `(${caseYear})${caseName}字${caseNumber}号` }}</span>
+    <el-table-column :label="fields.caseName" align="center">
+      <template slot-scope="{ row: { caseName } }">
+        <span>{{ caseName }}</span>
       </template>
     </el-table-column>
-    <el-table-column :label="fields.client" align="center" :width="350">
+    <el-table-column :label="fields.caseNumber" align="center">
+      <template slot-scope="{ row: { caseNumber } }">
+        <span>{{ caseNumber }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column :label="fields.why" align="center">
+      <template slot-scope="{ row: { why } }">
+        <span>{{ why }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column :label="fields.client" align="center">
       <template slot-scope="{ row: { client } }">
         <span v-html="client" />
+      </template>
+    </el-table-column>
+    <el-table-column :label="fields.oppositeLitigant" align="center">
+      <template slot-scope="{ row: { oppositeLitigant } }">
+        <span v-html="oppositeLitigant" />
+      </template>
+    </el-table-column>
+    <el-table-column :label="fields.department" align="center">
+      <template slot-scope="{ row: { department } }">
+        <span v-html="department" />
       </template>
     </el-table-column>
     <el-table-column :label="fields.createRealName" align="center">
@@ -28,21 +48,9 @@
         <span v-html="createRealName" />
       </template>
     </el-table-column>
-    <el-table-column :label="fields.price" align="center">
-      <template slot-scope="{ row: { price } }">
-        <span>{{ price }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column :label="fields.invoiceDate" align="center">
-      <template slot-scope="{ row: { invoiceDate, price } }">
-        <span v-if="+price === 0">--</span>
-        <span v-else>{{ invoiceDate || '--' }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column :label="fields.delivery" align="center">
-      <template slot-scope="{ row: { delivery } }">
-        <span v-if="+delivery === 1" style="color: green; font-size: 20px">√</span>
-        <span v-else style="color: red; font-size: 20px">×</span>
+    <el-table-column :label="fields.inNumber" align="center">
+      <template slot-scope="{ row: { inNumber } }">
+        <span>{{ inNumber }}</span>
       </template>
     </el-table-column>
     <el-table-column :label="fields.enterDate" align="center">

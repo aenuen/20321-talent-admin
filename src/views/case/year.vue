@@ -2,7 +2,7 @@
  * @Author: abbott
  * @Date: 2022-11-01 10:26:26
  * @LastEditors: abbott
- * @LastEditTime: 2022-11-11 10:03:16
+ * @LastEditTime: 2023-03-09 16:35:53
  * @Description:
 -->
 <template>
@@ -19,6 +19,7 @@
       </el-dropdown>
       <el-button class="filter-btn el-icon-printer" @click="printTable('YearList', exportFilename)">打印</el-button>
     </div>
+    <div class="stat">{{ stat }}</div>
     <YearList id="YearList" :table-data="tableData" :table-loading="tableLoading" />
   </div>
 </template>
@@ -45,7 +46,8 @@ export default {
   data() {
     return {
       fields,
-      exportData
+      exportData,
+      stat: ''
     }
   },
   computed: {
@@ -69,14 +71,22 @@ export default {
     startHandle() {
       caseApi.year(this.queryList).then(({ code, data }) => {
         if (code === 200) {
-          if (data.length > 0) {
-            data.forEach((element, index) => {
+          const { list, type } = data
+          if (list.length > 0) {
+            list.forEach((element, index) => {
               element.index = index + 1
               element.createDate = element.createTimestamp
               element.case = `(${element.caseYear})${element.caseName}字${element.caseNumber}号`
               element.deliveryChar = +element.delivery === 1 ? '√' : '×'
             })
-            this.tableData = [...data]
+            this.tableData = [...list]
+            let count = ''
+            let total = 0
+            type.forEach((res) => {
+              count += `,${res.name}案件${res.num}件`
+              total += +res.num
+            })
+            this.stat = `总计${total}件（其中${count}）`
           } else {
             this.tableData = [...[]]
           }
@@ -87,4 +97,12 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.stat {
+  text-align: center;
+  line-height: 30px;
+  font-size: 14px;
+  color: #999;
+  padding: 20px 0;
+}
+</style>
