@@ -126,13 +126,13 @@ export default {
     onUploadBefore(file) {
       this.progress = true
       this.percentage = 30
-      const isLt2M = file.size / 1024 / 1024 < this.maxSize
-      if (!isLt2M) {
+      const isLt = file.size / 1024 / 1024 < this.maxSize
+      if (!isLt) {
         this.$message.error(`上传失败，文件大小不能超过 ${this.maxSize}MB!`)
         this.percentage = 0
         this.progress = false
       }
-      return isLt2M
+      return isLt
     },
     // 浏览
     onUploadPreview() {
@@ -161,6 +161,7 @@ export default {
       this.fileUrl = ''
       this.isEdit = true
     },
+    // 取消更新
     cancelUpdate() {
       this.fileUrl = this.fileBak
       this.isEdit = false

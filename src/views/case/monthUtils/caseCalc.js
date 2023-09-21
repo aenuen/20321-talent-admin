@@ -15,6 +15,11 @@ export const caseCalc = (yearMonth, lawyer) => new Promise((resolve) => {
       }
     })
     const vatTotal = calcSum(vat)
-    resolve({ list, total: +total.toFixed(2), enter: +enter.toFixed(2), vatTotal })
+    resolve({
+      list,
+      total: +total.toFixed(2),
+      enter: +enter.toFixed(2),
+      vatTotal
+    })
   })
 })

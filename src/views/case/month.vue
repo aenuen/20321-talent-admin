@@ -2,7 +2,7 @@
  * @Author: abbott
  * @Date: 2022-09-09 15:31:00
  * @LastEditors: abbott
- * @LastEditTime: 2022-11-18 10:33:40
+ * @LastEditTime: 2023-04-19 15:49:36
  * @Description:
 -->
 <template>
@@ -143,6 +143,7 @@ export default {
         ...this.monthData,
         ...result.data
       }
+      console.log('🚀 ~ file: month.vue:143 ~ payList ~ this.monthData:', this.monthData)
       this.lastCalc()
     },
     // 最后计算
